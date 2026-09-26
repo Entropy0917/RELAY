@@ -53,15 +53,13 @@
       {% if priority_actions %}
       <ol class="rows">
         {% for a in priority_actions %}
-        <li class="rows__item">
-          <div class="cluster">
-            <span class="rank num">{{ a.rank }}</span>
-            <div class="stack stack--sm">
-              {% if a.href %}<a href="{{ a.href }}">{{ a.text }}</a>{% else %}<span>{{ a.text }}</span>{% endif %}
-              <div class="cluster t-sm t-muted">
-                {% if a.capability %}<span>{{ a.capability.name }}</span>{% endif %}
-                {% if a.person %}{{ ui.person(a.person) }}{% endif %}
-              </div>
+        <li class="rows__item rows__item--top">
+          <span class="rank">{{ a.rank }}</span>
+          <div class="rows__main">
+            {% if a.href %}<a class="rows__title" href="{{ a.href }}">{{ a.text }}</a>{% else %}<span class="rows__title">{{ a.text }}</span>{% endif %}
+            <div class="rows__meta cluster">
+              {% if a.capability %}<span>{{ a.capability.name }}</span>{% endif %}
+              {% if a.person %}{{ ui.person(a.person) }}{% endif %}
             </div>
           </div>
           {% if a.ai_suggested %}{{ ui.provenance() }}{% endif %}
@@ -77,18 +75,18 @@
       {% if recent_knowledge %}
       <ul class="rows">
         {% for k in recent_knowledge %}
-        <li class="rows__item">
-          <div class="stack stack--sm">
-            <a href="{{ k.href }}">{{ k.title }}</a>
-            <div class="cluster t-sm t-muted">
+        <li class="rows__item rows__item--top">
+          <div class="rows__main">
+            <a class="rows__title" href="{{ k.href }}">{{ k.title }}</a>
+            <div class="rows__meta cluster">
               <span class="tag">{{ vocab.KnowledgeType(k.type).label }}</span>
               {% if k.area %}<span>{{ k.area.name }}</span>{% endif %}
               {% if k.source %}<a href="{{ k.source.href }}">{{ k.source.label }}</a>{% endif %}
             </div>
-          </div>
-          <div class="stack stack--sm t-sm">
-            <span class="num t-muted">{{ k.captured_on.strftime('%-d %b') }}</span>
-            <span class="tag">{{ vocab.ValidationStatus(k.validation_status).label }}</span>
+            <div class="rows__meta cluster">
+              <span class="num">{{ k.captured_on.strftime('%-d %b') }}</span>
+              <span class="tag">{{ vocab.ValidationStatus(k.validation_status).label }}</span>
+            </div>
           </div>
         </li>
         {% endfor %}
