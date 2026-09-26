@@ -1,0 +1,3 @@
+{#- FindingPartialVM — returned by validate_finding; swaps #finding-<id> in place. -#}
+{% import "macros/session.html" as s %}
+{{ s.finding_card(finding, request.view_args.session_id if request.view_args and request.view_args.session_id else '') }}

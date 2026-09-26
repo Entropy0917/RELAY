@@ -1,0 +1,7 @@
+{% extends "_preview/_frame.html" %}
+{% block body %}
+<p><a href="{{ url_for('preview.index') }}">← all fixtures</a></p>
+<h1>{{ name }}{% if variant %} · {{ variant }}{% endif %}</h1>
+<p>Template <code>{{ template }}</code> not written yet. Validated fixture:</p>
+<pre>{{ dump }}</pre>
+{% endblock %}

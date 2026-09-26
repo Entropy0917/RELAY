@@ -1,0 +1,221 @@
+{#- macros/session.html — Transfer Session loop components (F4).
+
+    Import:  {% import "macros/session.html" as s %}
+    Every macro takes contract objects (SessionRef, SessionBriefVM, FindingVM, …).
+-#}
+{% import "macros/ui.html" as ui %}
+
+{#- The 7-stage loop stepper. stages: SessionStageVM.stages [{key, label, state: done|current|todo}]. -#}
+{% macro stage_stepper(stages, session_id) -%}
+<ol class="stepper" aria-label="Session stages">
+  {%- for st in stages %}
+  {%- set state = 'upcoming' if st.state == 'todo' else st.state %}
+  <li class="stepper__step stepper__step--{{ state }}">
+    {%- if state == 'done' %}<a href="{{ href('session_stage', session_id=session_id, stage=st.key) }}">{% else %}<span{{ ' aria-current="step"'|safe if state == 'current' }}>{% endif %}
+      <span class="stepper__dot num" aria-hidden="true">{% if state == 'done' %}✓{% else %}{{ loop.index }}{% endif %}</span>
+      <span class="stepper__label">{{ st.label|upper }}</span>
+    {%- if state == 'done' %}</a>{% else %}</span>{% endif %}
+  </li>
+  {%- endfor %}
+</ol>
+{%- endmacro %}
+
+{#- Session header: title, date, expert → learners, focus, stepper. -#}
+{% macro session_header(session, stages) -%}
+<header class="session-head">
+  <div class="session-head__top">
+    <div class="stack stack--sm">
+      <div class="cluster"><span class="t-caps">Transfer session</span><time class="t-faint t-sm num" datetime="{{ session.date }}">{{ session.date }}</time></div>
+      <h1 class="session-head__title">{{ session.title }}</h1>
+    </div>
+    <dl class="session-head__who">
+      <div><dt class="t-caps">Expert</dt><dd>{{ ui.person(session.expert, show_title=True) }}</dd></div>
+      <div><dt class="t-caps">Learner{{ 's' if session.learners|length > 1 }}</dt><dd class="stack stack--sm">{% for l in session.learners %}{{ ui.person(l, show_title=True) }}{% endfor %}</dd></div>
+      <div><dt class="t-caps">Focus</dt><dd class="t-md">{{ session.capability_focus }}</dd></div>
+    </dl>
+  </div>
+  {{ stage_stepper(stages, session.id) }}
+</header>
+{%- endmacro %}
+
+{#- The 30-second Session Brief. `b` is a SessionBriefVM. -#}
+{% macro brief(b, heading='Session brief', id='brief') -%}
+<section class="brief" id="{{ id }}" aria-labelledby="{{ id }}-h">
+  <header class="brief__head">
+    <div class="stack stack--sm">
+      <div class="cluster"><h2 class="t-caps brief__heading" id="{{ id }}-h">{{ heading }}</h2>{{ ui.provenance() }}</div>
+      <div class="brief__target">{{ b.primary_target }}</div>
+      <div class="t-sm t-muted">{{ b.current_level }}</div>
+    </div>
+    <span class="t-faint t-sm">30-second brief</span>
+  </header>
+
+  <div class="brief__objective">
+    <div class="t-caps">Today's objective</div>
+    <p>{{ b.todays_objective }}</p>
+  </div>
+
+  <div class="brief__grid">
+    <div class="brief__block">
+      <div class="t-caps">Your role as expert</div>
+      <p>{{ b.your_role }}</p>
+    </div>
+    <div class="brief__block brief__block--lead">
+      <div class="t-caps">Ask before explaining</div>
+      <p>{{ b.ask_before_explaining }}</p>
+    </div>
+    <div class="brief__block">
+      <div class="t-caps">Watch for</div>
+      <ul class="checklist">
+        {%- for w in b.watch_for %}
+        <li><label><input type="checkbox"><span>{{ w }}</span></label></li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <div class="brief__block">
+      <div class="t-caps">Knowledge gap to explore</div>
+      <p>{{ b.knowledge_gap_to_explore }}</p>
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{#- ───────────────────────── findings ───────────────────────── -#}
+
+{% set _KIND_LABEL = {
+  'capability_evidence': 'CAPABILITY EVIDENCE DETECTED',
+  'tacit_knowledge': 'NEW TACIT KNOWLEDGE DETECTED',
+  'remaining_gap': 'REMAINING KNOWLEDGE GAP',
+  'next_activity': 'NEXT RECOMMENDED EXPERIENCE',
+} %}
+
+{% macro _status(f) -%}
+{%- if f.validated_by and f.validation_action in ('approve', 'edit') -%}
+  {{ ui.provenance(f.validated_by) }}{% if f.validation_action == 'edit' %}<span class="tag">Edited</span>{% endif %}
+{%- elif f.validation_action == 'reject' -%}
+  <span class="tag">{{ 'Not yet · level unchanged' if f.kind == 'capability_evidence' else 'Rejected' }}{{ ' by ' ~ f.validated_by if f.validated_by }}</span>
+{%- else -%}<span class="tag tag--accent">Pending expert validation</span>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Render a list value from `body`, tolerating a plain string. -#}
+{% macro _list(v, glyph=None) -%}
+{%- set items = [v] if v is string else (v or []) -%}
+<ul class="{{ 'glyph-list' if glyph else 'bullets' }}">{% for i in items %}<li>{% if glyph %}{{ ui.transfer_glyph(glyph, i) }}{% else %}{{ i }}{% endif %}</li>{% endfor %}</ul>
+{%- endmacro %}
+
+{% macro _body(f) -%}
+{%- set b = f.body %}
+{%- if f.kind == 'capability_evidence' %}
+  <div class="finding__subject">
+    {%- if b.person %}<span class="finding__who">{{ b.person }}</span>{% endif %}
+    {%- if b.capability %}<span class="finding__cap">{{ b.capability }}</span>{% endif %}
+  </div>
+  {%- if b.current_level is not none and b.suggested_level is not none %}
+  <div class="finding__levels">
+    <div><div class="t-caps">Current level</div>{{ ui.capability_chip(b.current_level) }}</div>
+    <span class="finding__arrow" aria-hidden="true">→</span>
+    <div><div class="t-caps">Suggested level</div>{{ ui.capability_chip(b.suggested_level, changed=f.validation_action in ('approve', 'edit')) }}</div>
+  </div>
+  {%- endif %}
+  {%- if b.evidence %}<div><div class="t-caps">Evidence</div>{{ _list(b.evidence) }}</div>{% endif %}
+
+{%- elif f.kind == 'tacit_knowledge' %}
+  {%- if b.formal_rule %}
+  <div class="gap-banner">FORMAL / INFORMAL KNOWLEDGE GAP DETECTED</div>
+  <div class="compare">
+    <div class="compare__col"><div class="t-caps">Formal knowledge</div><p class="compare__rule">{{ b.formal_rule }}</p></div>
+    <div class="compare__col compare__col--practice"><div class="t-caps">Expert practice</div>{{ _list(b.expert_practice or b.observed_signals) }}</div>
+  </div>
+  {%- endif %}
+  <div class="record">
+    <div class="cluster"><span class="t-caps">Suggested knowledge record</span></div>
+    <div class="record__title">{{ f.title }}</div>
+    <dl class="facts facts--2">
+      {%- if b.situation %}<div><dt class="t-caps">Situation</dt><dd>{{ b.situation }}</dd></div>{% endif %}
+      {%- if b.observed_signals and not b.formal_rule %}<div><dt class="t-caps">Observed signals</dt><dd>{{ _list(b.observed_signals) }}</dd></div>{% endif %}
+      {%- if b.expert_reasoning %}<div><dt class="t-caps">Expert reasoning</dt><dd>{{ b.expert_reasoning }}</dd></div>{% endif %}
+      {%- if b.recommended_response %}<div><dt class="t-caps">Recommended response</dt><dd>{{ b.recommended_response }}</dd></div>{% endif %}
+    </dl>
+  </div>
+
+{%- elif f.kind == 'remaining_gap' %}
+  {%- if b.capability %}<div class="finding__subject"><span class="finding__cap finding__cap--solo">{{ b.capability }}</span></div>{% endif %}
+  <div class="compare">
+    <div class="compare__col"><div class="t-caps">Understanding</div>{{ _list(b.understands, 'complete') }}</div>
+    <div class="compare__col"><div class="t-caps">Not yet demonstrated</div>{{ _list(b.not_yet_demonstrated, 'none') }}</div>
+  </div>
+  <div class="callout">Understanding is not demonstrated capability. RELAY will not advance this level.</div>
+
+{%- elif f.kind == 'next_activity' %}
+  {%- if b.objective %}<div><div class="t-caps">Next transfer objective</div><p class="t-md">{{ b.objective }}</p></div>{% endif %}
+  {%- if b.recommended_experience %}<div><div class="t-caps">Recommended experience</div><p class="t-md">{{ b.recommended_experience }}</p></div>{% endif %}
+  {%- if b.learner_responsibilities %}<div><div class="t-caps">Learner responsibilities</div><ol class="numbered">{% for r in b.learner_responsibilities %}<li>{{ r }}</li>{% endfor %}</ol></div>{% endif %}
+  {%- if b.expert_role %}<div><div class="t-caps">Expert role</div><p class="t-md">{{ b.expert_role }}</p></div>{% endif %}
+{%- endif %}
+{%- endmacro %}
+
+{#- Edit form: every field of `body`, generically. Levels → select, lists → one per line.
+    relay.js ("finding-json" extension) posts {edited_body: {...}, note} as JSON. -#}
+{% macro _edit_form(f, action_url, fid) -%}
+<form class="finding__edit" hx-post="{{ action_url }}" hx-ext="finding-json" hx-target="#{{ fid }}" hx-swap="outerHTML">
+  {%- for k, v in f.body.items() %}
+  {%- set label = k|replace('_', ' ')|upper %}
+  {%- if k in ('current_level', 'suggested_level') %}
+  <label class="field"><span class="t-caps">{{ label }}</span>
+    <select name="body.{{ k }}" data-type="int"{{ ' disabled' if k == 'current_level' }}>{% for l in vocab.CAPABILITY_LEVELS %}<option value="{{ loop.index0 }}"{{ ' selected' if loop.index0 == v }}>{{ loop.index0 }} · {{ l }}</option>{% endfor %}</select></label>
+  {%- elif v is string %}
+  <label class="field"><span class="t-caps">{{ label }}</span><textarea name="body.{{ k }}" rows="{{ 2 if v|length < 120 else 3 }}">{{ v }}</textarea></label>
+  {%- elif v is iterable and v is not mapping %}
+  <label class="field"><span class="t-caps">{{ label }} · one per line</span><textarea name="body.{{ k }}" data-type="list" rows="{{ [v|length, 2]|max }}">{{ v|join('\n') }}</textarea></label>
+  {%- endif %}
+  {%- endfor %}
+  <label class="field"><span class="t-caps">Reviewer note</span><textarea name="note" rows="2" placeholder="What did you change, and why?"></textarea></label>
+  <div class="cluster">
+    <button class="btn btn--primary" type="submit">Save &amp; validate</button>
+    <button class="btn btn--ghost" type="button" data-close-details>Cancel</button>
+  </div>
+</form>
+{%- endmacro %}
+
+{#- One synthesis finding with its validation controls. The card is its own HTMX swap target.
+    `can_act` = the current persona is the expert. -#}
+{% macro finding_card(f, session_id, can_act=False, blocked_reason=None) -%}
+{%- set fid = 'finding-' ~ f.id %}
+{%- set resolved = f.validation_action is not none %}
+{%- set url = href('validate_finding', session_id=session_id, finding_id=f.id, action='__A__') %}
+<article class="finding finding--{{ f.kind|replace('_', '-') }}{{ ' finding--approved' if f.validation_action in ('approve', 'edit') }}{{ ' finding--rejected' if f.validation_action == 'reject' }}" id="{{ fid }}" aria-labelledby="{{ fid }}-t">
+  <header class="finding__head">
+    <div class="stack stack--sm">
+      <div class="cluster"><span class="finding__kind">{{ _KIND_LABEL.get(f.kind, f.kind|upper) }}</span>{{ ui.provenance() }}<span class="confidence confidence--{{ f.confidence|lower }}">Confidence: {{ f.confidence|title }}</span></div>
+      <h3 class="finding__title" id="{{ fid }}-t">{{ f.title }}</h3>
+    </div>
+    <div class="finding__status">{{ _status(f) }}</div>
+  </header>
+
+  <div class="finding__body">{{ _body(f) }}</div>
+
+  <div class="finding__sources cluster"><span class="t-caps">Evidence sources</span>{% for src in f.evidence_sources %}<span class="tag">{{ src }}</span>{% endfor %}</div>
+  {{ ui.rationale(f.rationale, om_component=f.impact, if_not_transferred=f.risk_if_untransferred) }}
+
+  {%- if not resolved %}
+  <footer class="finding__actions">
+    {%- if can_act %}
+      <button class="btn btn--approve" hx-post="{{ url|replace('__A__', 'approve') }}" hx-ext="finding-json" hx-target="#{{ fid }}" hx-swap="outerHTML" hx-disabled-elt="closest .finding__actions button">
+        {{- 'Approve & add to knowledge' if f.kind == 'tacit_knowledge' else 'Approve' -}}
+      </button>
+      <details class="finding__editor">
+        <summary class="btn btn--secondary">Edit</summary>
+        {{ _edit_form(f, url|replace('__A__', 'edit'), fid) }}
+      </details>
+      <button class="btn btn--ghost" hx-post="{{ url|replace('__A__', 'reject') }}" hx-ext="finding-json" hx-target="#{{ fid }}" hx-swap="outerHTML" hx-disabled-elt="closest .finding__actions button">
+        {{- 'Not yet' if f.kind == 'capability_evidence' else 'Reject' -}}
+      </button>
+      <span class="htmx-indicator t-faint t-sm">Saving…</span>
+    {%- else %}
+      <p class="t-faint t-sm">{{ blocked_reason or 'Only the expert can validate findings. Switch persona to review.' }}</p>
+    {%- endif %}
+  </footer>
+  {%- endif %}
+</article>
+{%- endmacro %}
