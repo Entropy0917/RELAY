@@ -55,6 +55,21 @@
 {{ ui.error_state(synthesis_error.ai_error) }}
 {{ ui.error_state(prepare_error.ai_error) }}
 
+<div class="split">
+{% call ui.panel('Readiness by area', subtitle='.table in a flush panel', flush=True) %}
+<div class="table-wrap"><table class="table">
+  <thead><tr><th>Area</th><th class="is-num">Formal</th><th class="is-num">Informal</th><th>Local owner</th><th>Status</th></tr></thead>
+  <tbody>{% for r in readiness.areas %}<tr{{ ' class="is-changed"'|safe if loop.index == 2 }}><td>{{ r.area.name }}</td><td class="is-num">{{ (r.formal_pct*100)|round|int }}%</td><td class="is-num">{{ (r.informal_pct*100)|round|int }}%</td><td>{{ ui.person(r.local_owner) }}</td><td class="is-min">{{ ui.status_badge(r.status, 'sm') }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endcall %}
+{% call ui.panel('Filters', subtitle='filter_bar') %}
+{{ ui.filter_bar(knowledge.filters, {'type': 'heuristic'}, knowledge.results_href, '#results', page_href='/knowledge') }}
+{% endcall %}
+</div>
+<div class="cluster">{{ ui.tabs([{'label': 'Experts', 'href': '#experts', 'count': 1, 'current': True}, {'label': 'Counterparts', 'href': '#c', 'count': 3}, {'label': 'Trainers', 'href': '#t', 'count': 3}]) }}
+<span class="tag">Heuristic</span><span class="tag tag--accent">New</span><span class="rank">1</span></div>
+<div class="grid-auto">{% for a in operating_model.areas[:3] %}<a class="card{{ ' card--changed' if loop.first }}" href="#"><div class="card__head"><span class="card__title">{{ a.name }}</span>{{ ui.status_badge(a.status, 'sm') }}</div><div class="card__meta">{{ ui.person(a.local_owner, link=False) }}</div><div class="card__foot"><span class="tag">{{ vocab.LocalCapability(a.local_capability).label }}</span></div></a>{% endfor %}</div>
+
 {% call ui.panel('Empty', subtitle='empty') %}{{ ui.empty('No knowledge captured for this filter yet.', 'Captured insights appear here after a validated session.') }}{% endcall %}
 
 <div style="display:flex;gap:var(--s-2)">

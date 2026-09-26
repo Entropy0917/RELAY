@@ -49,6 +49,8 @@ def macros():
         overview=overview,
         readiness=load_fixture("readiness"),
         blueprint=load_fixture("blueprint"),
+        knowledge=load_fixture("knowledge"),
+        operating_model=load_fixture("operating_model"),
         synthesis_error=load_fixture("session_synthesis", "ai_error"),
         prepare_error=load_fixture("session_prepare", "ai_error"),
     )
