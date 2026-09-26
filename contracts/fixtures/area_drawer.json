@@ -7,7 +7,7 @@
     "owner_confirmed": false,
     "formal_pct": 0.7,
     "informal_pct": 0.25,
-    "local_capability": "Limited",
+    "local_capability": "limited",
     "trainer_coverage": false,
     "status": "at_risk"
   },

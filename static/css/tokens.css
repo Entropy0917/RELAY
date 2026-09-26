@@ -22,17 +22,25 @@
   --accent: #7c8cff;
   --accent-muted: rgb(124 140 255 / 0.14);
 
-  /* status — five states, used through status_badge only */
+  /* status — five states. Suffix = Status value with _ → - . Used by status_badge; never on chart fills. */
   --status-sustainable: #3ecf8e;
   --status-on-track: #6bb5ff;
-  --status-in-progress: #e5b94a;
+  --status-transfer-in-progress: #e5b94a;
   --status-at-risk: #f08a4b;
   --status-critical: #f0585b;
   --status-sustainable-bg: rgb(62 207 142 / 0.12);
   --status-on-track-bg: rgb(107 181 255 / 0.12);
-  --status-in-progress-bg: rgb(229 185 74 / 0.12);
+  --status-transfer-in-progress-bg: rgb(229 185 74 / 0.12);
   --status-at-risk-bg: rgb(240 138 75 / 0.12);
   --status-critical-bg: rgb(240 88 91 / 0.12);
+
+  /* severity (risk cards, flags) maps onto status colors */
+  --severity-critical: var(--status-critical);
+  --severity-high: var(--status-at-risk);
+  --severity-medium: var(--status-transfer-in-progress);
+  --severity-critical-bg: var(--status-critical-bg);
+  --severity-high-bg: var(--status-at-risk-bg);
+  --severity-medium-bg: var(--status-transfer-in-progress-bg);
 
   /* capability ramp, level 0–6 */
   --level-0: #3a3e46;

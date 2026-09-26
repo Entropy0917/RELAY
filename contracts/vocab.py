@@ -34,6 +34,19 @@ class Severity(StrEnum):
         return self.name
 
 
+class LocalCapability(StrEnum):
+    """Aggregate local capability on an operating-model area."""
+
+    STRONG = "strong"
+    DEVELOPING = "developing"
+    LIMITED = "limited"
+    NONE = "none"
+
+    @property
+    def label(self) -> str:
+        return self.name.title()
+
+
 class TransferState(StrEnum):
     """Per-requirement transfer state. Glyphs: ✓ complete · △ partial · ○ none."""
 

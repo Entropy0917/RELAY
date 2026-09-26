@@ -32,6 +32,7 @@ from contracts.vocab import (
     FindingKind,
     FindingStatus,
     KnowledgeType,
+    LocalCapability,
     LearnerResultTag,
     OMDimension,
     PersonaRole,
@@ -83,7 +84,7 @@ class CapabilityRef(VM):
 class AreaRef(VM):
     id: str
     name: str
-    href: str
+    href: str  # full PAGE url (/blueprint?area=<id>); the drawer partial url lives only on AreaCard
 
 
 class PersonLevel(VM):
@@ -247,12 +248,12 @@ class OverviewVM(VM):
 class AreaCard(VM):
     id: str
     name: str
-    href: str  # GET → AreaDrawerVM partial
+    href: str  # GET → AreaDrawerVM partial (hx-get only; not a page)
     local_owner: PersonRef | None
     owner_confirmed: bool
     formal_pct: float  # 0–1
     informal_pct: float
-    local_capability: Literal["Strong", "Developing", "Limited", "None"]
+    local_capability: LocalCapability
     trainer_coverage: bool
     status: Status
 
@@ -329,6 +330,7 @@ class BlueprintVM(VM):
     shell: Shell
     summary: list[Metric]  # formal transfer, informal transfer, local ownership
     components: list[BlueprintComponent]
+    focus_area_id: str | None = None  # from ?area=<id>: scroll to + highlight that component
 
 
 # ───────────────────────────────── people ─────────────────────────────────
@@ -410,13 +412,10 @@ class KnowledgeItem(VM):
     is_new: bool = False  # captured in the most recent session
 
 
-class KnowledgeFilters(VM):
-    areas: list[Option]
-    capabilities: list[Option]
-    experts: list[Option]
-    people: list[Option]
-    types: list[Option]
-    validation_statuses: list[Option]
+class KnowledgeFilter(VM):
+    param: Literal["area", "capability", "expert", "person", "type", "status"]  # query param name
+    label: str
+    options: list[Option]
 
 
 class GrowthPoint(VM):
@@ -429,13 +428,13 @@ class KnowledgeResultsVM(VM):
 
     items: list[KnowledgeItem]
     total: int
-    active: dict[str, str]  # filter name → selected value
+    active: dict[str, str]  # KnowledgeFilter.param → selected value
 
 
 class KnowledgeVM(VM):
     shell: Shell
     type_counts: list[Option]  # one per KnowledgeType, value = type
-    filters: KnowledgeFilters
+    filters: list[KnowledgeFilter]  # in display order
     results_href: str
     results: KnowledgeResultsVM
     growth: list[GrowthPoint]  # library growth over the engagement

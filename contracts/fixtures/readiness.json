@@ -383,7 +383,7 @@
       "area": {
         "id": "area-intake",
         "name": "Intake & Pretreatment",
-        "href": "/operating-model/areas/area-intake"
+        "href": "/blueprint?area=area-intake"
       },
       "formal_pct": 0.95,
       "informal_pct": 0.7,
@@ -401,7 +401,7 @@
       "area": {
         "id": "area-ro",
         "name": "Reverse Osmosis Operations",
-        "href": "/operating-model/areas/area-ro"
+        "href": "/blueprint?area=area-ro"
       },
       "formal_pct": 1.0,
       "informal_pct": 0.85,
@@ -419,7 +419,7 @@
       "area": {
         "id": "area-dosing",
         "name": "Chemical Dosing",
-        "href": "/operating-model/areas/area-dosing"
+        "href": "/blueprint?area=area-dosing"
       },
       "formal_pct": 0.9,
       "informal_pct": 0.6,
@@ -437,7 +437,7 @@
       "area": {
         "id": "area-erd",
         "name": "Energy Recovery",
-        "href": "/operating-model/areas/area-erd"
+        "href": "/blueprint?area=area-erd"
       },
       "formal_pct": 0.7,
       "informal_pct": 0.25,
@@ -448,7 +448,7 @@
       "area": {
         "id": "area-maint",
         "name": "Maintenance Planning",
-        "href": "/operating-model/areas/area-maint"
+        "href": "/blueprint?area=area-maint"
       },
       "formal_pct": 0.85,
       "informal_pct": 0.55,
@@ -466,7 +466,7 @@
       "area": {
         "id": "area-compliance",
         "name": "Water Quality Compliance",
-        "href": "/operating-model/areas/area-compliance"
+        "href": "/blueprint?area=area-compliance"
       },
       "formal_pct": 1.0,
       "informal_pct": 0.8,
@@ -484,7 +484,7 @@
       "area": {
         "id": "area-scada",
         "name": "SCADA & Alarm Management",
-        "href": "/operating-model/areas/area-scada"
+        "href": "/blueprint?area=area-scada"
       },
       "formal_pct": 0.9,
       "informal_pct": 0.65,
@@ -502,7 +502,7 @@
       "area": {
         "id": "area-contractors",
         "name": "Contractor & Supplier Management",
-        "href": "/operating-model/areas/area-contractors"
+        "href": "/blueprint?area=area-contractors"
       },
       "formal_pct": 0.8,
       "informal_pct": 0.4,
@@ -520,7 +520,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "formal_pct": 0.75,
       "informal_pct": 0.2,
@@ -739,7 +739,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "capability": {
         "id": "cap-shutdown",
@@ -755,7 +755,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "capability": null,
       "severity": "critical"
@@ -767,7 +767,7 @@
       "area": {
         "id": "area-erd",
         "name": "Energy Recovery",
-        "href": "/operating-model/areas/area-erd"
+        "href": "/blueprint?area=area-erd"
       },
       "capability": null,
       "severity": "high"
@@ -779,7 +779,7 @@
       "area": {
         "id": "area-erd",
         "name": "Energy Recovery",
-        "href": "/operating-model/areas/area-erd"
+        "href": "/blueprint?area=area-erd"
       },
       "capability": {
         "id": "cap-erd",
@@ -795,7 +795,7 @@
       "area": {
         "id": "area-intake",
         "name": "Intake & Pretreatment",
-        "href": "/operating-model/areas/area-intake"
+        "href": "/blueprint?area=area-intake"
       },
       "capability": {
         "id": "cap-turbidity",
@@ -811,7 +811,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "capability": {
         "id": "cap-shutdown",
@@ -827,7 +827,7 @@
       "area": {
         "id": "area-contractors",
         "name": "Contractor & Supplier Management",
-        "href": "/operating-model/areas/area-contractors"
+        "href": "/blueprint?area=area-contractors"
       },
       "capability": {
         "id": "cap-contractor",
@@ -843,7 +843,7 @@
       "area": {
         "id": "area-intake",
         "name": "Intake & Pretreatment",
-        "href": "/operating-model/areas/area-intake"
+        "href": "/blueprint?area=area-intake"
       },
       "capability": {
         "id": "cap-turbidity",
@@ -966,14 +966,7 @@
       },
       {
         "id": "n-shift",
-        "person": {
-          "id": "grp-shift-ops",
-          "name": "Shift operators",
-          "initials": "SO",
-          "title": "Shift Operator, A–D shifts",
-          "kind": "counterpart",
-          "href": "/people"
-        },
+        "person": null,
         "level": null,
         "depth": 2,
         "group_label": "Shift operators (6)"
@@ -983,6 +976,7 @@
       {
         "source": "n-voss",
         "target": "n-rojas",
+        "state": "demonstrated",
         "label": "taught 19 Mar"
       },
       {
@@ -993,12 +987,14 @@
       {
         "source": "n-rojas",
         "target": "n-fuentes",
-        "label": "taught 12 Sep"
+        "state": "in_progress",
+        "label": "coaching since 12 Sep"
       },
       {
         "source": "n-rojas",
         "target": "n-shift",
-        "label": "briefed 16 Sep"
+        "state": "planned",
+        "label": "shift briefings from 5 Oct"
       }
     ],
     "href": "/readiness/propagation"
