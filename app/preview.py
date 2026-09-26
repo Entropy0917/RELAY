@@ -39,6 +39,21 @@ def shell():
     return render_template("_preview/shell.html", shell=vm.shell, source=source)
 
 
+@bp.get("/_macros")
+def macros():
+    """Component gallery: every ui.html macro against real fixtures."""
+    overview = load_fixture("overview")
+    return render_template(
+        "_preview/macros.html",
+        shell=overview.shell,
+        overview=overview,
+        readiness=load_fixture("readiness"),
+        blueprint=load_fixture("blueprint"),
+        synthesis_error=load_fixture("session_synthesis", "ai_error"),
+        prepare_error=load_fixture("session_prepare", "ai_error"),
+    )
+
+
 @bp.get("/<name>")
 def show(name: str):
     if name not in VIEWMODELS:
