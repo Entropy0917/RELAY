@@ -1,0 +1,31 @@
+{#- Base document (F1). Every page extends this.
+    Context: `shell` (contracts.viewmodels.Shell) plus the page's own fields.
+    Blocks:  title · crumbs · header · content · head_extra -#}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %}{{ ' · ' if self.title() }}RELAY</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+<script src="{{ url_for('static', filename='js/htmx.min.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/relay.js') }}" defer></script>
+{% block head_extra %}{% endblock %}
+</head>
+<body hx-headers='{"X-Relay-Engagement": "{{ shell.engagement.id }}"}'>
+<div class="app">
+  {% include "_shell/sidebar.html" %}
+  <div class="main">
+    {% include "_shell/topbar.html" %}
+    <main class="page" id="page">
+      {% block header %}{% endblock %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+<div class="drawer-host" id="drawer" aria-live="polite"></div>
+<div class="toast-host" id="toasts" aria-live="assertive"></div>
+</body>
+</html>

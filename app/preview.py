@@ -31,6 +31,14 @@ def index():
     )
 
 
+@bp.get("/_shell")
+def shell():
+    """The bare app shell, using any page fixture's `shell` (default: overview)."""
+    source = request.args.get("from", "overview")
+    vm = load_fixture(source, request.args.get("variant") or None)
+    return render_template("_preview/shell.html", shell=vm.shell, source=source)
+
+
 @bp.get("/<name>")
 def show(name: str):
     if name not in VIEWMODELS:
