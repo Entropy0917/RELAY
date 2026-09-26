@@ -1,0 +1,212 @@
+{#- macros/ui.html — RELAY component library (F2).
+
+    Import:  {% import "macros/ui.html" as ui %}
+
+    Rules:
+    - If markup appears twice across pages, it belongs here.
+    - Macros take contract objects (Metric, PersonRef, AIError, …) or primitives.
+    - Product vocabulary comes from `vocab` (contracts.vocab); never hard-code labels.
+    - No engagement content. No raw colors: classes in static/css/components.css.
+-#}
+
+{#- ───────────────────────── status & levels ───────────────────────── -#}
+
+{#- One of the five transfer statuses. `status` is a vocab.Status or its value. -#}
+{% macro status_badge(status, size='md') -%}
+{%- set s = vocab.Status(status) -%}
+<span class="badge badge--{{ size }} status--{{ s.value|replace('_', '-') }}"><span class="badge__dot" aria-hidden="true"></span>{{ s.label }}</span>
+{%- endmacro %}
+
+{#- Risk severity: CRITICAL · HIGH · MEDIUM. -#}
+{% macro severity_badge(severity) -%}
+{%- set s = vocab.Severity(severity) -%}
+<span class="badge badge--md severity--{{ s.value }}">{{ s.label }}</span>
+{%- endmacro %}
+
+{#- Capability level 0–6 as a compact chip: segmented meter + label. -#}
+{% macro capability_chip(level, show_label=True, changed=False) -%}
+{%- set l = vocab.CapabilityLevel(level) -%}
+<span class="cap-chip level--{{ l.value }}{{ ' is-changed' if changed }}" title="Level {{ l.value }} · {{ l.label }}">
+  <span class="cap-chip__meter" aria-hidden="true">{% for i in range(1, 7) %}<i class="{{ 'on' if i <= l.value }}"></i>{% endfor %}</span>
+  {%- if show_label %}<span class="cap-chip__label">{{ l.label }}</span>{% endif %}
+  <span class="sr-only">Level {{ l.value }} of 6</span>
+</span>
+{%- endmacro %}
+
+{#- Level transition, e.g. Performed with Supervision → Performed Independently. -#}
+{% macro level_change(before, after) -%}
+<span class="level-change">{{ capability_chip(before) }}<span class="level-change__arrow" aria-label="to">→</span>{{ capability_chip(after, changed=True) }}</span>
+{%- endmacro %}
+
+{#- ✓ complete · △ partial · ○ none, optional label. -#}
+{% macro transfer_glyph(state, label=None) -%}
+{%- set s = vocab.TransferState(state) -%}
+<span class="glyph glyph--{{ s.value }}"><span class="glyph__mark" aria-hidden="true">{{ s.glyph }}</span>{% if label %}<span class="glyph__label">{{ label }}</span>{% endif %}<span class="sr-only">{{ s.value }}</span></span>
+{%- endmacro %}
+
+{#- The seven Transfer Rails with the current rail highlighted. -#}
+{% macro rails(current=None, compact=False) -%}
+<ol class="rails{{ ' rails--compact' if compact }}" aria-label="Transfer Rails">
+  {%- for r in vocab.TransferRail %}
+  {%- set state = 'done' if current and r.value < current else 'current' if current and r.value == current else 'upcoming' %}
+  <li class="rails__step rails__step--{{ state }}"{{ ' aria-current="step"'|safe if state == 'current' }}>
+    <span class="rails__n num">{{ r.value }}</span><span class="rails__label">{{ r.label }}</span>
+  </li>
+  {%- endfor %}
+</ol>
+{%- endmacro %}
+
+{#- ───────────────────────── people ───────────────────────── -#}
+
+{#- Avatar + name (+ title). `p` is a PersonRef. -#}
+{% macro person(p, show_title=False, link=True) -%}
+{%- if p -%}
+<{{ 'a href="' ~ p.href ~ '"' if link else 'span' }} class="person">
+  <span class="avatar{{ ' avatar--expert' if p.kind == 'expert' }}" aria-hidden="true">{{ p.initials }}</span>
+  <span class="person__text"><span class="person__name">{{ p.name }}</span>{% if show_title %}<span class="person__title">{{ p.title }}</span>{% endif %}</span>
+</{{ 'a' if link else 'span' }}>
+{%- else -%}
+<span class="person person--none">Not assigned</span>
+{%- endif -%}
+{%- endmacro %}
+
+{#- ───────────────────────── metrics ───────────────────────── -#}
+
+{#- "How this is calculated" disclosure for a Metric's formula. No JS. -#}
+{% macro formula_popover(metric, align='start') -%}
+<details class="formula formula--{{ align }}">
+  <summary class="formula__trigger" aria-label="How {{ metric.label|lower }} is calculated">
+    <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 7.2v4M8 4.8v.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  </summary>
+  <div class="formula__body" role="note">
+    <div class="t-caps">How this is calculated</div>
+    <p class="formula__expr">{{ metric.formula.expression }}</p>
+    <dl class="formula__inputs">
+      {%- for i in metric.formula.inputs %}
+      <div><dt>{{ i.label }}</dt><dd class="num">{{ i.display }}</dd></div>
+      {%- endfor %}
+      <div class="formula__result"><dt>{{ metric.label|title }}</dt><dd class="num">{{ metric.display }}</dd></div>
+    </dl>
+  </div>
+</details>
+{%- endmacro %}
+
+{#- Executive metric tile. `m` is a Metric. -#}
+{% macro metric_tile(m, emphasis=False) -%}
+<div class="metric{{ ' metric--emphasis' if emphasis }}">
+  <div class="metric__head"><span class="t-caps">{{ m.label }}</span>{{ formula_popover(m, 'end') }}</div>
+  <div class="metric__value num">{{ m.display }}</div>
+  <div class="metric__foot">
+    {%- if m.status %}{{ status_badge(m.status, 'sm') }}{% endif %}
+    {%- if m.delta %}<span class="metric__delta num">{{ m.delta }}</span>{% endif %}
+  </div>
+</div>
+{%- endmacro %}
+
+{#- Inline metric: label · value · popover, for dense lists. -#}
+{% macro metric_inline(m) -%}
+<div class="metric-inline"><span class="metric-inline__label">{{ m.label|title }}</span><span class="metric-inline__value num">{{ m.display }}</span>{{ formula_popover(m, 'end') }}</div>
+{%- endmacro %}
+
+{#- ───────────────────────── containers ───────────────────────── -#}
+
+{#- Panel with optional caps title, subtitle and header actions.
+    {% call ui.panel('Knowledge at risk', subtitle='Before expert departure') %}…{% endcall %} -#}
+{% macro panel(title=None, subtitle=None, actions=None, flush=False, id=None, tone=None) -%}
+<section class="panel{{ ' panel--flush' if flush }}{{ ' panel--' ~ tone if tone }}"{{ (' id="' ~ id ~ '"')|safe if id }}>
+  {%- if title %}
+  <header class="panel__head">
+    <div class="panel__titles"><h2 class="t-caps">{{ title }}</h2>{% if subtitle %}<p class="panel__sub">{{ subtitle }}</p>{% endif %}</div>
+    {%- if actions %}<div class="panel__actions">{{ actions }}</div>{% endif %}
+  </header>
+  {%- endif %}
+  <div class="panel__body">{{ caller() if caller }}</div>
+</section>
+{%- endmacro %}
+
+{#- Right-side drawer, returned by partials into #drawer. -#}
+{% macro drawer(title, eyebrow=None) -%}
+<div class="drawer" role="dialog" aria-modal="true" aria-label="{{ title }}">
+  <header class="drawer__head">
+    <div>{% if eyebrow %}<div class="t-caps">{{ eyebrow }}</div>{% endif %}<h2 class="drawer__title">{{ title }}</h2></div>
+    <button type="button" class="btn btn--ghost btn--icon" data-drawer-close aria-label="Close">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <div class="drawer__body">{{ caller() }}</div>
+</div>
+{%- endmacro %}
+
+{#- Key/value definition list. rows: [(label, value_html)] -#}
+{% macro facts(rows, cols=1) -%}
+<dl class="facts facts--{{ cols }}">
+  {%- for label, value in rows %}<div><dt class="t-caps">{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}
+</dl>
+{%- endmacro %}
+
+{#- Empty state for lists and panels. -#}
+{% macro empty(text, hint=None) -%}
+<div class="empty"><p>{{ text }}</p>{% if hint %}<p class="t-faint t-sm">{{ hint }}</p>{% endif %}</div>
+{%- endmacro %}
+
+{#- ───────────────────────── AI trust ───────────────────────── -#}
+
+{#- Provenance label: AI SUGGESTION vs VALIDATED BY <person>. Always visually distinct. -#}
+{% macro provenance(validated_by=None, ai_label='AI SUGGESTION', validated_at=None) -%}
+{%- if validated_by -%}
+<span class="prov prov--validated"><svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>VALIDATED BY {{ validated_by.name|upper }}{% if validated_at %}<span class="prov__at num"> · {{ validated_at.strftime('%-d %b %H:%M') }}</span>{% endif %}</span>
+{%- else -%}
+<span class="prov prov--ai"><svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 1.5l1.6 4.9 4.9 1.6-4.9 1.6L8 14.5l-1.6-4.9L1.5 8l4.9-1.6z" fill="currentColor"/></svg>{{ ai_label }}</span>
+{%- endif -%}
+{%- endmacro %}
+
+{#- "Why RELAY recommended this" — every AI recommendation carries one. `r` is a Rationale. -#}
+{% macro rationale(r, open=False) -%}
+{%- if r -%}
+<details class="rationale"{{ ' open' if open }}>
+  <summary>Why RELAY recommended this</summary>
+  <div class="rationale__body">
+    <p>{{ r.why }}</p>
+    {%- if r.evidence %}
+    <div class="t-caps">Evidence</div>
+    <ul class="bullets">{% for e in r.evidence %}<li>{{ e }}</li>{% endfor %}</ul>
+    {%- endif %}
+    {%- if r.om_component or r.if_not_transferred %}
+    <dl class="facts facts--2">
+      {%- if r.om_component %}<div><dt class="t-caps">Operating model component</dt><dd>{{ r.om_component }}</dd></div>{% endif %}
+      {%- if r.if_not_transferred %}<div><dt class="t-caps">If this doesn't transfer</dt><dd>{{ r.if_not_transferred }}</dd></div>{% endif %}
+    </dl>
+    {%- endif %}
+  </div>
+</details>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Designed fail-loud error state for an AI call. `e` is an AIError. -#}
+{% macro error_state(e) -%}
+{%- set titles = {
+  'provider_unreachable': 'The AI provider could not be reached',
+  'schema_violation': 'The AI returned a response RELAY could not verify',
+  'timeout': 'The AI took too long to respond',
+} -%}
+<div class="error-state" role="alert">
+  <div class="error-state__icon" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1.8l6.5 11.6H1.5z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 6.2v3.4M8 11.5v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="error-state__text">
+    <h3>{{ titles.get(e.kind, 'The AI step did not complete') }}</h3>
+    <p>{{ e.message }}</p>
+    <p class="t-faint t-sm">Validated records are unchanged. <span class="t-mono">{{ e.function }} · {{ e.kind }}</span></p>
+  </div>
+  {%- if e.retry_method == 'GET' %}
+  <a class="btn btn--secondary" href="{{ e.retry_href }}">Try again</a>
+  {%- else %}
+  <button class="btn btn--secondary" hx-post="{{ e.retry_href }}" hx-disabled-elt="this"><span class="htmx-hide-on-request">Try again</span><span class="htmx-indicator">Retrying…</span></button>
+  {%- endif %}
+</div>
+{%- endmacro %}
+
+{#- ───────────────────────── controls ───────────────────────── -#}
+
+{#- Link styled as a button. kind: primary | secondary | ghost -#}
+{% macro link_button(label, href, kind='secondary') -%}
+<a class="btn btn--{{ kind }}" href="{{ href }}">{{ label }}</a>
+{%- endmacro %}
