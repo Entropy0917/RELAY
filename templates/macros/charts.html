@@ -5,12 +5,11 @@
     Rules:
     - Macros take primitives or small dicts, never page view models.
     - Every colour is a token from static/css/tokens.css; no raw values here.
-    - Product vocabulary only (series names, status states). No engagement content.
+    - Fills use series tokens only. Status colour lives in status_badge, never here.
+    - Product vocabulary only. No engagement content.
 -#}
 
 {%- set _SERIES = {'formal': '--series-formal', 'informal': '--series-informal', 'accent': '--accent'} -%}
-{%- set _STATUSES = ['sustainable', 'on-track', 'in-progress', 'at-risk', 'critical'] -%}
-{%- set _STATUS_ALIASES = {'transfer-in-progress': 'in-progress'} -%}
 
 {#- Fraction of max as a 0..100 number string, clamped. Private. -#}
 {% macro _pct(value, max=1) -%}
@@ -19,14 +18,9 @@
   {{- ([[f, 0]|max, 1]|min * 100)|round(2) -}}
 {%- endmacro %}
 
-{#- Resolve a fill token: a valid status wins over series. Private. -#}
-{% macro _fill(series='formal', status=None) -%}
-  {%- set s = (status or '')|string|lower|replace('_', '-')|replace(' ', '-') -%}
-  {%- set s = _STATUS_ALIASES.get(s, s) -%}
-  {%- if s in _STATUSES -%}var(--status-{{ s }})
-  {%- elif series in _SERIES -%}var({{ _SERIES[series] }})
-  {%- else -%}var(--series-formal)
-  {%- endif -%}
+{#- Resolve a series fill token; unknown series fall back to formal. Private. -#}
+{% macro _fill(series='formal') -%}
+  var({{ _SERIES.get(series, '--series-formal') }})
 {%- endmacro %}
 
 {#- Bare track + fill. Private. -#}
@@ -39,15 +33,14 @@
 {%- endmacro %}
 
 {#- Horizontal readiness bar.
-    value: 0..max (clamped) · series: formal | informal | accent
-    status: sustainable | on-track | in-progress | at-risk | critical (overrides series) -#}
-{% macro bar(value, max=1, series='formal', label=None, status=None) -%}
+    value: 0..max (clamped) · series: formal | informal | accent -#}
+{% macro bar(value, max=1, series='formal', label=None) -%}
 {%- set pct = _pct(value, max)|float -%}
 <div class="chart-bar" style="display:grid;grid-template-columns:{{ 'minmax(8rem, 14rem) ' if label }}1fr 3.5rem;align-items:center;gap:var(--s-3)">
   {%- if label %}
   <span style="color:var(--text-secondary);font-size:var(--fs-sm)">{{ label }}</span>
   {%- endif %}
-  {{ _track(pct, _fill(series, status), (label ~ ': ' if label else '') ~ (pct|round|int) ~ '%') }}
+  {{ _track(pct, _fill(series), (label ~ ': ' if label else '') ~ (pct|round|int) ~ '%') }}
   <span class="num" style="text-align:right;font-size:var(--fs-sm);color:var(--text-primary)">{{ pct|round|int }}%</span>
 </div>
 {%- endmacro %}
@@ -156,7 +149,7 @@
     <circle cx="{{ (cx + NODE_W / 2 - 10)|round(1) }}" cy="{{ top + 10 }}" r="3.5" style="fill:var(--level-{{ n.level }})"/>
     {%- endif %}
     <text x="{{ cx|round(1) }}" y="{{ top + (19 if role else 27) }}" text-anchor="middle"
-          style="fill:var(--text-primary);font-size:var(--fs-sm)">{{ name|truncate(18, true, '…', 0) }}</text>
+          style="fill:var(--text-primary);font-size:var(--fs-sm)">{{ name|truncate(18 if n.level is defined and n.level is not none else 22, true, '…', 0) }}</text>
     {%- if role %}
     <text x="{{ cx|round(1) }}" y="{{ top + 35 }}" text-anchor="middle"
           style="fill:var(--text-tertiary);font-size:var(--fs-xs)">{{ role|truncate(24, true, '…', 0) }}</text>
@@ -172,6 +165,40 @@
     {{ state }}
   </span>
   {%- endfor %}
+</figcaption>
+{%- endif %}
+</figure>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Sparkline for a series over time (e.g. knowledge library growth).
+    values: numbers, oldest first · labels: display strings, same length (optional;
+    first and last are printed under the line) · baseline is 0 unless min is lower. -#}
+{% macro sparkline(values, labels=None, label='Trend', series='accent', height=48) -%}
+{%- set vals = values|map('float')|list -%}
+{%- if vals|length < 2 -%}
+<p style="color:var(--text-tertiary);font-size:var(--fs-sm)">Not enough history yet.</p>
+{%- else -%}
+{%- set W, H, PAD = 240, height, 4 -%}
+{%- set lo = [vals|min, 0]|min -%}
+{%- set span = (vals|max - lo) or 1 -%}
+{%- set step = (W - 2 * PAD) / (vals|length - 1) -%}
+{%- set pts = [] -%}
+{%- for v in vals -%}
+  {%- set _ = pts.append(((PAD + loop.index0 * step)|round(1)) ~ ',' ~ ((H - PAD - (v - lo) / span * (H - 2 * PAD))|round(1))) -%}
+{%- endfor -%}
+{%- set last = pts[-1].split(',') -%}
+<figure class="chart-spark" style="margin:0;display:grid;gap:var(--s-1)">
+<svg viewBox="0 0 {{ W }} {{ H }}" role="img"
+     aria-label="{{ label }}: {{ vals[0]|round|int }} to {{ vals[-1]|round|int }}{{ ' (' ~ labels[0] ~ ' to ' ~ labels[-1] ~ ')' if labels }}"
+     style="display:block;width:100%;height:auto;overflow:visible">
+  <polyline points="{{ pts|join(' ') }}" fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"
+            style="stroke:{{ _fill(series) }}"/>
+  <circle cx="{{ last[0] }}" cy="{{ last[1] }}" r="2.5" style="fill:{{ _fill(series) }}"/>
+</svg>
+{%- if labels %}
+<figcaption class="num" style="display:flex;justify-content:space-between;color:var(--text-tertiary);font-size:var(--fs-xs)">
+  <span>{{ labels[0] }}</span><span>{{ labels[-1] }}</span>
 </figcaption>
 {%- endif %}
 </figure>
