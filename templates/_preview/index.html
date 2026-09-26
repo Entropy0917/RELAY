@@ -1,0 +1,14 @@
+{% extends "_preview/_frame.html" %}
+{% block body %}
+<h1>RELAY · preview harness</h1>
+<table>
+  <tr><th>Fixture</th><th>Variant</th><th>Template</th></tr>
+  {% for name, variant in fixtures %}
+  <tr>
+    <td><a href="{{ url_for('preview.show', name=name, variant=variant) }}">{{ name }}</a></td>
+    <td><code>{{ variant or '' }}</code></td>
+    <td><code>{{ templates.get(name, '') }}</code></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
