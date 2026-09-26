@@ -193,7 +193,7 @@
     <p class="t-faint t-sm">Validated records are unchanged. <span class="t-mono">{{ e.kind }}</span></p>
   </div>
   {%- if e.retry_href %}
-  <button class="btn btn--secondary" hx-post="{{ e.retry_href }}" hx-target="closest .error-state" hx-swap="outerHTML" hx-disabled-elt="this"><span class="htmx-hide-on-request">Try again</span><span class="htmx-indicator">Retrying…</span></button>
+  <button class="btn btn--secondary" hx-post="{{ e.retry_href }}" hx-target="#findings" hx-select="#findings" hx-swap="outerHTML" hx-disabled-elt="this"><span class="htmx-hide-on-request">Try again</span><span class="htmx-indicator">Retrying…</span></button>
   {%- endif %}
 </div>
 {%- endmacro %}

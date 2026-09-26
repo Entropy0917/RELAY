@@ -26,8 +26,11 @@ def test_harness_pages(client, path):
 def test_fixture_renders(client, name):
     r = client.get(f"/preview/{name}")
     assert r.status_code == 200, r.text[:500]
+    assert "not written yet" not in r.text, f"{name} fell back to the missing-template page"
 
 
 @pytest.mark.parametrize("stage", [s.value for s in STAGE_ORDER])
 def test_session_stage_renders_every_stage(client, stage):
-    assert client.get(f"/preview/session_stage?stage={stage}").status_code == 200
+    r = client.get(f"/preview/session_stage?stage={stage}")
+    assert r.status_code == 200
+    assert "not written yet" not in r.text

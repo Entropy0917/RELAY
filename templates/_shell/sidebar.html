@@ -23,11 +23,14 @@
     {% endfor %}
   </nav>
 
-  {% if departing_expert is defined and departing_expert and days_until_departure is not none %}
-  <a class="departure" href="{{ href('passport', person_id=departing_expert.id) }}">
+  {#- Departure countdown: ShellVM carries it when the contract adds it (A8); until then only the overview page does. -#}
+  {%- set dep_expert = shell.departing_expert if shell.departing_expert is defined else (departing_expert if departing_expert is defined else none) -%}
+  {%- set dep_days = shell.days_until_departure if shell.days_until_departure is defined else (days_until_departure if days_until_departure is defined else none) -%}
+  {% if dep_expert and dep_days is not none %}
+  <a class="departure" href="{{ href('passport', person_id=dep_expert.id) }}">
     <span class="t-caps">Expert departure</span>
-    <span class="departure__days num">{{ days_until_departure }}<small>days</small></span>
-    <span class="t-sm t-muted">{{ departing_expert.name }}</span>
+    <span class="departure__days num">{{ dep_days }}<small>days</small></span>
+    <span class="t-sm t-muted">{{ dep_expert.name }}</span>
   </a>
   {% endif %}
 </aside>

@@ -55,6 +55,13 @@
     if (slot) { e.detail.target = slot; e.detail.swapOverride = "innerHTML"; }
   });
 
+  // Findings re-rendered successfully (synthesize or its retry): clear any stale error.
+  document.addEventListener("htmx:afterSwap", (e) => {
+    if (e.detail.xhr.status >= 400 || e.detail.target.id !== "findings") return;
+    const slot = document.getElementById("stage-error");
+    if (slot) slot.innerHTML = "";
+  });
+
   // A finding was validated: let passport rows on the page refresh themselves.
   document.addEventListener("htmx:afterSwap", (e) => {
     if (e.detail.target?.classList?.contains("finding") || e.detail.elt?.closest?.(".finding")) {
