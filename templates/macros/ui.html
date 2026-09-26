@@ -209,10 +209,11 @@
 
 {#- HTMX filter bar. filters: list[KnowledgeFilter-like {param, label, options[{value,label,count}]}]
     active: {param: value}. Changing any select GETs `href` with the whole form and swaps `target`.
-    Plain GET to `page_href` without JS. -#}
-{% macro filter_bar(filters, active, href, target, page_href=None, inline=False, all_label='All') -%}
+    Plain GET to `page_href` without JS. select=True: the response is a full page; take
+    only `target` out of it and replace it (outerHTML). -#}
+{% macro filter_bar(filters, active, href, target, page_href=None, inline=False, all_label='All', select=True) -%}
 <form class="filter-bar{{ ' filter-bar--inline' if inline }}" method="get" action="{{ page_href or href }}"
-      hx-get="{{ href }}" hx-target="{{ target }}" hx-trigger="change" hx-push-url="{{ 'true' if page_href else 'false' }}">
+      hx-get="{{ href }}" hx-target="{{ target }}" hx-trigger="change" hx-push-url="{{ 'true' if page_href else 'false' }}"{% if select %} hx-select="{{ target }}" hx-swap="outerHTML"{% endif %}>
   {%- for f in filters %}
   {%- set cur = active.get(f.param) %}
   <label class="filter-bar__field">
@@ -227,7 +228,7 @@
   {%- endfor %}
   <div class="filter-bar__foot">
     <span class="htmx-indicator t-faint t-sm">Filtering…</span>
-    {%- if active %}<a class="btn btn--ghost" href="{{ page_href or href }}" hx-get="{{ href }}" hx-target="{{ target }}" hx-push-url="{{ page_href or 'false' }}">Clear filters</a>{% endif %}
+    {%- if active %}<a class="btn btn--ghost" href="{{ page_href or href }}">Clear filters</a>{% endif %}
   </div>
   <noscript><button class="btn btn--secondary" type="submit">Apply</button></noscript>
 </form>
@@ -250,7 +251,7 @@
 {% macro capability_row(row, person, changed=False) -%}
 <tr id="cap-{{ person.id }}-{{ row.capability_id }}"{{ ' class="is-changed"'|safe if changed }}
     hx-get="{{ href('capability_row', person_id=person.id, capability_id=row.capability_id) }}" hx-trigger="relay:validated from:body" hx-swap="outerHTML">
-  <td><span class="rows__title">{{ row.capability }}</span></td>
+  <td class="is-name"><span class="rows__title">{{ row.capability }}</span></td>
   <td>{{ capability_chip(row.level, changed=changed) }}</td>
   <td class="is-num">{{ row.exposures }}</td>
   <td class="is-num t-muted">{{ row.last_demonstrated or '—' }}</td>
@@ -262,4 +263,23 @@
 {#- Header row matching capability_row's columns. -#}
 {% macro capability_head() -%}
 <tr><th>Capability</th><th>Current level</th><th class="is-num">Exposures</th><th class="is-num">Last demonstrated</th><th>Next recommended experience</th><th>Trainer readiness</th></tr>
+{%- endmacro %}
+
+{#- ───────────────────────── knowledge ───────────────────────── -#}
+
+{#- One Knowledge Library item. `k` is a KnowledgeCard. compact=True for side lists. -#}
+{% macro knowledge_card(k, compact=False) -%}
+<article class="card knowledge-card{{ ' knowledge-card--compact' if compact }}" id="k-{{ k.id }}">
+  <div class="card__head">
+    <span class="tag">{{ k.type_label }}</span>
+    {% if k.validated %}{{ provenance(k.expert) }}{% else %}<span class="tag tag--accent">Pending validation</span>{% endif %}
+  </div>
+  <div class="card__title">{{ k.title }}</div>
+  {%- if not compact %}<p class="card__meta">{{ k.summary }}</p>{% endif %}
+  <div class="card__foot t-sm">
+    <span class="t-muted">{{ k.capability or k.area }}</span>
+    {%- if k.source_session %}<span class="t-faint">·</span><a class="t-muted knowledge-card__src" href="{{ href('session_stage', session_id=k.source_session, stage='next_action') }}">Source session ↗</a>{% endif %}
+    {%- if k.people_exposed %}<span class="knowledge-card__exposed t-faint" title="{{ k.people_exposed|join(', ') }}">{{ k.people_exposed|length }} exposed</span>{% endif %}
+  </div>
+</article>
 {%- endmacro %}

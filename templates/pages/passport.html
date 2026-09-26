@@ -1,0 +1,44 @@
+{#- PassportVM — one person's Capability Passport. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% block title %}{{ person.name }}{% endblock %}
+{% block crumbs %}<a class="t-faint" href="{{ href('people') }}">People</a> / {{ person.name }}{% endblock %}
+{% block header %}
+{% set independent = capabilities|selectattr('level', 'ge', vocab.LEVEL_INDEPENDENT)|list %}
+{% set teachable = capabilities|selectattr('level', 'ge', vocab.LEVEL_TEACHER)|list %}
+<div class="page-header">
+  <span class="person"><span class="avatar avatar--xl{{ ' avatar--expert' if person.role == 'expert' }}" aria-hidden="true">{{ person.initials }}</span></span>
+  <div class="page-header__text">
+    <span class="t-caps">Capability Passport</span>
+    <h1>{{ person.name }}</h1>
+    <p>{{ person.title }}</p>
+  </div>
+</div>
+<div class="metric-row">
+  {{ ui.metric_tile({'label': 'Capabilities tracked', 'value': capabilities|length|string, 'caption': 'on this engagement'}) }}
+  {{ ui.metric_tile({'label': 'Independently capable', 'value': independent|length|string, 'caption': 'level ' ~ vocab.LEVEL_INDEPENDENT ~ ' or higher'}) }}
+  {{ ui.metric_tile({'label': 'Can teach others', 'value': teachable|length|string, 'caption': 'level ' ~ vocab.LEVEL_TEACHER}) }}
+  {{ ui.metric_tile({'label': 'Evidence records', 'value': evidence_count|string, 'caption': 'append-only, validated by the expert'}) }}
+</div>
+{% endblock %}
+{% block content %}
+<div class="stack">
+  {% call ui.panel('Capabilities', subtitle='Levels change only when the expert validates evidence', flush=True) %}
+  {% if capabilities %}
+  <div class="table-wrap"><table class="table">
+    <thead>{{ ui.capability_head() }}</thead>
+    <tbody>{% for row in capabilities|sort(attribute='level', reverse=True) %}{{ ui.capability_row(row, person) }}{% endfor %}</tbody>
+  </table></div>
+  {% else %}{{ ui.empty('No capabilities tracked yet.') }}{% endif %}
+  {% endcall %}
+
+  <div class="grid-2">
+    {% call ui.panel('Capability levels', subtitle='The scale every passport uses') %}
+    <ol class="stack stack--sm">{% for l in vocab.CAPABILITY_LEVELS %}<li class="cluster t-sm"><span class="rank">{{ loop.index0 }}</span>{{ ui.capability_chip(loop.index0) }}</li>{% endfor %}</ol>
+    {% endcall %}
+    {% call ui.panel('Knowledge exposed to', subtitle=knowledge_exposed|length ~ ' validated items') %}
+    <div class="grid-auto">{% for k in knowledge_exposed %}{{ ui.knowledge_card(k, compact=True) }}{% endfor %}</div>{% if not knowledge_exposed %}<p class="t-faint t-sm">None yet.</p>{% endif %}
+    {% endcall %}
+  </div>
+</div>
+{% endblock %}

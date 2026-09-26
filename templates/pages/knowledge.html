@@ -1,0 +1,47 @@
+{#- KnowledgeVM — the Knowledge Library. Filters: ?type=&area=&person= (contracts/routes.py). -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% block title %}Knowledge{% endblock %}
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">Capture knowledge &amp; evidence</span>
+    <h1>Knowledge Library</h1>
+    <p>What the organization knows because of real work: expert insights, heuristics, exceptions and cases, each linked to its source session.</p>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+{% set total = counts_by_type.values()|sum %}
+<nav class="type-strip" aria-label="Knowledge types">
+  <a class="type-strip__item{{ ' is-active' if not active_filters.get('type') }}" href="{{ href('knowledge') }}"><span class="type-strip__n num">{{ total }}</span><span class="t-caps">All</span></a>
+  {% for t in vocab.KnowledgeType %}
+  <a class="type-strip__item{{ ' is-active' if active_filters.get('type') == t.value }}" href="{{ href('knowledge', type=t.value) }}"><span class="type-strip__n num">{{ counts_by_type.get(t, counts_by_type.get(t.value, 0)) }}</span><span class="t-caps">{{ vocab.KNOWLEDGE_LABEL[t] }}</span></a>
+  {% endfor %}
+</nav>
+
+{% set areas = items|map(attribute='area')|unique|sort|list %}
+{% set people = items|map(attribute='people_exposed')|sum(start=[])|unique|sort|list %}
+{% set filters = [
+  {'param': 'type', 'label': 'Knowledge type', 'options': []},
+  {'param': 'area', 'label': 'Operating model area', 'options': []},
+  {'param': 'person', 'label': 'Person exposed', 'options': []},
+] %}
+{% for t in vocab.KnowledgeType %}{% set _ = filters[0].options.append({'value': t.value, 'label': vocab.KNOWLEDGE_LABEL[t], 'count': counts_by_type.get(t, counts_by_type.get(t.value, 0))}) %}{% endfor %}
+{% for a in areas %}{% set _ = filters[1].options.append({'value': a, 'label': a, 'count': none}) %}{% endfor %}
+{% for p in people %}{% set _ = filters[2].options.append({'value': p, 'label': p, 'count': none}) %}{% endfor %}
+
+<div class="split split--aside-left">
+  <aside class="sticky">
+    {% call ui.panel('Filter') %}
+    {{ ui.filter_bar(filters, active_filters, href('knowledge'), '#results', page_href=href('knowledge')) }}
+    {% endcall %}
+  </aside>
+  <section id="results" class="stack">
+    <div class="cluster t-sm t-muted"><span class="num">{{ items|length }}</span> item{{ 's' if items|length != 1 }}{% for k, v in active_filters.items() %}<span class="tag tag--accent">{{ k }}: {{ v }}</span>{% endfor %}</div>
+    {% if items %}
+    <div class="grid-auto">{% for k in items %}{{ ui.knowledge_card(k) }}{% endfor %}</div>
+    {% else %}{{ ui.empty('No knowledge matches these filters.', 'Captured insights appear here after a validated session.') }}{% endif %}
+  </section>
+</div>
+{% endblock %}
