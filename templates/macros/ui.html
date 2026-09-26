@@ -210,3 +210,40 @@
 {% macro link_button(label, href, kind='secondary') -%}
 <a class="btn btn--{{ kind }}" href="{{ href }}">{{ label }}</a>
 {%- endmacro %}
+
+{#- ───────────────────────── batch 2: filters & tabs ───────────────────────── -#}
+
+{#- HTMX filter bar. filters: list[KnowledgeFilter-like {param, label, options[{value,label,count}]}]
+    active: {param: value}. Changing any select GETs `href` with the whole form and swaps `target`.
+    Plain GET to `page_href` without JS. -#}
+{% macro filter_bar(filters, active, href, target, page_href=None, inline=False, all_label='All') -%}
+<form class="filter-bar{{ ' filter-bar--inline' if inline }}" method="get" action="{{ page_href or href }}"
+      hx-get="{{ href }}" hx-target="{{ target }}" hx-trigger="change" hx-push-url="{{ 'true' if page_href else 'false' }}">
+  {%- for f in filters %}
+  {%- set cur = active.get(f.param) %}
+  <label class="filter-bar__field">
+    <span class="t-caps">{{ f.label }}</span>
+    <select name="{{ f.param }}"{{ ' class="is-active"'|safe if cur }}>
+      <option value="">{{ all_label }}</option>
+      {%- for o in f.options %}
+      <option value="{{ o.value }}"{{ ' selected' if o.value == cur }}>{{ o.label }}{{ ' (' ~ o.count ~ ')' if o.count is not none }}</option>
+      {%- endfor %}
+    </select>
+  </label>
+  {%- endfor %}
+  <div class="filter-bar__foot">
+    <span class="htmx-indicator t-faint t-sm">Filtering…</span>
+    {%- if active %}<a class="btn btn--ghost" href="{{ page_href or href }}" hx-get="{{ href }}" hx-target="{{ target }}" hx-push-url="{{ page_href or 'false' }}">Clear filters</a>{% endif %}
+  </div>
+  <noscript><button class="btn btn--secondary" type="submit">Apply</button></noscript>
+</form>
+{%- endmacro %}
+
+{#- Segmented tabs as links (server-side or #anchor). items: [{label, href, count?, current?}] -#}
+{% macro tabs(items, label='Views') -%}
+<nav class="tabs" aria-label="{{ label }}">
+  {%- for t in items %}
+  <a class="tabs__item" href="{{ t.href }}"{{ ' aria-current="true"'|safe if t.current }}>{{ t.label }}{% if t.count is defined and t.count is not none %}<span class="tabs__count">{{ t.count }}</span>{% endif %}</a>
+  {%- endfor %}
+</nav>
+{%- endmacro %}
