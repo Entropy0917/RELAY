@@ -195,3 +195,30 @@
 </figure>
 {%- endif -%}
 {%- endmacro %}
+
+{#- Walk a taught_by/children forest depth-first, appending plain node and edge
+    dicts. Private; used by propagation_from_children. -#}
+{% macro _walk(pid, depth, byid, seen, out_nodes, out_edges) -%}
+  {%- if pid in byid and pid not in seen -%}
+    {%- set n = byid[pid] -%}
+    {%- set _ = seen.append(pid) -%}
+    {%- set _ = out_nodes.append({'id': pid, 'label': n.person.name, 'role': n.person.title, 'depth': depth}) -%}
+    {%- for c in n.children if c in byid and c not in seen -%}
+      {%- set _ = out_edges.append({'source': pid, 'target': c, 'state': 'demonstrated'}) -%}
+      {{- _walk(c, depth + 1, byid, seen, out_nodes, out_edges) -}}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endmacro %}
+
+{#- Propagation tree from the contract's PropagationNode list
+    ({person, taught_by, children}); depth and preorder are derived here.
+    Roots are nodes whose taught_by is unset or unknown. Every edge is drawn
+    as demonstrated: the contract carries no edge state. -#}
+{% macro propagation_from_children(items, id='propagation', label='Knowledge propagation', legend=False) -%}
+{%- set byid, seen, nodes, edges = {}, [], [], [] -%}
+{%- for n in items %}{% set _ = byid.update({n.person.id: n}) %}{% endfor -%}
+{%- for n in items if not n.taught_by or n.taught_by not in byid -%}
+  {%- set _ = _walk(n.person.id, 0, byid, seen, nodes, edges) -%}
+{%- endfor -%}
+{{ propagation_tree(nodes, edges, id=id, label=label, legend=legend) }}
+{%- endmacro %}

@@ -1,0 +1,104 @@
+{#- Overview (F3). Context: OverviewVM — shell, metrics, departing_expert,
+    days_until_departure, risks, priority_actions, recent_knowledge, trainer_progress. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% block title %}Overview{% endblock %}
+
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">{{ shell.current_engagement.org }}</span>
+    <h1>{{ shell.current_engagement.name }}</h1>
+    <p>Can the organization operate without the expert?</p>
+  </div>
+  <div class="page-header__actions">
+    {% if departing_expert %}
+    <div class="stack stack--sm">
+      <span class="t-caps">Departing expert</span>
+      <div class="cluster">{{ ui.person(departing_expert, show_title=True) }}{% if days_until_departure is not none %}<span class="tag num">{{ days_until_departure }} days</span>{% endif %}</div>
+    </div>
+    {% endif %}
+    {{ ui.link_button('Readiness detail', href('readiness')) }}
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stack stack--lg">
+<div class="metric-row">
+  {% for m in metrics %}{{ ui.metric_tile(m, emphasis=loop.first) }}{% endfor %}
+</div>
+
+<div class="grid-2">
+  {% call ui.panel('Knowledge at risk', subtitle='Capabilities most exposed by the departure', tone='risk') %}
+    {% if risks %}
+    <div class="stack">
+      {% for r in risks %}
+      <article class="card">
+        <div class="card__head">
+          <h3 class="card__title">{{ r.title }}</h3>
+          {{ ui.status_badge(r.severity, 'sm') }}
+        </div>
+        <p class="card__meta">{{ r.problem }}</p>
+        {{ ui.facts([('Local trainer', r.local_trainer or 'None'), ('Recommended action', r.recommended_action)], cols=2) }}
+        <div class="card__foot">{{ ui.provenance() }}</div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    {{ ui.empty('No capabilities are currently at risk.') }}
+    {% endif %}
+  {% endcall %}
+
+  <div class="stack">
+    {% call ui.panel('Priority actions', subtitle='Before the expert departs') %}
+      {{ ui.action_list(priority_actions) }}
+    {% endcall %}
+
+    {% call ui.panel('Recently captured knowledge') %}
+      {% if recent_knowledge %}
+      <ul class="rows">
+        {% for k in recent_knowledge %}
+        <li class="rows__item rows__item--top">
+          <div class="rows__main">
+            <a class="rows__title" href="{{ href('knowledge', type=k.type) }}#{{ k.id }}">{{ k.title }}</a>
+            <div class="rows__meta cluster">
+              <span class="tag">{{ k.type_label }}</span>
+              <span>{{ k.area }}</span>
+              {% if k.capability %}<span>{{ k.capability }}</span>{% endif %}
+            </div>
+          </div>
+          {% if k.validated %}{{ ui.provenance(k.expert) }}{% else %}<span class="tag">Pending validation</span>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      {{ ui.empty('Nothing captured yet.', hint='Knowledge appears here after a transfer session is validated.') }}
+      {% endif %}
+    {% endcall %}
+  </div>
+</div>
+
+{% call ui.panel('Train the trainer', subtitle='Progress toward locally teachable capabilities') %}
+  {% if trainer_progress %}
+  <div class="grid-auto">
+    {% for c in trainer_progress %}
+    <article class="card">
+      <div class="card__head">
+        <h3 class="card__title">{{ c.capability }}</h3>
+        {% if c.trainer_ready %}<span class="tag tag--accent">Trainer ready</span>{% endif %}
+      </div>
+      {{ ui.capability_chip(c.level) }}
+      <div class="card__foot t-sm t-muted">
+        <span class="num">{{ c.exposures }} exposures</span>
+        {% if c.next_experience %}<span>Next: {{ c.next_experience }}</span>{% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  {{ ui.empty('No trainer candidates identified yet.') }}
+  {% endif %}
+{% endcall %}
+</div>
+{% endblock %}

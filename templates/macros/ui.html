@@ -200,6 +200,19 @@
 
 {#- ───────────────────────── controls ───────────────────────── -#}
 
+{#- Ranked action list (priority actions, before-departure steps). items: list[str] -#}
+{% macro action_list(items, empty_text='No open actions.') -%}
+{%- if items -%}
+<ol class="rows">
+  {%- for text in items %}
+  <li class="rows__item rows__item--top"><span class="rank">{{ loop.index }}</span><span class="rows__main"><span class="rows__title">{{ text }}</span></span></li>
+  {%- endfor %}
+</ol>
+{%- else -%}
+{{ empty(empty_text) }}
+{%- endif -%}
+{%- endmacro %}
+
 {#- Link styled as a button. kind: primary | secondary | ghost -#}
 {% macro link_button(label, href, kind='secondary') -%}
 <a class="btn btn--{{ kind }}" href="{{ href }}">{{ label }}</a>
