@@ -1,0 +1,34 @@
+{#- Sidebar: brand, engagement switcher, nav (spec order), expert departure. -#}
+<aside class="sidebar" aria-label="Primary">
+  <div class="brand"><span class="brand__mark" aria-hidden="true"></span>RELAY</div>
+
+  <form class="engagement-switch" hx-post="{{ shell.engagement_switch_href }}" hx-trigger="change">
+    <label class="t-caps" for="engagement-select" style="padding: 0 var(--s-1)">Engagement</label>
+    <select id="engagement-select" name="engagement_id">
+      {% for e in shell.engagements %}
+      <option value="{{ e.id }}"{{ ' selected' if e.id == shell.engagement.id }}>{{ e.name }}</option>
+      {% endfor %}
+    </select>
+    <div class="engagement-switch__org">{{ shell.engagement.organization }} · {{ shell.engagement.sector }}</div>
+  </form>
+
+  <nav class="nav" aria-label="Sections">
+    <div class="nav__label t-caps">Transfer</div>
+    {% for item in shell.nav %}
+    <a class="nav__item" href="{{ item.href }}"{{ ' aria-current="page"'|safe if item.key == shell.active }}>
+      <span class="nav__index num">{{ loop.index }}</span>
+      <span>{{ item.label }}</span>
+      {% if item.badge %}<span class="nav__badge num" aria-label="{{ item.badge }} pending">{{ item.badge }}</span>{% endif %}
+    </a>
+    {% endfor %}
+  </nav>
+
+  {% if shell.departure %}
+  {% set d = shell.departure %}
+  <a class="departure" href="{{ d.expert.href }}">
+    <span class="t-caps">Expert departure</span>
+    <span class="departure__days num">{{ d.days_remaining }}<small>days</small></span>
+    <span class="t-sm t-muted">{{ d.expert.name }} · {{ d.departure_date.strftime('%-d %b %Y') }}</span>
+  </a>
+  {% endif %}
+</aside>

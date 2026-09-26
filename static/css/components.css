@@ -1,0 +1,72 @@
+/* RELAY components (F1/F2). One block per macro. Colors only via tokens. */
+
+/* ════════════════════════ charts (templates/macros/charts.html) ════════════════════════ */
+
+.chart-empty { color: var(--text-tertiary); font-size: var(--fs-sm); }
+
+/* bar */
+.chart-bar { display: grid; grid-template-columns: 1fr 3.5rem; align-items: center; gap: var(--s-3); }
+.chart-bar--labeled { grid-template-columns: minmax(8rem, 14rem) 1fr 3.5rem; }
+.chart-bar__label { color: var(--text-secondary); font-size: var(--fs-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chart-bar__track { display: block; width: 100%; height: 6px; border-radius: var(--radius-sm); overflow: hidden; }
+.chart-bar__bg { fill: var(--track); }
+.chart-bar__fill { transition: width var(--dur) var(--ease); }
+.chart-bar__fill--formal { fill: var(--series-formal); }
+.chart-bar__fill--informal { fill: var(--series-informal); }
+.chart-bar__fill--accent { fill: var(--accent); }
+.chart-bar__value { text-align: right; font-size: var(--fs-sm); color: var(--text-primary); font-variant-numeric: tabular-nums; }
+
+/* dual bar (formal / informal) */
+.chart-dual { display: grid; grid-template-columns: 4.5rem 1fr 3rem; align-items: center; column-gap: var(--s-2); row-gap: var(--s-1); }
+.chart-dual__title { grid-column: 1 / -1; color: var(--text-primary); font-size: var(--fs-sm); }
+.chart-dual__series { color: var(--text-tertiary); font-size: var(--fs-xs); }
+.chart-dual .chart-bar__value { font-size: var(--fs-xs); color: var(--text-secondary); }
+
+/* propagation tree */
+.chart-tree { margin: 0; display: grid; gap: var(--s-3); }
+.chart-tree__svg { display: block; width: 100%; height: auto; margin-inline: auto; font-family: var(--font-sans); }
+.chart-tree__edge { fill: none; stroke-width: 1.5; }
+.chart-tree__edge--demonstrated { stroke: var(--accent); }
+.chart-tree__edge--in_progress { stroke: var(--accent); stroke-dasharray: 5 4; }
+.chart-tree__edge--planned { stroke: var(--text-tertiary); stroke-dasharray: 2 4; }
+.chart-tree__arrow--accent { fill: var(--accent); }
+.chart-tree__arrow--muted { fill: var(--text-tertiary); }
+.chart-tree__node { fill: var(--elevated); stroke: var(--hairline-strong); }
+.chart-tree__node--origin { stroke: var(--accent); }
+.chart-tree__name { fill: var(--text-primary); font-size: var(--fs-sm); }
+.chart-tree__role { fill: var(--text-tertiary); font-size: var(--fs-xs); }
+.chart-tree__level--0 { fill: var(--level-0); }
+.chart-tree__level--1 { fill: var(--level-1); }
+.chart-tree__level--2 { fill: var(--level-2); }
+.chart-tree__level--3 { fill: var(--level-3); }
+.chart-tree__level--4 { fill: var(--level-4); }
+.chart-tree__level--5 { fill: var(--level-5); }
+.chart-tree__level--6 { fill: var(--level-6); }
+
+/* legend (shared) */
+.chart-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-4); color: var(--text-tertiary); font-size: var(--fs-xs); }
+.chart-legend__item { display: inline-flex; align-items: center; gap: var(--s-2); }
+
+/* sparkline */
+.chart-spark { margin: 0; display: grid; gap: var(--s-1); }
+.chart-spark__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-spark__line { fill: none; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.chart-spark__line--accent { stroke: var(--accent); }
+.chart-spark__line--formal { stroke: var(--series-formal); }
+.chart-spark__line--informal { stroke: var(--series-informal); }
+.chart-spark__dot--accent { fill: var(--accent); }
+.chart-spark__dot--formal { fill: var(--series-formal); }
+.chart-spark__dot--informal { fill: var(--series-informal); }
+.chart-spark__axis { display: flex; justify-content: space-between; color: var(--text-tertiary); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+
+/* ════════════════════════ toast (relay.js) ════════════════════════ */
+.toast {
+  max-width: 360px;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--hairline-strong);
+  border-left: 3px solid var(--status-critical);
+  border-radius: var(--radius);
+  background: var(--elevated);
+  font-size: var(--fs-md);
+  animation: slide-in var(--dur) var(--ease);
+}

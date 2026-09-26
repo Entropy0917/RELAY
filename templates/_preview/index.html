@@ -1,6 +1,7 @@
 {% extends "_preview/_frame.html" %}
 {% block body %}
 <h1>RELAY · preview harness</h1>
+<p><a href="{{ url_for('preview.shell') }}">App shell</a> · <a href="{{ url_for('preview.shell', variant='pm') }}">App shell (program manager)</a></p>
 <table>
   <tr><th>Fixture</th><th>Variant</th><th>Template</th></tr>
   {% for name, variant in fixtures %}
