@@ -58,7 +58,7 @@ DEFAULT_WEIGHTS = ReadinessWeights()
 
 def resolve_weights(
     snapshot_weights: ReadinessWeights | None,
-    override: ReadinessWeights | None,
+    override: ReadinessWeights | None = None,
 ) -> tuple[ReadinessWeights, str]:
     """Pick the weight set and say where it came from.
 
