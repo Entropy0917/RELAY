@@ -269,7 +269,7 @@
 
 {#- One Knowledge Library item. `k` is a KnowledgeCard. compact=True for side lists. -#}
 {% macro knowledge_card(k, compact=False) -%}
-<article class="card knowledge-card{{ ' knowledge-card--compact' if compact }}" id="k-{{ k.id }}">
+<article class="card knowledge-card{{ ' knowledge-card--compact' if compact }}" id="{{ k.id }}">
   <div class="card__head">
     <span class="tag">{{ k.type_label }}</span>
     {% if k.validated %}{{ provenance(k.expert) }}{% else %}<span class="tag tag--accent">Pending validation</span>{% endif %}
