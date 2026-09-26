@@ -1,0 +1,9 @@
+{#- Shared frame for every session stage page. Children fill `stage`. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% import "macros/session.html" as s %}
+{% block title %}{{ session.title }}{% endblock %}
+{% block crumbs %}<a class="t-faint" href="/sessions">Sessions</a> / {{ session.title }}{% endblock %}
+{% block page_class %} page--session{% endblock %}
+{% block header %}{{ s.session_header(session) }}{% endblock %}
+{% block content %}{% block stage %}{% endblock %}{% endblock %}

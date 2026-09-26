@@ -1,0 +1,3 @@
+{#- Partial: FindingCardVM. Returned by finding_action / finding_edit_form; swaps #finding-<id>. -#}
+{% import "macros/session.html" as s %}
+{{ s.finding_card(finding, session_id, can_validate, editing=editing) }}

@@ -1,0 +1,22 @@
+{% extends "pages/session/_layout.html" %}
+{% block stage %}
+<form class="stack" hx-post="{{ submit_href }}" hx-disabled-elt="find button[type=submit]">
+  {% call ui.panel('Capture the work', subtitle='Paste the transcript or write session notes. RELAY drafts the debrief questions from it.') %}
+  <label class="field">
+    <span class="cluster"><span class="t-caps">Transcript</span>
+      {% if sample_transcript %}<button type="button" class="btn btn--ghost" data-fill="#transcript" data-fill-from="#sample-transcript">{{ sample_transcript_label or 'Load sample transcript' }}</button>{% endif %}
+    </span>
+    <textarea id="transcript" name="transcript" rows="16" class="t-mono" placeholder="[06:40] Expert: …">{{ transcript }}</textarea>
+  </label>
+  <label class="field">
+    <span class="t-caps">Session notes</span>
+    <textarea name="notes" rows="4" placeholder="What happened, what the learner did, anything the transcript misses.">{{ notes }}</textarea>
+  </label>
+  {% endcall %}
+  {% if sample_transcript %}<template id="sample-transcript">{{ sample_transcript }}</template>{% endif %}
+  <div class="stage-actions">
+    <span class="htmx-indicator t-faint t-sm">Drafting debrief questions…</span>
+    <button class="btn btn--primary" type="submit">Generate expert debrief →</button>
+  </div>
+</form>
+{% endblock %}

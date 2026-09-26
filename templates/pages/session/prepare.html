@@ -1,0 +1,9 @@
+{% extends "pages/session/_layout.html" %}
+{% block stage %}
+{% if ai_error %}{{ ui.error_state(ai_error) }}{% endif %}
+{% if brief %}{{ s.brief(brief) }}{% endif %}
+<div class="stage-actions">
+  <span class="t-faint t-sm">Read it in 30 seconds, then go do the work.</span>
+  {{ ui.link_button('Start capture →', start_href, 'primary') }}
+</div>
+{% endblock %}

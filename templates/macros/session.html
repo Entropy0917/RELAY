@@ -1,0 +1,221 @@
+{#- macros/session.html — Transfer Session loop components (F4).
+
+    Import:  {% import "macros/session.html" as s %}
+    Context-free: every macro takes contract objects. `vocab` is a Jinja global.
+-#}
+{% import "macros/ui.html" as ui %}
+
+{#- The 7-stage loop stepper. steps: list[StageStep]. -#}
+{% macro stage_stepper(steps) -%}
+<ol class="stepper" aria-label="Session stages">
+  {%- for st in steps %}
+  {%- set stage = vocab.SessionStage(st.stage) %}
+  <li class="stepper__step stepper__step--{{ st.state }}">
+    {%- if st.href and st.state != 'current' %}<a href="{{ st.href }}">{% else %}<span{{ ' aria-current="step"'|safe if st.state == 'current' }}>{% endif %}
+      <span class="stepper__dot num" aria-hidden="true">{% if st.state == 'done' %}✓{% else %}{{ loop.index }}{% endif %}</span>
+      <span class="stepper__label">{{ stage.label }}</span>
+    {%- if st.href and st.state != 'current' %}</a>{% else %}</span>{% endif %}
+  </li>
+  {%- endfor %}
+</ol>
+{%- endmacro %}
+
+{#- Session header: title, situation, expert → learner, focus, stepper. `h` is a SessionHeader. -#}
+{% macro session_header(h) -%}
+<header class="session-head">
+  <div class="session-head__top">
+    <div class="stack stack--sm">
+      <div class="cluster"><span class="t-caps">Transfer session</span><time class="t-faint t-sm num" datetime="{{ h.held_on }}">{{ h.held_on.strftime('%a %-d %b %Y') }}</time></div>
+      <h1 class="session-head__title">{{ h.title }}</h1>
+      <p class="t-muted t-md">{{ h.context }}</p>
+    </div>
+    <dl class="session-head__who">
+      <div><dt class="t-caps">Expert</dt><dd>{{ ui.person(h.expert, show_title=True) }}</dd></div>
+      <div><dt class="t-caps">Learner</dt><dd>{{ ui.person(h.learner, show_title=True) }}</dd></div>
+      <div><dt class="t-caps">Focus</dt><dd class="t-md">{{ h.focus.name }}</dd></div>
+    </dl>
+  </div>
+  {{ stage_stepper(h.steps) }}
+</header>
+{%- endmacro %}
+
+{#- The 30-second Session Brief. `b` is a SessionBrief. -#}
+{% macro brief(b, id='brief') -%}
+<section class="brief" id="{{ id }}" aria-labelledby="{{ id }}-h">
+  <header class="brief__head">
+    <div class="stack stack--sm">
+      <div class="cluster"><h2 class="t-caps brief__heading" id="{{ id }}-h">{{ b.heading }}</h2>{{ ui.provenance() }}</div>
+      <div class="brief__target">{{ b.primary_target.name }}</div>
+      <div class="cluster t-sm t-muted"><span>Current level</span>{{ ui.capability_chip(b.current_level) }}</div>
+    </div>
+    <span class="t-faint t-sm">30-second brief</span>
+  </header>
+
+  <div class="brief__objective">
+    <div class="t-caps">Today's objective</div>
+    <p>{{ b.todays_objective }}</p>
+  </div>
+
+  <div class="brief__grid">
+    <div class="brief__block">
+      <div class="t-caps">Your role as expert</div>
+      <p>{{ b.your_role }}</p>
+    </div>
+    {%- if b.let_learner_lead %}
+    <div class="brief__block brief__block--lead">
+      <div class="t-caps">Let the learner lead</div>
+      <p>{{ b.let_learner_lead }}</p>
+    </div>
+    {%- endif %}
+    <div class="brief__block">
+      <div class="t-caps">Ask before explaining</div>
+      <ol class="brief__asks">{% for q in b.ask_before_explaining %}<li>{{ q }}</li>{% endfor %}</ol>
+    </div>
+    <div class="brief__block">
+      <div class="t-caps">Watch for</div>
+      <ul class="checklist">
+        {%- for w in b.watch_for %}
+        <li><label><input type="checkbox"><span>{{ w }}</span></label></li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+
+  {%- if b.knowledge_gap_to_explore or b.expose_if_possible or b.coaching_suggestion %}
+  <div class="brief__extras">
+    {%- if b.knowledge_gap_to_explore %}<div><div class="t-caps">Knowledge gap to explore</div><p>{{ b.knowledge_gap_to_explore }}</p></div>{% endif %}
+    {%- if b.expose_if_possible %}<div><div class="t-caps">Expose if possible</div><p>{{ b.expose_if_possible.name }}</p></div>{% endif %}
+    {%- if b.coaching_suggestion %}<div><div class="t-caps">Coaching suggestion</div><p>{{ b.coaching_suggestion }}</p></div>{% endif %}
+  </div>
+  {%- endif %}
+
+  {{ ui.rationale(b.rationale) }}
+</section>
+{%- endmacro %}
+
+{#- ───────────────────────── findings ───────────────────────── -#}
+
+{% set _ACTION = {
+  'approve': ('Approve', 'approve'),
+  'edit': ('Edit', 'secondary'),
+  'reject': ('Reject', 'ghost'),
+  'not-yet': ('Not yet', 'ghost'),
+} %}
+
+{% macro _status(f) -%}
+{%- if f.status in ('approved', 'edited') -%}
+  {{ ui.provenance(f.validated_by, validated_at=f.validated_at) if f.validated_by else '' }}{% if f.status == 'edited' %}<span class="tag">Edited</span>{% endif %}
+{%- elif f.status == 'rejected' -%}<span class="tag">Rejected</span>
+{%- elif f.status == 'not_yet' -%}<span class="tag">Not yet · level unchanged</span>
+{%- else -%}<span class="tag tag--accent">Pending expert validation</span>
+{%- endif -%}
+{%- endmacro %}
+
+{% macro _body(f) -%}
+{%- if f.kind == 'capability_evidence' %}
+  <div class="finding__subject">
+    {{ ui.person(f.person, show_title=True) }}
+    <span class="finding__cap">{{ f.capability.name }}</span>
+  </div>
+  <div class="finding__levels">
+    <div><div class="t-caps">Current level</div>{{ ui.capability_chip(f.current_level) }}</div>
+    <span class="finding__arrow" aria-hidden="true">→</span>
+    <div><div class="t-caps">Suggested level</div>{{ ui.capability_chip(f.suggested_level, changed=f.status in ('approved', 'edited')) }}</div>
+  </div>
+  <div><div class="t-caps">Evidence</div><ul class="bullets">{% for e in f.evidence %}<li>{{ e }}</li>{% endfor %}</ul></div>
+
+{%- elif f.kind == 'tacit_knowledge' %}
+  <div class="gap-banner">FORMAL / INFORMAL KNOWLEDGE GAP DETECTED</div>
+  <div class="compare">
+    <div class="compare__col"><div class="t-caps">Formal knowledge</div><p class="compare__rule">{{ f.formal_rule }}</p></div>
+    <div class="compare__col compare__col--practice"><div class="t-caps">Expert practice</div><ul class="bullets">{% for p in f.expert_practice %}<li>{{ p }}</li>{% endfor %}</ul></div>
+  </div>
+  {%- set k = f.proposed_record %}
+  <div class="record">
+    <div class="cluster"><span class="t-caps">Suggested knowledge record</span><span class="tag">{{ vocab.KnowledgeType(k.type).label }}</span>{% if k.area %}<span class="tag">{{ k.area.name }}</span>{% endif %}</div>
+    <div class="record__title">{{ k.title }}</div>
+    {{ ui.facts([('Situation', k.situation), ('Recommended response', k.recommended_response), ('Why it matters', k.why_it_matters), ('Expert', k.expert.name if k.expert else '—')], cols=2) }}
+  </div>
+
+{%- elif f.kind == 'remaining_gap' %}
+  <div class="finding__subject">{{ ui.person(f.person, show_title=True) }}<span class="finding__cap">{{ f.capability.name }}</span></div>
+  <div class="compare">
+    <div class="compare__col"><div class="t-caps">Understanding</div><ul class="glyph-list">{% for u in f.understanding %}<li>{{ ui.transfer_glyph('complete', u) }}</li>{% endfor %}</ul></div>
+    <div class="compare__col"><div class="t-caps">Not yet demonstrated</div><ul class="glyph-list">{% for u in f.not_demonstrated %}<li>{{ ui.transfer_glyph('none', u) }}</li>{% endfor %}</ul></div>
+  </div>
+  <div class="callout">{{ f.instruction }}</div>
+
+{%- elif f.kind == 'next_activity' %}
+  <div class="finding__subject"><span class="t-caps">Next transfer objective</span><span class="finding__cap">{{ f.objective.name }}</span></div>
+  <div><div class="t-caps">Recommended experience</div><p class="t-md">{{ f.recommended_experience }}</p></div>
+  <div><div class="t-caps">Learner responsibilities</div><ol class="numbered">{% for r in f.responsibilities %}<li>{{ r }}</li>{% endfor %}</ol></div>
+  {%- if f.target_date or f.backup_experience %}
+  {{ ui.facts([('Target date', f.target_date.strftime('%-d %b %Y') if f.target_date else '—'), ('Backup experience', f.backup_experience or '—')], cols=2) }}
+  {%- endif %}
+{%- endif %}
+{%- endmacro %}
+
+{#- Edit form fields per finding kind. -#}
+{% macro _edit_fields(f) -%}
+{%- if f.kind == 'capability_evidence' %}
+  <label class="field"><span class="t-caps">Suggested level</span>
+    <select name="suggested_level">{% for l in vocab.CapabilityLevel %}<option value="{{ l.value }}"{{ ' selected' if l.value == f.suggested_level }}>{{ l.value }} · {{ l.label }}</option>{% endfor %}</select></label>
+{%- elif f.kind == 'tacit_knowledge' %}
+  <label class="field"><span class="t-caps">Record title</span><input name="title" value="{{ f.proposed_record.title }}"></label>
+  <label class="field"><span class="t-caps">Recommended response</span><textarea name="recommended_response" rows="3">{{ f.proposed_record.recommended_response }}</textarea></label>
+{%- elif f.kind == 'next_activity' %}
+  <label class="field"><span class="t-caps">Recommended experience</span><textarea name="recommended_experience" rows="3">{{ f.recommended_experience }}</textarea></label>
+{%- elif f.kind == 'remaining_gap' %}
+  <label class="field"><span class="t-caps">Instruction</span><input name="instruction" value="{{ f.instruction }}"></label>
+{%- endif %}
+  <label class="field"><span class="t-caps">Reviewer note</span><textarea name="reviewer_note" rows="2" placeholder="What did you change, and why?">{{ f.reviewer_note or '' }}</textarea></label>
+{%- endmacro %}
+
+{#- One synthesis finding with its validation controls. The card is its own HTMX swap target. -#}
+{% macro finding_card(f, session_id, can_validate, editing=False, expert_name=None) -%}
+{%- set kind = vocab.FindingKind(f.kind) %}
+{%- set fid = 'finding-' ~ f.id %}
+<article class="finding finding--{{ f.kind|replace('_', '-') }} finding--{{ f.status|replace('_', '-') }}" id="{{ fid }}" aria-labelledby="{{ fid }}-t">
+  <header class="finding__head">
+    <div class="stack stack--sm">
+      <div class="cluster"><span class="finding__kind">{{ kind.label }}</span>{{ ui.provenance(ai_label=f.ai_label) }}<span class="confidence confidence--{{ f.confidence }}">Confidence: {{ f.confidence|title }}</span></div>
+      <h3 class="finding__title" id="{{ fid }}-t">{{ f.title }}</h3>
+    </div>
+    <div class="finding__status">{{ _status(f) }}</div>
+  </header>
+
+  <div class="finding__body">{{ _body(f) }}</div>
+
+  <div class="finding__sources cluster"><span class="t-caps">Evidence sources</span>{% for s in f.evidence_sources %}<span class="tag">{{ s }}</span>{% endfor %}</div>
+  {{ ui.rationale(f.rationale) }}
+  {%- if f.reviewer_note and not editing %}<div class="finding__note"><span class="t-caps">Reviewer note</span><p>{{ f.reviewer_note }}</p></div>{% endif %}
+
+  {%- if editing and can_validate %}
+  <form class="finding__edit" hx-post="{{ f.action_href }}/edit" hx-target="#{{ fid }}" hx-swap="outerHTML">
+    {{ _edit_fields(f) }}
+    <div class="cluster">
+      <button class="btn btn--primary" type="submit">Save &amp; validate</button>
+      <button class="btn btn--ghost" type="button" hx-get="{{ request.full_path }}" hx-select="#{{ fid }}" hx-target="#{{ fid }}" hx-swap="outerHTML">Cancel</button>
+    </div>
+  </form>
+  {%- elif f.actions %}
+  <footer class="finding__actions">
+    {%- if can_validate %}
+      {%- for a in f.actions %}
+      {%- set label, style = _ACTION[a] %}
+      {%- if a == 'edit' %}
+      <button class="btn btn--{{ style }}" hx-get="{{ f.action_href }}/edit" hx-target="#{{ fid }}" hx-swap="outerHTML">{{ label }}</button>
+      {%- else %}
+      <button class="btn btn--{{ style }}" hx-post="{{ f.action_href }}/{{ a }}" hx-target="#{{ fid }}" hx-swap="outerHTML" hx-disabled-elt="closest .finding__actions button">
+        {{- 'Approve & add to knowledge' if a == 'approve' and f.kind == 'tacit_knowledge' else label -}}
+      </button>
+      {%- endif %}
+      {%- endfor %}
+      <span class="htmx-indicator t-faint t-sm">Saving…</span>
+    {%- else %}
+      <p class="t-faint t-sm">Only the expert{{ ' (' ~ expert_name ~ ')' if expert_name }} can validate findings. Switch persona to review.</p>
+    {%- endif %}
+  </footer>
+  {%- endif %}
+</article>
+{%- endmacro %}

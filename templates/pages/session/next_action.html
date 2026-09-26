@@ -1,0 +1,26 @@
+{% extends "pages/session/_layout.html" %}
+{% block stage %}
+{% call ui.panel('What changed', subtitle='Validated in this session. Every change is traceable to its evidence.', tone='accent', flush=True) %}
+<ul class="rows">
+  {% for c in changes %}
+  <li><a class="rows__item change" href="{{ c.href }}">
+    <span class="tag change__surface">{{ c.surface }}</span>
+    <span class="rows__main"><span class="rows__title">{{ c.label }}</span>
+      <span class="change__diff"><span class="change__before">{{ c.before }}</span><span class="change__arrow" aria-label="became">→</span><span class="change__after">{{ c.after }}</span></span></span>
+    <span class="t-faint" aria-hidden="true">↗</span>
+  </a></li>
+  {% endfor %}
+</ul>
+{% endcall %}
+{% if ai_error %}{{ ui.error_state(ai_error) }}{% endif %}
+{% if next_brief %}
+<div class="stack stack--sm">
+  <span class="t-caps">Next session brief · generated from this session's validated findings</span>
+  {{ s.brief(next_brief, id='next-brief') }}
+</div>
+<form class="stage-actions" hx-post="{{ schedule_href }}">
+  <span class="t-faint t-sm">The loop continues: plan → work → reflect → capture → validate → practice → reassess.</span>
+  <button class="btn btn--primary" type="submit">Schedule next session →</button>
+</form>
+{% endif %}
+{% endblock %}

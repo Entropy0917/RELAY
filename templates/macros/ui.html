@@ -247,3 +247,33 @@
   {%- endfor %}
 </nav>
 {%- endmacro %}
+
+{#- ───────────────────────── evidence ───────────────────────── -#}
+
+{#- One append-only capability evidence record. `e` is an EvidenceItem. -#}
+{% macro evidence_item(e, show_capability=True) -%}
+<article class="evidence{{ ' evidence--rejected' if e.validation_status == 'rejected' }}">
+  <div class="evidence__rail" aria-hidden="true"></div>
+  <div class="evidence__body">
+    <header class="cluster">
+      <span class="tag">{{ vocab.EvidenceType(e.evidence_type).label }}</span>
+      {%- if show_capability %}<span class="evidence__cap">{{ e.capability.name }}</span>{% endif %}
+      <time class="t-faint t-sm num" datetime="{{ e.recorded_on }}">{{ e.recorded_on.strftime('%-d %b %Y') }}</time>
+    </header>
+    <p class="evidence__desc">{{ e.description }}</p>
+    {%- if e.level_before is not none and e.level_after is not none and e.level_before != e.level_after %}
+    <div>{{ level_change(e.level_before, e.level_after) }}</div>
+    {%- endif %}
+    {%- if e.ai_interpretation %}
+    <div class="evidence__ai">{{ provenance(ai_label='AI INTERPRETATION') }}<span>{{ e.ai_interpretation }}</span></div>
+    {%- endif %}
+    <footer class="cluster t-sm">
+      {%- if e.validation_status == 'validated' and e.validated_by %}{{ provenance(e.validated_by) }}
+      {%- elif e.validation_status == 'rejected' %}<span class="tag">Not accepted</span>
+      {%- else %}<span class="tag tag--accent">{{ vocab.ValidationStatus(e.validation_status).label }}</span>{% endif %}
+      {%- if e.source %}<a class="t-muted evidence__src" href="{{ e.source.href }}">{{ e.source.label }} ↗</a>{% endif %}
+    </footer>
+    {%- if e.resulting_recommendation %}<p class="t-sm t-muted">{{ e.resulting_recommendation }}</p>{% endif %}
+  </div>
+</article>
+{%- endmacro %}

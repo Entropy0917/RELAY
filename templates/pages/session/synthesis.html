@@ -1,0 +1,22 @@
+{% extends "pages/session/_layout.html" %}
+{% block stage %}
+{% if ai_error %}{{ ui.error_state(ai_error) }}{% endif %}
+{% if findings %}
+{% set pending = findings|selectattr('status', 'equalto', 'pending')|list %}
+<div class="synthesis-bar">
+  <div class="stack stack--sm">
+    <span class="t-caps">AI synthesis · {{ findings|length }} findings</span>
+    <div class="cluster t-sm t-muted"><span>Built from</span>{% for i in inputs_used %}<span class="tag">{{ i }}</span>{% endfor %}</div>
+  </div>
+  <div class="synthesis-bar__count"><span class="num">{{ findings|length - pending|length }}</span><span class="t-faint"> / {{ findings|length }} validated</span></div>
+</div>
+<p class="t-sm t-muted">RELAY suggests. Nothing changes a capability level or the Knowledge Library until {{ session.expert.name }} approves it.</p>
+<div class="stack">
+  {% for f in findings %}{{ s.finding_card(f, session.id, can_validate, expert_name=session.expert.name) }}{% endfor %}
+</div>
+<form class="stage-actions" hx-post="{{ complete_href }}">
+  <span class="t-faint t-sm">{{ pending|length ~ ' finding' ~ ('s' if pending|length != 1) ~ ' still pending.' if pending else 'All findings reviewed.' }}</span>
+  <button class="btn btn--primary" type="submit"{{ ' disabled' if pending or not can_validate }}>Complete validation →</button>
+</form>
+{% endif %}
+{% endblock %}

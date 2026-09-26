@@ -1,0 +1,43 @@
+{% extends "pages/session/_layout.html" %}
+{% block stage %}
+{% set is_expert = role == 'expert' %}
+{% if ai_error %}{{ ui.error_state(ai_error) }}{% endif %}
+
+{% if not allowed %}
+<div class="gate">
+  <div class="stack stack--sm">
+    <span class="t-caps">{{ 'Expert' if is_expert else 'Learner' }} debrief</span>
+    <h2 class="t-lg">This debrief belongs to {{ respondent.name }}</h2>
+    <p class="t-muted t-md">{{ 'The expert reflects on what they noticed.' if is_expert else "The learner answers separately, so RELAY tests their understanding rather than the expert's." }} Switch persona to continue.</p>
+  </div>
+  {% if switch_to_persona_id %}
+  <form hx-post="{{ shell.persona_switch_href }}">
+    <input type="hidden" name="persona_id" value="{{ switch_to_persona_id }}">
+    <button class="btn btn--primary" type="submit"><span class="avatar" aria-hidden="true">{{ respondent.initials }}</span>Continue as {{ respondent.name }}</button>
+  </form>
+  {% endif %}
+</div>
+{% else %}
+<form class="stack" hx-post="{{ submit_href }}" hx-disabled-elt="find button[type=submit]">
+  {% call ui.panel(('Expert' if is_expert else 'Learner') ~ ' debrief', subtitle=('1–3 questions drawn from this session. About two minutes.' if is_expert else 'Tests understanding, not satisfaction. Answer in your own words.')) %}
+  <div class="cluster">{{ ui.person(respondent, show_title=True, link=False) }}{{ ui.provenance(ai_label='AI-GENERATED QUESTIONS') }}</div>
+  <ol class="questions">
+    {% for q in questions %}
+    <li class="question">
+      <label class="field">
+        <span class="question__prompt"><span class="rank">{{ loop.index }}</span>{{ q.prompt }}</span>
+        <span class="question__why">{{ q.rationale }}</span>
+        <textarea name="answer_{{ q.id }}" rows="4" placeholder="Your answer">{{ q.answer or '' }}</textarea>
+      </label>
+      {% if q.tags %}<div class="cluster">{% for t in q.tags %}<span class="result-tag result-tag--{{ t|replace('_', '-') }}">{{ t|replace('_', ' ')|upper }}</span>{% endfor %}</div>{% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% endcall %}
+  <div class="stage-actions">
+    <span class="htmx-indicator t-faint t-sm">{{ 'Saving…' if is_expert else 'Synthesizing the session…' }}</span>
+    <button class="btn btn--primary" type="submit">{{ 'Submit · continue to learner debrief →' if is_expert else 'Submit · synthesize session →' }}</button>
+  </div>
+</form>
+{% endif %}
+{% endblock %}
