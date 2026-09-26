@@ -1,0 +1,14 @@
+{
+  "questions": [
+    {
+      "question": "The interval rule said the window was fine. Why was it still a concern?",
+      "grounded_in": "The learner accepted the override without explaining it.",
+      "looking_for": "Whether they reconstruct the reasoning or only recall the conclusion."
+    },
+    {
+      "question": "What would you do if the neighbouring feeder could not take the load?",
+      "grounded_in": "The option the expert chose was available this time.",
+      "looking_for": "Whether their understanding extends past the case seen."
+    }
+  ]
+}

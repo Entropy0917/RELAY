@@ -1,0 +1,14 @@
+{
+  "questions": [
+    {
+      "question": "You moved the window a week earlier than the schedule rule allows. What made this case different?",
+      "grounded_in": "The expert overrode the standing maintenance interval during the session.",
+      "looking_for": "The conditions that make the written interval unreliable -- the judgment nobody has written down."
+    },
+    {
+      "question": "Was there anything you noticed that the learner did not?",
+      "grounded_in": "The learner did not mention the age of the last reading.",
+      "looking_for": "Signals an experienced reader treats as decisive."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "area": "Substation Maintenance Planning",
+  "requirements": [
+    {
+      "kind": "formal",
+      "label": "Maintenance interval standard",
+      "description": "Can state the standing interval and where it is published.",
+      "state": "complete",
+      "evidence": "Cited the interval correctly without prompting.",
+      "risk_if_untransferred": "Windows scheduled against the wrong standard."
+    },
+    {
+      "kind": "judgment",
+      "label": "Overriding the standing interval",
+      "description": "Can decide, unsupervised, when trend conditions make the interval unsafe.",
+      "state": "partial",
+      "evidence": "Reasoned it out once, with the expert present.",
+      "risk_if_untransferred": "Maintenance follows the calendar into the high-demand season."
+    },
+    {
+      "kind": "relationship",
+      "label": "Regional operator escalation",
+      "description": "Known to the operator well enough to negotiate a window by phone.",
+      "state": "none",
+      "evidence": "Every contact in the material went through the expert.",
+      "risk_if_untransferred": "Windows that need negotiation simply do not happen."
+    }
+  ]
+}

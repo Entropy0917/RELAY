@@ -1,0 +1,29 @@
+{
+  "findings": [
+    {
+      "person": "M. Dahl",
+      "capability": "Load Trend Interpretation",
+      "current_level": 3,
+      "suggested_level": 4,
+      "evidence": "Stated the trend-driven override unprompted and justified it against the written interval.",
+      "evidence_sources": [
+        "Session transcript",
+        "Learner debrief"
+      ],
+      "confidence": "medium",
+      "counter_evidence": "Only one instance, and the expert was present throughout."
+    },
+    {
+      "person": "P. Okafor",
+      "capability": "Load Trend Interpretation",
+      "current_level": 1,
+      "suggested_level": 1,
+      "evidence": "Present for the discussion; contributed no reasoning of their own.",
+      "evidence_sources": [
+        "Session transcript"
+      ],
+      "confidence": "high",
+      "counter_evidence": ""
+    }
+  ]
+}
