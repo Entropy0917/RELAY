@@ -1,0 +1,24 @@
+{
+  "finding": {
+    "id": "f-1",
+    "kind": "capability_evidence",
+    "title": "Evidence for Brine Discharge Judgment",
+    "body": {
+      "person": "Yusuf Haddad",
+      "capability": "Brine Discharge Judgment",
+      "evidence": "Identified that nominal cover overstated real cover because consumption was climbing, and named four converging signals.",
+      "current_level": 3,
+      "suggested_level": 4
+    },
+    "confidence": "high",
+    "evidence_sources": [
+      "Transcript 04:12-06:40",
+      "Learner debrief Q2"
+    ],
+    "rationale": "The reasoning was volunteered before the expert explained it, which distinguishes independent judgment from recall.",
+    "impact": "Plant Operations -- Decision Rights",
+    "risk_if_untransferred": "Discharge timing decisions would escalate to the regional office, adding days to each cycle.",
+    "validated_by": "Dr. Elena Vasquez",
+    "validation_action": "approve"
+  }
+}

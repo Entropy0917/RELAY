@@ -1,0 +1,136 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": true
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "experts": [
+    {
+      "id": "p-expert",
+      "name": "Dr. Elena Vasquez",
+      "title": "Lead Process Engineer",
+      "role": "expert",
+      "initials": "EV"
+    }
+  ],
+  "counterparts": [
+    {
+      "id": "p-yusuf",
+      "name": "Yusuf Haddad",
+      "title": "Plant Operations Officer",
+      "role": "counterpart",
+      "initials": "YH"
+    },
+    {
+      "id": "p-nadia",
+      "name": "Nadia Karim",
+      "title": "Water Quality Analyst",
+      "role": "counterpart",
+      "initials": "NK"
+    },
+    {
+      "id": "p-omar",
+      "name": "Omar Salim",
+      "title": "Shift Supervisor",
+      "role": "counterpart",
+      "initials": "OS"
+    }
+  ],
+  "trainers": [
+    {
+      "id": "p-omar",
+      "name": "Omar Salim",
+      "title": "Shift Supervisor",
+      "role": "counterpart",
+      "initials": "OS"
+    }
+  ]
+}

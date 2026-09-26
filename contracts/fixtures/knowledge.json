@@ -1,0 +1,166 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": true
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": false
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "items": [
+    {
+      "id": "k-1",
+      "title": "Why a static cover threshold fails in rising demand",
+      "type": "heuristic",
+      "type_label": "Heuristics",
+      "area": "Chemical Supply Chain",
+      "capability": "Brine Discharge Judgment",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-1",
+      "validated": true,
+      "people_exposed": [
+        "Yusuf Haddad",
+        "Omar Salim"
+      ],
+      "summary": "Static cover thresholds assume a flat consumption rate. When consumption is climbing, nominal cover overstates real cover."
+    },
+    {
+      "id": "k-2",
+      "title": "Membrane differential-pressure signature before fouling",
+      "type": "expert_insight",
+      "type_label": "Expert Insights",
+      "area": "Membrane Maintenance",
+      "capability": "Membrane Fouling Diagnosis",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-2",
+      "validated": true,
+      "people_exposed": [
+        "Yusuf Haddad"
+      ],
+      "summary": "Pressure differential rises before flux drops. The gap between the two indicates the fouling mechanism."
+    },
+    {
+      "id": "k-3",
+      "title": "Standard Operating Procedure: Discharge Authorisation",
+      "type": "formal_document",
+      "type_label": "Formal Documents",
+      "area": "Plant Operations",
+      "capability": null,
+      "expert": "Dr. Elena Vasquez",
+      "source_session": null,
+      "validated": true,
+      "people_exposed": [],
+      "summary": "The written authorisation chain for discharge outside permitted windows."
+    },
+    {
+      "id": "k-4",
+      "title": "The 2025 intake blockage and what was missed",
+      "type": "lesson_learned",
+      "type_label": "Lessons Learned",
+      "area": "Emergency Response",
+      "capability": "Unplanned Outage Response",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-3",
+      "validated": false,
+      "people_exposed": [
+        "Omar Salim"
+      ],
+      "summary": "Early turbidity readings were treated as sensor drift for eleven hours."
+    }
+  ],
+  "counts_by_type": {
+    "formal_document": 1,
+    "expert_insight": 1,
+    "case": 0,
+    "heuristic": 1,
+    "exception": 0,
+    "lesson_learned": 1,
+    "relationship": 0
+  },
+  "active_filters": {}
+}

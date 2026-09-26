@@ -1,0 +1,6 @@
+{
+  "title": "AI provider unreachable",
+  "detail": "RELAY could not reach the configured model provider at http://localhost:11434. Synthesis was not run and nothing was saved. RELAY does not substitute placeholder analysis.",
+  "retry_href": "/sessions/s-1/synthesize",
+  "kind": "provider_unreachable"
+}

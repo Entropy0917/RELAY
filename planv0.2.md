@@ -265,11 +265,58 @@ Single-person serial estimate for the same scope ≈ 20h. **The two-track split 
 
 ## 7. Benchmark results
 
-*Filled during SYNC-1 spike.*
+Measured on `SessionSynthesis` — 4 heterogeneous nested findings, the hardest
+structured output in the product. If this holds, every other schema is easier.
+5 runs each. Scripts: `scripts/spike_structured_output.py` (paths A/B),
+`scripts/spike_diagnose.py` (cause isolation), `scripts/spike_decide.py` (decision).
 
-| Model | Schema | Structured-output path | Runs | Valid | p50 | p95 | Cold start | Decision |
-|---|---|---|---|---|---|---|---|---|
-| `gemma4:31b-cloud` | `SessionSynthesis` | `response_format` vs `format=` | 5 | — | — | — | — | — |
+| Model | Path | Valid | p50 | max |
+|---|---|---|---|---|
+| `gemma4:31b-cloud` | `response_format` json_schema (OpenAI-compat) | **0/5** | 3.7s | — |
+| `gemma4:31b-cloud` | `format=<schema>` (Ollama native) | **0/5** | 3.7s | — |
+| `gemma4:31b-cloud` | unconstrained + schema in the prompt | **5/5** | **3.9s** | 16.1s |
+| `gpt-oss:20b` (local) | `format=<schema>` constrained | **5/5** | 46.1s | 57.7s |
+| `qwen3.5` (local) | `format=<schema>` constrained | **5/5** | 186.9s | 207.6s |
+
+**What the failures actually were.** Not malformed JSON — markdown prose. The
+cloud model never attempted JSON, which is the signature of the constraint
+never reaching the sampler.
+
+**Root cause (confirmed on a two-field schema, so complexity is excluded):**
+Ollama's cloud routing drops constrained decoding. Both `format=<schema>` and
+`format="json"` are no-ops on cloud-routed models; the same calls bind
+correctly on local models. This is a property of the routing, not of gemma.
+
+**Decision — primary path: `gemma4:31b-cloud`, unconstrained, schema in the prompt.**
+12× faster than the nearest constrained alternative and 5/5 valid on the
+hardest schema we have. The reasoning quality is also visibly better, which
+matters because the synthesis output *is* the demo.
+
+**What we give up, and what covers it.** Prompt-obedience is not a guarantee
+the way grammar-constrained sampling is. Three things make that acceptable:
+
+1. Every response is validated against the Pydantic model on our side. An
+   unvalidated model response never reaches the database or a template.
+2. One bounded retry on schema violation, same provider, appending the
+   validation error to the prompt. This is a retry of the *same* path — not a
+   provider substitution, so it does not violate the fail-loud policy.
+3. Second failure → `ErrorPartialVM`, HTTP 502, nothing saved. Designed error
+   state, not a stack trace, and never placeholder analysis.
+
+**Offline path: `gpt-oss:20b`, constrained, selected by `RELAY_MODEL`.** If the
+venue has no network, this is one env var and it is genuinely constrained — a
+worse demo but a working one. 46s is too slow for live synthesis on stage, so
+it runs behind the `ai_cache` (§4 B2) if we need it.
+
+> ⚠️ **Not automatic.** Nothing falls back on its own. If the cloud provider is
+> unreachable, RELAY errors. Switching to the local path is a deliberate act by
+> a human with an env var.
+
+**Also settled:** the OpenAI-compatible endpoint (`/v1/chat/completions`) works
+against Ollama, so `openai` SDK + `base_url` remains the single code path for
+ollama / xAI / OpenAI. The `response_format` *field* is what the cloud route
+ignores — the endpoint itself is fine. We put the schema in the prompt and
+validate ourselves, which is provider-portable anyway.
 
 ---
 

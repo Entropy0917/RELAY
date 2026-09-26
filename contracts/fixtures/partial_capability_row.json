@@ -1,0 +1,19 @@
+{
+  "row": {
+    "capability_id": "c-brine",
+    "capability": "Brine Discharge Judgment",
+    "level": 3,
+    "level_label": "Performed with Supervision",
+    "exposures": 4,
+    "last_demonstrated": "2026-09-18",
+    "next_experience": "Lead next discharge window",
+    "trainer_ready": false
+  },
+  "person": {
+    "id": "p-yusuf",
+    "name": "Yusuf Haddad",
+    "title": "Plant Operations Officer",
+    "role": "counterpart",
+    "initials": "YH"
+  }
+}

@@ -1,0 +1,290 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": true
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": false
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "metrics": [
+    {
+      "label": "Transfer Readiness",
+      "value": "64%",
+      "caption": "6 areas assessed",
+      "delta": "+7",
+      "formula": "mean(area_readiness) weighted by area criticality",
+      "inputs": {
+        "areas_assessed": "6",
+        "critical_areas": "1",
+        "weighted_sum": "3.84"
+      }
+    },
+    {
+      "label": "Days Until Departure",
+      "value": "31 days",
+      "caption": "Handover window",
+      "delta": null,
+      "formula": "departure_date - today",
+      "inputs": {
+        "departure_date": "2026-10-27"
+      }
+    },
+    {
+      "label": "Capabilities Localized",
+      "value": "2 of 5",
+      "caption": "Level 4 or above",
+      "delta": "+1",
+      "formula": "count(level >= LEVEL_INDEPENDENT) / count(capabilities)",
+      "inputs": {
+        "threshold": "4",
+        "at_or_above": "2",
+        "total": "5"
+      }
+    },
+    {
+      "label": "Locally Teachable",
+      "value": "1 of 5",
+      "caption": "Level 6",
+      "delta": null,
+      "formula": "count(level == LEVEL_TEACHER)",
+      "inputs": {
+        "at_level_6": "1"
+      }
+    }
+  ],
+  "departing_expert": {
+    "id": "p-expert",
+    "name": "Dr. Elena Vasquez",
+    "title": "Lead Process Engineer",
+    "role": "expert",
+    "initials": "EV"
+  },
+  "days_until_departure": 31,
+  "risks": [
+    {
+      "severity": "critical",
+      "title": "Emergency Response has no local owner",
+      "problem": "Outage response judgment sits entirely with the departing expert; the highest local level is 1 (Observed).",
+      "local_trainer": null,
+      "recommended_action": "Schedule two supervised drills before departure."
+    },
+    {
+      "severity": "at_risk",
+      "title": "Supplier relationships are undocumented",
+      "problem": "Chemical procurement runs on personal relationships with two regional suppliers. Nothing is written down.",
+      "local_trainer": null,
+      "recommended_action": "Run a relationship-transfer session with joint supplier calls."
+    },
+    {
+      "severity": "in_progress",
+      "title": "Brine discharge judgment not yet independent",
+      "problem": "Learner explains the reasoning but has not led a discharge decision.",
+      "local_trainer": "Omar Salim",
+      "recommended_action": "Assign lead role on the next discharge window."
+    }
+  ],
+  "priority_actions": [
+    "Assign an owner for Emergency Response",
+    "Run a relationship-transfer session for chemical supply",
+    "Give Yusuf Haddad the lead on the next discharge window"
+  ],
+  "recent_knowledge": [
+    {
+      "id": "k-1",
+      "title": "Why a static cover threshold fails in rising demand",
+      "type": "heuristic",
+      "type_label": "Heuristics",
+      "area": "Chemical Supply Chain",
+      "capability": "Brine Discharge Judgment",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-1",
+      "validated": true,
+      "people_exposed": [
+        "Yusuf Haddad",
+        "Omar Salim"
+      ],
+      "summary": "Static cover thresholds assume a flat consumption rate. When consumption is climbing, nominal cover overstates real cover."
+    },
+    {
+      "id": "k-2",
+      "title": "Membrane differential-pressure signature before fouling",
+      "type": "expert_insight",
+      "type_label": "Expert Insights",
+      "area": "Membrane Maintenance",
+      "capability": "Membrane Fouling Diagnosis",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-2",
+      "validated": true,
+      "people_exposed": [
+        "Yusuf Haddad"
+      ],
+      "summary": "Pressure differential rises before flux drops. The gap between the two indicates the fouling mechanism."
+    },
+    {
+      "id": "k-3",
+      "title": "Standard Operating Procedure: Discharge Authorisation",
+      "type": "formal_document",
+      "type_label": "Formal Documents",
+      "area": "Plant Operations",
+      "capability": null,
+      "expert": "Dr. Elena Vasquez",
+      "source_session": null,
+      "validated": true,
+      "people_exposed": [],
+      "summary": "The written authorisation chain for discharge outside permitted windows."
+    },
+    {
+      "id": "k-4",
+      "title": "The 2025 intake blockage and what was missed",
+      "type": "lesson_learned",
+      "type_label": "Lessons Learned",
+      "area": "Emergency Response",
+      "capability": "Unplanned Outage Response",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-3",
+      "validated": false,
+      "people_exposed": [
+        "Omar Salim"
+      ],
+      "summary": "Early turbidity readings were treated as sensor drift for eleven hours."
+    }
+  ],
+  "trainer_progress": [
+    {
+      "capability_id": "c-brine",
+      "capability": "Brine Discharge Judgment",
+      "level": 3,
+      "level_label": "Performed with Supervision",
+      "exposures": 4,
+      "last_demonstrated": "2026-09-18",
+      "next_experience": "Lead next discharge window",
+      "trainer_ready": false
+    },
+    {
+      "capability_id": "c-membrane",
+      "capability": "Membrane Fouling Diagnosis",
+      "level": 5,
+      "level_label": "Demonstrated Repeatedly",
+      "exposures": 9,
+      "last_demonstrated": "2026-09-22",
+      "next_experience": "Teach-back session",
+      "trainer_ready": false
+    },
+    {
+      "capability_id": "c-chem",
+      "capability": "Chemical Dosing Adjustment",
+      "level": 6,
+      "level_label": "Can Teach Others",
+      "exposures": 12,
+      "last_demonstrated": "2026-09-24",
+      "next_experience": null,
+      "trainer_ready": true
+    },
+    {
+      "capability_id": "c-outage",
+      "capability": "Unplanned Outage Response",
+      "level": 1,
+      "level_label": "Observed",
+      "exposures": 1,
+      "last_demonstrated": "2026-08-30",
+      "next_experience": "Shadow next drill",
+      "trainer_ready": false
+    },
+    {
+      "capability_id": "c-report",
+      "capability": "Regulatory Submission",
+      "level": 4,
+      "level_label": "Performed Independently",
+      "exposures": 6,
+      "last_demonstrated": "2026-09-11",
+      "next_experience": null,
+      "trainer_ready": false
+    }
+  ]
+}
