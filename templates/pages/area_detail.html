@@ -1,0 +1,91 @@
+{#- Area detail (F3). Context: AreaDetailVM — shell, area, dimensions,
+    requirements, capabilities. A full page on direct load; fetched with
+    HX-Request it extends _drawer.html and renders into #drawer. -#}
+{% extends "base.html" if not request.headers.get('HX-Request') else "_drawer.html" %}
+{% import "macros/ui.html" as ui %}
+{% import "macros/charts.html" as charts %}
+{% block title %}{{ area.name }}{% endblock %}
+{% block crumbs %}{% for item in shell.nav if item.key == 'operating_model' %}<a href="{{ item.href }}">{{ item.label }}</a>{% endfor %} / {{ area.name }}{% endblock %}
+
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">Operating model area</span>
+    <h1>{{ area.name }}</h1>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}{{ self.detail() }}{% endblock %}
+
+{% block drawer %}
+{% call ui.drawer(area.name, eyebrow='Operating model area') %}{{ self.detail() }}{% endcall %}
+{% endblock %}
+
+{#- Shared body for the page and the drawer. -#}
+{% block detail %}
+<div class="stack stack--lg">
+  <div class="stack">
+    <div class="cluster">{{ ui.status_badge(area.status) }}</div>
+    {{ ui.facts([
+      ('Local owner', ui.person(area.local_owner, show_title=True)),
+      ('Local capability', area.local_capability),
+      ('Trainer coverage', 'Yes' if area.trainer_coverage else 'None'),
+    ], cols=3) }}
+    {{ charts.dual_bar(area.formal_pct, area.informal_pct, max=100) }}
+  </div>
+
+  {% call ui.panel('Transfer requirements', subtitle='What must move to run this area without the expert') %}
+    {% if requirements %}
+    <ul class="rows">
+      {% for r in requirements %}
+      <li class="rows__item rows__item--top">
+        <div class="rows__main">
+          {{ ui.transfer_glyph(r.state, r.label) }}
+          <span class="rows__meta">{{ r.description }}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {{ ui.empty('No transfer requirements recorded.') }}
+    {% endif %}
+  {% endcall %}
+
+  {% call ui.panel('Operating model dimensions') %}
+    <div class="grid-2">
+      {% for key, label in vocab.OM_DIMENSIONS %}
+      <div class="stack stack--sm">
+        <h3 class="t-caps">{{ label }}</h3>
+        {% set items = dimensions.get(key, []) %}
+        {% if items %}
+        <ul class="bullets">{% for i in items %}<li>{{ i }}</li>{% endfor %}</ul>
+        {% else %}
+        <p class="t-faint t-sm">None recorded</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  {% endcall %}
+
+  {% call ui.panel('Local capability') %}
+    {% if capabilities %}
+    <ul class="rows">
+      {% for c in capabilities %}
+      <li class="rows__item">
+        <div class="rows__main">
+          <span class="rows__title">{{ c.capability }}</span>
+          {% if c.next_experience %}<span class="rows__meta">Next: {{ c.next_experience }}</span>{% endif %}
+        </div>
+        {{ ui.capability_chip(c.level) }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {{ ui.empty('No capabilities mapped to this area.') }}
+    {% endif %}
+  {% endcall %}
+
+  <div class="cluster">{{ ui.link_button('Open in Transfer Blueprint', href('blueprint') ~ '#' ~ area.id) }}</div>
+</div>
+{% endblock %}
