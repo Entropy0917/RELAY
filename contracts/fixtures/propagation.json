@@ -111,14 +111,7 @@
     },
     {
       "id": "n-shift",
-      "person": {
-        "id": "grp-shift-ops",
-        "name": "Shift operators",
-        "initials": "SO",
-        "title": "Shift Operator, A–D shifts",
-        "kind": "counterpart",
-        "href": "/people"
-      },
+      "person": null,
       "level": null,
       "depth": 2,
       "group_label": "Shift operators (6)"
@@ -128,6 +121,7 @@
     {
       "source": "n-voss",
       "target": "n-rojas",
+      "state": "demonstrated",
       "label": "taught 19 Mar"
     },
     {
@@ -138,12 +132,14 @@
     {
       "source": "n-rojas",
       "target": "n-fuentes",
-      "label": "taught 12 Sep"
+      "state": "in_progress",
+      "label": "coaching since 12 Sep"
     },
     {
       "source": "n-rojas",
       "target": "n-shift",
-      "label": "briefed 16 Sep"
+      "state": "planned",
+      "label": "shift briefings from 5 Oct"
     }
   ],
   "href": "/readiness/propagation"

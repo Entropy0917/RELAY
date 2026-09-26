@@ -83,14 +83,14 @@ AREA = {a[0]: a for a in AREAS}
 
 
 def aref(aid):
-    return {"id": aid, "name": AREA[aid][1], "href": f"/operating-model/areas/{aid}"}
+    return {"id": aid, "name": AREA[aid][1], "href": f"/blueprint?area={aid}"}
 
 
 def area_card(a):
     aid, name, owner, formal, informal, capab, trainer, status, _ = a
     return {"id": aid, "name": name, "href": f"/operating-model/areas/{aid}", "local_owner": owner,
             "owner_confirmed": owner is not None, "formal_pct": formal, "informal_pct": informal,
-            "local_capability": capab, "trainer_coverage": trainer, "status": status}
+            "local_capability": capab.lower(), "trainer_coverage": trainer, "status": status}
 
 
 # ───────────────────────────── derived metrics ─────────────────────────────
@@ -425,7 +425,7 @@ PRIORITY = [
      "capability": cap("cap-turbidity"), "person": ROJAS, "ai_suggested": True},
     {"rank": 2, "text": "Schedule tabletop shutdown scenario — Rojas leads, Voss observes", "href": "/sessions",
      "capability": cap("cap-shutdown"), "person": ROJAS, "ai_suggested": True},
-    {"rank": 3, "text": "Confirm a local owner for Energy Recovery", "href": "/operating-model/areas/area-erd",
+    {"rank": 3, "text": "Confirm a local owner for Energy Recovery", "href": "/operating-model",
      "capability": cap("cap-erd"), "person": IBARRA, "ai_suggested": True},
     {"rank": 4, "text": "Introduce Rojas to the grid operator duty engineer", "href": "/knowledge#k-rel-grid",
      "capability": cap("cap-shutdown"), "person": ROJAS, "ai_suggested": True},
@@ -759,7 +759,10 @@ def cnt(pred):
     return sum(1 for i in K if pred(i))
 
 
-filters = {
+filters = [{"param": k, "label": lbl, "options": v} for (k, lbl), v in zip(
+    [("area", "Operating model area"), ("capability", "Capability"), ("expert", "Expert"),
+     ("person", "Person exposed"), ("type", "Knowledge type"), ("status", "Validation status")],
+    {
     "areas": opts([(a[0], a[1], cnt(lambda i, a=a: i["area"] and i["area"]["id"] == a[0])) for a in AREAS]),
     "capabilities": opts([(c, n, cnt(lambda i, c=c: i["capability"] and i["capability"]["id"] == c)) for c, n in CAPS.items()]),
     "experts": opts([(p["id"], p["name"], cnt(lambda i, p=p: i["expert"] and i["expert"]["id"] == p["id"])) for p in [VOSS, IBARRA]]),
@@ -767,7 +770,7 @@ filters = {
     "types": opts([(t, TYPE_LABEL[t], cnt(lambda i, t=t: i["type"] == t)) for t in TYPES]),
     "validation_statuses": opts([(s, l, cnt(lambda i, s=s: i["validation_status"] == s))
                                  for s, l in [("validated", "Validated"), ("pending", "Pending expert validation"), ("rejected", "Rejected")]]),
-}
+    }.values())]
 GROWTH_DATES = ["2026-01-31", "2026-02-28", "2026-03-31", "2026-04-30", "2026-05-31", "2026-06-30",
                 "2026-07-31", "2026-08-31", "2026-09-26"]
 growth = [{"on": d, "total": cnt(lambda i, d=d: i["captured_on"] <= d)} for d in GROWTH_DATES]
@@ -794,13 +797,13 @@ propagation = {
         {"id": "n-rojas", "person": ROJAS, "level": LEVELS["cap-fouling"]["p-rojas"], "depth": 1},
         {"id": "n-ibarra", "person": IBARRA, "level": LEVELS["cap-fouling"]["p-ibarra"], "depth": 1},
         {"id": "n-fuentes", "person": FUENTES, "level": LEVELS["cap-fouling"]["p-fuentes"], "depth": 2},
-        {"id": "n-shift", "person": SHIFT, "level": None, "depth": 2, "group_label": "Shift operators (6)"},
+        {"id": "n-shift", "person": None, "level": None, "depth": 2, "group_label": "Shift operators (6)"},
     ],
     "edges": [
-        {"source": "n-voss", "target": "n-rojas", "label": "taught 19 Mar"},
+        {"source": "n-voss", "target": "n-rojas", "state": "demonstrated", "label": "taught 19 Mar"},
         {"source": "n-voss", "target": "n-ibarra", "label": "co-diagnosed 5 Jun"},
-        {"source": "n-rojas", "target": "n-fuentes", "label": "taught 12 Sep"},
-        {"source": "n-rojas", "target": "n-shift", "label": "briefed 16 Sep"},
+        {"source": "n-rojas", "target": "n-fuentes", "state": "in_progress", "label": "coaching since 12 Sep"},
+        {"source": "n-rojas", "target": "n-shift", "state": "planned", "label": "shift briefings from 5 Oct"},
     ],
     "href": "/readiness/propagation",
 }

@@ -204,7 +204,7 @@
       "area": {
         "id": "area-intake",
         "name": "Intake & Pretreatment",
-        "href": "/operating-model/areas/area-intake"
+        "href": "/blueprint?area=area-intake"
       },
       "name": "Intake & Pretreatment",
       "status": "on_track",
@@ -374,7 +374,7 @@
       "area": {
         "id": "area-ro",
         "name": "Reverse Osmosis Operations",
-        "href": "/operating-model/areas/area-ro"
+        "href": "/blueprint?area=area-ro"
       },
       "name": "Reverse Osmosis Operations",
       "status": "sustainable",
@@ -515,7 +515,7 @@
       "area": {
         "id": "area-dosing",
         "name": "Chemical Dosing",
-        "href": "/operating-model/areas/area-dosing"
+        "href": "/blueprint?area=area-dosing"
       },
       "name": "Chemical Dosing",
       "status": "transfer_in_progress",
@@ -649,7 +649,7 @@
       "area": {
         "id": "area-erd",
         "name": "Energy Recovery",
-        "href": "/operating-model/areas/area-erd"
+        "href": "/blueprint?area=area-erd"
       },
       "name": "Energy Recovery",
       "status": "at_risk",
@@ -797,7 +797,7 @@
       "area": {
         "id": "area-maint",
         "name": "Maintenance Planning",
-        "href": "/operating-model/areas/area-maint"
+        "href": "/blueprint?area=area-maint"
       },
       "name": "Maintenance Planning",
       "status": "transfer_in_progress",
@@ -976,7 +976,7 @@
       "area": {
         "id": "area-compliance",
         "name": "Water Quality Compliance",
-        "href": "/operating-model/areas/area-compliance"
+        "href": "/blueprint?area=area-compliance"
       },
       "name": "Water Quality Compliance",
       "status": "sustainable",
@@ -1097,7 +1097,7 @@
       "area": {
         "id": "area-scada",
         "name": "SCADA & Alarm Management",
-        "href": "/operating-model/areas/area-scada"
+        "href": "/blueprint?area=area-scada"
       },
       "name": "SCADA & Alarm Management",
       "status": "transfer_in_progress",
@@ -1231,7 +1231,7 @@
       "area": {
         "id": "area-contractors",
         "name": "Contractor & Supplier Management",
-        "href": "/operating-model/areas/area-contractors"
+        "href": "/blueprint?area=area-contractors"
       },
       "name": "Contractor & Supplier Management",
       "status": "at_risk",
@@ -1344,7 +1344,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "name": "Incident Response",
       "status": "critical",

@@ -275,7 +275,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "rationale": {
         "why": "Highest consequence capability with no local above level 1 and 41 days left.",
@@ -298,7 +298,7 @@
       "area": {
         "id": "area-erd",
         "name": "Energy Recovery",
-        "href": "/operating-model/areas/area-erd"
+        "href": "/blueprint?area=area-erd"
       },
       "rationale": {
         "why": "Single holder, no owner, informal transfer at 25%.",
@@ -320,7 +320,7 @@
       "area": {
         "id": "area-intake",
         "name": "Intake & Pretreatment",
-        "href": "/operating-model/areas/area-intake"
+        "href": "/blueprint?area=area-intake"
       }
     },
     {
@@ -333,7 +333,7 @@
       "area": {
         "id": "area-contractors",
         "name": "Contractor & Supplier Management",
-        "href": "/operating-model/areas/area-contractors"
+        "href": "/blueprint?area=area-contractors"
       }
     }
   ],
@@ -379,7 +379,7 @@
     {
       "rank": 3,
       "text": "Confirm a local owner for Energy Recovery",
-      "href": "/operating-model/areas/area-erd",
+      "href": "/operating-model",
       "capability": {
         "id": "cap-erd",
         "name": "Energy Recovery Optimization",
@@ -442,7 +442,7 @@
       "area": {
         "id": "area-intake",
         "name": "Intake & Pretreatment",
-        "href": "/operating-model/areas/area-intake"
+        "href": "/blueprint?area=area-intake"
       },
       "captured_on": "2026-09-26",
       "source": {
@@ -459,7 +459,7 @@
       "area": {
         "id": "area-maint",
         "name": "Maintenance Planning",
-        "href": "/operating-model/areas/area-maint"
+        "href": "/blueprint?area=area-maint"
       },
       "captured_on": "2026-09-19",
       "source": {
@@ -476,7 +476,7 @@
       "area": {
         "id": "area-erd",
         "name": "Energy Recovery",
-        "href": "/operating-model/areas/area-erd"
+        "href": "/blueprint?area=area-erd"
       },
       "captured_on": "2026-09-03",
       "source": {
@@ -493,7 +493,7 @@
       "area": {
         "id": "area-incident",
         "name": "Incident Response",
-        "href": "/operating-model/areas/area-incident"
+        "href": "/blueprint?area=area-incident"
       },
       "captured_on": "2026-08-27",
       "source": null,
@@ -507,7 +507,7 @@
       "area": {
         "id": "area-scada",
         "name": "SCADA & Alarm Management",
-        "href": "/operating-model/areas/area-scada"
+        "href": "/blueprint?area=area-scada"
       },
       "captured_on": "2026-08-21",
       "source": {

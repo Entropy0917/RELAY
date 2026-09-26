@@ -174,17 +174,17 @@
         {
           "id": "area-intake",
           "name": "Intake & Pretreatment",
-          "href": "/operating-model/areas/area-intake"
+          "href": "/blueprint?area=area-intake"
         },
         {
           "id": "area-ro",
           "name": "Reverse Osmosis Operations",
-          "href": "/operating-model/areas/area-ro"
+          "href": "/blueprint?area=area-ro"
         },
         {
           "id": "area-scada",
           "name": "SCADA & Alarm Management",
-          "href": "/operating-model/areas/area-scada"
+          "href": "/blueprint?area=area-scada"
         }
       ]
     },
@@ -205,12 +205,12 @@
         {
           "id": "area-dosing",
           "name": "Chemical Dosing",
-          "href": "/operating-model/areas/area-dosing"
+          "href": "/blueprint?area=area-dosing"
         },
         {
           "id": "area-compliance",
           "name": "Water Quality Compliance",
-          "href": "/operating-model/areas/area-compliance"
+          "href": "/blueprint?area=area-compliance"
         }
       ]
     },
@@ -231,12 +231,12 @@
         {
           "id": "area-maint",
           "name": "Maintenance Planning",
-          "href": "/operating-model/areas/area-maint"
+          "href": "/blueprint?area=area-maint"
         },
         {
           "id": "area-contractors",
           "name": "Contractor & Supplier Management",
-          "href": "/operating-model/areas/area-contractors"
+          "href": "/blueprint?area=area-contractors"
         }
       ]
     }
@@ -259,17 +259,17 @@
         {
           "id": "area-intake",
           "name": "Intake & Pretreatment",
-          "href": "/operating-model/areas/area-intake"
+          "href": "/blueprint?area=area-intake"
         },
         {
           "id": "area-ro",
           "name": "Reverse Osmosis Operations",
-          "href": "/operating-model/areas/area-ro"
+          "href": "/blueprint?area=area-ro"
         },
         {
           "id": "area-scada",
           "name": "SCADA & Alarm Management",
-          "href": "/operating-model/areas/area-scada"
+          "href": "/blueprint?area=area-scada"
         }
       ]
     },
@@ -290,12 +290,12 @@
         {
           "id": "area-maint",
           "name": "Maintenance Planning",
-          "href": "/operating-model/areas/area-maint"
+          "href": "/blueprint?area=area-maint"
         },
         {
           "id": "area-contractors",
           "name": "Contractor & Supplier Management",
-          "href": "/operating-model/areas/area-contractors"
+          "href": "/blueprint?area=area-contractors"
         }
       ]
     },
@@ -316,12 +316,12 @@
         {
           "id": "area-dosing",
           "name": "Chemical Dosing",
-          "href": "/operating-model/areas/area-dosing"
+          "href": "/blueprint?area=area-dosing"
         },
         {
           "id": "area-compliance",
           "name": "Water Quality Compliance",
-          "href": "/operating-model/areas/area-compliance"
+          "href": "/blueprint?area=area-compliance"
         }
       ]
     }

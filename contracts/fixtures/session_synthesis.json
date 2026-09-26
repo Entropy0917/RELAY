@@ -289,7 +289,7 @@
         "area": {
           "id": "area-intake",
           "name": "Intake & Pretreatment",
-          "href": "/operating-model/areas/area-intake"
+          "href": "/blueprint?area=area-intake"
         },
         "situation": "Intake turbidity is below the 20 NTU enhanced-dosing trigger but rising fast, typically in the 12–36 hours after an offshore storm.",
         "observed_signals": [

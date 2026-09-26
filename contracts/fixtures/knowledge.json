@@ -164,190 +164,214 @@
       "count": 2
     }
   ],
-  "filters": {
-    "areas": [
-      {
-        "value": "area-intake",
-        "label": "Intake & Pretreatment",
-        "count": 2
-      },
-      {
-        "value": "area-ro",
-        "label": "Reverse Osmosis Operations",
-        "count": 2
-      },
-      {
-        "value": "area-dosing",
-        "label": "Chemical Dosing",
-        "count": 2
-      },
-      {
-        "value": "area-erd",
-        "label": "Energy Recovery",
-        "count": 2
-      },
-      {
-        "value": "area-maint",
-        "label": "Maintenance Planning",
-        "count": 2
-      },
-      {
-        "value": "area-compliance",
-        "label": "Water Quality Compliance",
-        "count": 1
-      },
-      {
-        "value": "area-scada",
-        "label": "SCADA & Alarm Management",
-        "count": 1
-      },
-      {
-        "value": "area-contractors",
-        "label": "Contractor & Supplier Management",
-        "count": 1
-      },
-      {
-        "value": "area-incident",
-        "label": "Incident Response",
-        "count": 2
-      }
-    ],
-    "capabilities": [
-      {
-        "value": "cap-fouling",
-        "label": "Membrane Fouling Diagnosis",
-        "count": 2
-      },
-      {
-        "value": "cap-dosing",
-        "label": "Antiscalant Dosing Adjustment",
-        "count": 2
-      },
-      {
-        "value": "cap-turbidity",
-        "label": "Intake Turbidity Response",
-        "count": 2
-      },
-      {
-        "value": "cap-alarm",
-        "label": "SCADA Alarm Triage",
-        "count": 1
-      },
-      {
-        "value": "cap-erd",
-        "label": "Energy Recovery Optimization",
-        "count": 2
-      },
-      {
-        "value": "cap-pm",
-        "label": "Preventive Maintenance Planning",
-        "count": 1
-      },
-      {
-        "value": "cap-compliance",
-        "label": "Water Quality Compliance Reporting",
-        "count": 1
-      },
-      {
-        "value": "cap-contractor",
-        "label": "Contractor Coordination",
-        "count": 1
-      },
-      {
-        "value": "cap-shutdown",
-        "label": "Emergency Plant Shutdown",
-        "count": 2
-      },
-      {
-        "value": "cap-rca",
-        "label": "Root Cause Analysis of Plant Trips",
-        "count": 1
-      }
-    ],
-    "experts": [
-      {
-        "value": "p-voss",
-        "label": "Dr. Helena Voss",
-        "count": 12
-      },
-      {
-        "value": "p-ibarra",
-        "label": "Diego Ibarra",
-        "count": 1
-      }
-    ],
-    "people": [
-      {
-        "value": "p-rojas",
-        "label": "Mateo Rojas",
-        "count": 10
-      },
-      {
-        "value": "p-fuentes",
-        "label": "Camila Fuentes",
-        "count": 6
-      },
-      {
-        "value": "p-ibarra",
-        "label": "Diego Ibarra",
-        "count": 5
-      }
-    ],
-    "types": [
-      {
-        "value": "formal_document",
-        "label": "Formal Document",
-        "count": 2
-      },
-      {
-        "value": "expert_insight",
-        "label": "Expert Insight",
-        "count": 2
-      },
-      {
-        "value": "case",
-        "label": "Case",
-        "count": 2
-      },
-      {
-        "value": "heuristic",
-        "label": "Heuristic",
-        "count": 3
-      },
-      {
-        "value": "exception",
-        "label": "Exception",
-        "count": 2
-      },
-      {
-        "value": "lesson_learned",
-        "label": "Lesson Learned",
-        "count": 2
-      },
-      {
-        "value": "relationship",
-        "label": "Relationship",
-        "count": 2
-      }
-    ],
-    "validation_statuses": [
-      {
-        "value": "validated",
-        "label": "Validated",
-        "count": 13
-      },
-      {
-        "value": "pending",
-        "label": "Pending expert validation",
-        "count": 2
-      },
-      {
-        "value": "rejected",
-        "label": "Rejected",
-        "count": 0
-      }
-    ]
-  },
+  "filters": [
+    {
+      "param": "area",
+      "label": "Operating model area",
+      "options": [
+        {
+          "value": "area-intake",
+          "label": "Intake & Pretreatment",
+          "count": 2
+        },
+        {
+          "value": "area-ro",
+          "label": "Reverse Osmosis Operations",
+          "count": 2
+        },
+        {
+          "value": "area-dosing",
+          "label": "Chemical Dosing",
+          "count": 2
+        },
+        {
+          "value": "area-erd",
+          "label": "Energy Recovery",
+          "count": 2
+        },
+        {
+          "value": "area-maint",
+          "label": "Maintenance Planning",
+          "count": 2
+        },
+        {
+          "value": "area-compliance",
+          "label": "Water Quality Compliance",
+          "count": 1
+        },
+        {
+          "value": "area-scada",
+          "label": "SCADA & Alarm Management",
+          "count": 1
+        },
+        {
+          "value": "area-contractors",
+          "label": "Contractor & Supplier Management",
+          "count": 1
+        },
+        {
+          "value": "area-incident",
+          "label": "Incident Response",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "param": "capability",
+      "label": "Capability",
+      "options": [
+        {
+          "value": "cap-fouling",
+          "label": "Membrane Fouling Diagnosis",
+          "count": 2
+        },
+        {
+          "value": "cap-dosing",
+          "label": "Antiscalant Dosing Adjustment",
+          "count": 2
+        },
+        {
+          "value": "cap-turbidity",
+          "label": "Intake Turbidity Response",
+          "count": 2
+        },
+        {
+          "value": "cap-alarm",
+          "label": "SCADA Alarm Triage",
+          "count": 1
+        },
+        {
+          "value": "cap-erd",
+          "label": "Energy Recovery Optimization",
+          "count": 2
+        },
+        {
+          "value": "cap-pm",
+          "label": "Preventive Maintenance Planning",
+          "count": 1
+        },
+        {
+          "value": "cap-compliance",
+          "label": "Water Quality Compliance Reporting",
+          "count": 1
+        },
+        {
+          "value": "cap-contractor",
+          "label": "Contractor Coordination",
+          "count": 1
+        },
+        {
+          "value": "cap-shutdown",
+          "label": "Emergency Plant Shutdown",
+          "count": 2
+        },
+        {
+          "value": "cap-rca",
+          "label": "Root Cause Analysis of Plant Trips",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "param": "expert",
+      "label": "Expert",
+      "options": [
+        {
+          "value": "p-voss",
+          "label": "Dr. Helena Voss",
+          "count": 12
+        },
+        {
+          "value": "p-ibarra",
+          "label": "Diego Ibarra",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "param": "person",
+      "label": "Person exposed",
+      "options": [
+        {
+          "value": "p-rojas",
+          "label": "Mateo Rojas",
+          "count": 10
+        },
+        {
+          "value": "p-fuentes",
+          "label": "Camila Fuentes",
+          "count": 6
+        },
+        {
+          "value": "p-ibarra",
+          "label": "Diego Ibarra",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "param": "type",
+      "label": "Knowledge type",
+      "options": [
+        {
+          "value": "formal_document",
+          "label": "Formal Document",
+          "count": 2
+        },
+        {
+          "value": "expert_insight",
+          "label": "Expert Insight",
+          "count": 2
+        },
+        {
+          "value": "case",
+          "label": "Case",
+          "count": 2
+        },
+        {
+          "value": "heuristic",
+          "label": "Heuristic",
+          "count": 3
+        },
+        {
+          "value": "exception",
+          "label": "Exception",
+          "count": 2
+        },
+        {
+          "value": "lesson_learned",
+          "label": "Lesson Learned",
+          "count": 2
+        },
+        {
+          "value": "relationship",
+          "label": "Relationship",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "param": "status",
+      "label": "Validation status",
+      "options": [
+        {
+          "value": "validated",
+          "label": "Validated",
+          "count": 13
+        },
+        {
+          "value": "pending",
+          "label": "Pending expert validation",
+          "count": 2
+        },
+        {
+          "value": "rejected",
+          "label": "Rejected",
+          "count": 0
+        }
+      ]
+    }
+  ],
   "results_href": "/knowledge/results",
   "results": {
     "items": [
@@ -363,7 +387,7 @@
         "area": {
           "id": "area-intake",
           "name": "Intake & Pretreatment",
-          "href": "/operating-model/areas/area-intake"
+          "href": "/blueprint?area=area-intake"
         },
         "situation": "Interpreting Line 2 intake turbidity during and after heavy swell.",
         "observed_signals": [
@@ -413,7 +437,7 @@
         "area": {
           "id": "area-maint",
           "name": "Maintenance Planning",
-          "href": "/operating-model/areas/area-maint"
+          "href": "/blueprint?area=area-maint"
         },
         "situation": "Train 3 high-pressure pump tripped on low suction pressure at 02:14 during a filter backwash.",
         "observed_signals": [
@@ -478,7 +502,7 @@
         "area": {
           "id": "area-erd",
           "name": "Energy Recovery",
-          "href": "/operating-model/areas/area-erd"
+          "href": "/blueprint?area=area-erd"
         },
         "situation": "Diagnosing a slow loss of energy recovery efficiency across the pressure exchanger arrays.",
         "observed_signals": [
@@ -535,7 +559,7 @@
         "area": {
           "id": "area-incident",
           "name": "Incident Response",
-          "href": "/operating-model/areas/area-incident"
+          "href": "/blueprint?area=area-incident"
         },
         "situation": "Any unplanned shutdown of two or more trains drops plant load by 9–14 MW.",
         "observed_signals": [
@@ -572,7 +596,7 @@
         "area": {
           "id": "area-scada",
           "name": "SCADA & Alarm Management",
-          "href": "/operating-model/areas/area-scada"
+          "href": "/blueprint?area=area-scada"
         },
         "situation": "Night shift, 21 Aug. Loss of a PLC comms card on the dosing skid cascaded into a flood of stale alarms.",
         "observed_signals": [
@@ -637,7 +661,7 @@
         "area": {
           "id": "area-contractors",
           "name": "Contractor & Supplier Management",
-          "href": "/operating-model/areas/area-contractors"
+          "href": "/blueprint?area=area-contractors"
         },
         "situation": "Scheduling the diving contractor for intake screen inspection and cleaning.",
         "observed_signals": [
@@ -690,7 +714,7 @@
         "area": {
           "id": "area-ro",
           "name": "Reverse Osmosis Operations",
-          "href": "/operating-model/areas/area-ro"
+          "href": "/blueprint?area=area-ro"
         },
         "situation": "Operators asked to push recovery to meet peak summer demand.",
         "observed_signals": [
@@ -744,7 +768,7 @@
         "area": {
           "id": "area-maint",
           "name": "Maintenance Planning",
-          "href": "/operating-model/areas/area-maint"
+          "href": "/blueprint?area=area-maint"
         },
         "situation": "PM plan replaced 5 µm cartridges every 6 weeks regardless of condition.",
         "observed_signals": [
@@ -805,7 +829,7 @@
         "area": {
           "id": "area-dosing",
           "name": "Chemical Dosing",
-          "href": "/operating-model/areas/area-dosing"
+          "href": "/blueprint?area=area-dosing"
         },
         "situation": "Setting antiscalant dose through the summer when feed temperature swings 6 °C between tide cycles.",
         "observed_signals": [
@@ -870,7 +894,7 @@
         "area": {
           "id": "area-dosing",
           "name": "Chemical Dosing",
-          "href": "/operating-model/areas/area-dosing"
+          "href": "/blueprint?area=area-dosing"
         },
         "situation": "Suspected biofouling on first-stage elements; a contractor proposed a chlorine shock at the intake.",
         "observed_signals": [
@@ -926,7 +950,7 @@
         "area": {
           "id": "area-ro",
           "name": "Reverse Osmosis Operations",
-          "href": "/operating-model/areas/area-ro"
+          "href": "/blueprint?area=area-ro"
         },
         "situation": "Deciding whether first-stage fouling is starting before the ΔP alarm tells you.",
         "observed_signals": [
@@ -988,7 +1012,7 @@
         "area": {
           "id": "area-incident",
           "name": "Incident Response",
-          "href": "/operating-model/areas/area-incident"
+          "href": "/blueprint?area=area-incident"
         },
         "situation": "Grid dip on 9 Mar forced a two-train shutdown. Restart took 5 h 40 min.",
         "observed_signals": [
@@ -1041,7 +1065,7 @@
         "area": {
           "id": "area-erd",
           "name": "Energy Recovery",
-          "href": "/operating-model/areas/area-erd"
+          "href": "/blueprint?area=area-erd"
         },
         "situation": "Warranty claims and spare cartridges for the pressure exchangers.",
         "observed_signals": [
@@ -1085,7 +1109,7 @@
         "area": {
           "id": "area-compliance",
           "name": "Water Quality Compliance",
-          "href": "/operating-model/areas/area-compliance"
+          "href": "/blueprint?area=area-compliance"
         },
         "situation": "Monthly permeate quality return to the water regulator.",
         "observed_signals": [
@@ -1143,7 +1167,7 @@
         "area": {
           "id": "area-intake",
           "name": "Intake & Pretreatment",
-          "href": "/operating-model/areas/area-intake"
+          "href": "/blueprint?area=area-intake"
         },
         "situation": "Standing procedure for raising ferric chloride dose at the intake flash mixers when raw-water turbidity rises.",
         "observed_signals": [

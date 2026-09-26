@@ -12,7 +12,7 @@
       "area": {
         "id": "area-contractors",
         "name": "Contractor & Supplier Management",
-        "href": "/operating-model/areas/area-contractors"
+        "href": "/blueprint?area=area-contractors"
       },
       "situation": "Scheduling the diving contractor for intake screen inspection and cleaning.",
       "observed_signals": [
@@ -65,7 +65,7 @@
       "area": {
         "id": "area-dosing",
         "name": "Chemical Dosing",
-        "href": "/operating-model/areas/area-dosing"
+        "href": "/blueprint?area=area-dosing"
       },
       "situation": "Setting antiscalant dose through the summer when feed temperature swings 6 °C between tide cycles.",
       "observed_signals": [
@@ -130,7 +130,7 @@
       "area": {
         "id": "area-ro",
         "name": "Reverse Osmosis Operations",
-        "href": "/operating-model/areas/area-ro"
+        "href": "/blueprint?area=area-ro"
       },
       "situation": "Deciding whether first-stage fouling is starting before the ΔP alarm tells you.",
       "observed_signals": [

@@ -277,7 +277,7 @@
       "owner_confirmed": true,
       "formal_pct": 0.95,
       "informal_pct": 0.7,
-      "local_capability": "Developing",
+      "local_capability": "developing",
       "trainer_coverage": false,
       "status": "on_track"
     },
@@ -296,7 +296,7 @@
       "owner_confirmed": true,
       "formal_pct": 1.0,
       "informal_pct": 0.85,
-      "local_capability": "Strong",
+      "local_capability": "strong",
       "trainer_coverage": true,
       "status": "sustainable"
     },
@@ -315,7 +315,7 @@
       "owner_confirmed": true,
       "formal_pct": 0.9,
       "informal_pct": 0.6,
-      "local_capability": "Developing",
+      "local_capability": "developing",
       "trainer_coverage": false,
       "status": "transfer_in_progress"
     },
@@ -327,7 +327,7 @@
       "owner_confirmed": false,
       "formal_pct": 0.7,
       "informal_pct": 0.25,
-      "local_capability": "Limited",
+      "local_capability": "limited",
       "trainer_coverage": false,
       "status": "at_risk"
     },
@@ -346,7 +346,7 @@
       "owner_confirmed": true,
       "formal_pct": 0.85,
       "informal_pct": 0.55,
-      "local_capability": "Developing",
+      "local_capability": "developing",
       "trainer_coverage": false,
       "status": "transfer_in_progress"
     },
@@ -365,7 +365,7 @@
       "owner_confirmed": true,
       "formal_pct": 1.0,
       "informal_pct": 0.8,
-      "local_capability": "Strong",
+      "local_capability": "strong",
       "trainer_coverage": true,
       "status": "sustainable"
     },
@@ -384,7 +384,7 @@
       "owner_confirmed": true,
       "formal_pct": 0.9,
       "informal_pct": 0.65,
-      "local_capability": "Developing",
+      "local_capability": "developing",
       "trainer_coverage": false,
       "status": "transfer_in_progress"
     },
@@ -403,7 +403,7 @@
       "owner_confirmed": true,
       "formal_pct": 0.8,
       "informal_pct": 0.4,
-      "local_capability": "Limited",
+      "local_capability": "limited",
       "trainer_coverage": false,
       "status": "at_risk"
     },
@@ -415,7 +415,7 @@
       "owner_confirmed": false,
       "formal_pct": 0.75,
       "informal_pct": 0.2,
-      "local_capability": "None",
+      "local_capability": "none",
       "trainer_coverage": false,
       "status": "critical"
     }

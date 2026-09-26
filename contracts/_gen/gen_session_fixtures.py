@@ -38,7 +38,7 @@ CAP_ERD = cap("cap-erd", "Energy Recovery Optimization")
 CAP_ALARM = cap("cap-alarm", "SCADA Alarm Triage")
 CAP_RCA = cap("cap-rca", "Root Cause Analysis of Plant Trips")
 
-AREA_INTAKE = {"id": "area-intake", "name": "Intake & Pretreatment", "href": "/operating-model/areas/area-intake"}
+AREA_INTAKE = {"id": "area-intake", "name": "Intake & Pretreatment", "href": "/blueprint?area=area-intake"}
 
 STAGES = ["prepare", "capture", "expert-debrief", "learner-debrief", "synthesis", "validation", "next-action"]
 SID = "sess-l2"
