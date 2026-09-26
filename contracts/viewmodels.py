@@ -109,8 +109,8 @@ class Metric(VM):
 
     key: str  # stable id, e.g. "om_readiness"
     label: str  # "OPERATING MODEL READINESS"
-    value: float  # 0–1 for percentages, raw count otherwise
-    display: str  # "68%", "4", "28 DAYS"
+    value: float  # exact, unrounded: 0–1 for percentages, raw count otherwise
+    display: str  # "68%", "4", "28 DAYS" — backend rounds (half-up); templates print display, never value
     unit: Literal["percent", "count", "days"]
     formula: Formula
     status: Status | None = None
@@ -189,7 +189,9 @@ class Shell(VM):
     personas: list[Persona]
     current_persona: Persona
     nav: list[NavItem]
-    active: str  # NavItem.key
+    active: Literal[
+        "overview", "operating_model", "blueprint", "people", "sessions", "knowledge", "readiness"
+    ]
     departure: Departure | None = None
     engagement_switch_href: str  # POST target, form field engagement_id
     persona_switch_href: str  # POST target, form field persona_id
@@ -346,7 +348,7 @@ class PeopleVM(VM):
     shell: Shell
     experts: list[PersonCard]
     counterparts: list[PersonCard]
-    trainers: list[PersonCard]
+    trainers: list[PersonCard]  # local trainers + candidates; may repeat counterparts, with trainer-focused summaries
 
 
 class EvidenceItem(VM):
@@ -380,7 +382,7 @@ class PassportVM(VM):
     shell: Shell
     person: PersonCard
     rows: list[PassportRow]
-    evidence: list[EvidenceItem]  # newest first, append-only history
+    evidence: list[EvidenceItem]  # newest first, full append-only history
 
 
 # ──────────────────────────────── knowledge ────────────────────────────────
@@ -481,8 +483,11 @@ class RiskFlag(VM):
 
 
 class PropagationNode(VM):
+    """Nodes are listed in DFS preorder; the tree macro lays out each depth as a
+    row in order of appearance, which guarantees no crossing edges."""
+
     id: str
-    person: PersonRef
+    person: PersonRef | None  # None for aggregate group nodes (group_label set)
     level: CapabilityLevel | None  # None for group nodes
     depth: int  # 0 = original holder
     group_label: str | None = None  # e.g. "Shift operators (6)" for aggregate nodes
@@ -491,6 +496,7 @@ class PropagationNode(VM):
 class PropagationEdge(VM):
     source: str  # node id
     target: str
+    state: Literal["demonstrated", "in_progress", "planned"] = "demonstrated"
     label: str | None = None  # "taught 12 Mar"
 
 
@@ -615,7 +621,7 @@ class DebriefVM(VM):
     role: DebriefRole
     respondent: PersonRef
     allowed: bool  # current persona is the respondent; else show "switch persona" gate
-    switch_to_persona_id: str
+    switch_to_persona_id: str | None = None  # set when allowed is false
     questions: list[DebriefQuestion]
     ai_error: AIError | None = None
     submit_href: str  # POST, fields: answer_<question id>
@@ -628,7 +634,7 @@ class FindingBase(VM):
     confidence: Confidence
     evidence_sources: list[str]
     rationale: Rationale
-    actions: list[FindingAction]
+    actions: list[FindingAction]  # empty once resolved; resolved findings are not re-actioned
     action_href: str  # POST <action_href>/<action>
     ai_label: str = "AI SUGGESTION"
     validated_by: PersonRef | None = None
@@ -649,7 +655,7 @@ class TacitKnowledgeFinding(FindingBase):
     kind: Literal[FindingKind.TACIT_KNOWLEDGE] = FindingKind.TACIT_KNOWLEDGE
     formal_rule: str
     expert_practice: list[str]
-    proposed_record: KnowledgeItem
+    proposed_record: KnowledgeItem  # finding.status is the source of truth; approval writes the record as validated
 
 
 class RemainingGapFinding(FindingBase):

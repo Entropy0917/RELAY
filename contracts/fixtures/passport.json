@@ -1,0 +1,655 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "people",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "person": {
+    "person": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "role_summary": "Leads the four operating shifts. Owns intake, RO and SCADA areas. Candidate trainer for intake turbidity.",
+    "tenure": "9 years at the plant",
+    "independent_count": 5,
+    "teachable_count": 1,
+    "owned_areas": [
+      {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      {
+        "id": "area-ro",
+        "name": "Reverse Osmosis Operations",
+        "href": "/operating-model/areas/area-ro"
+      },
+      {
+        "id": "area-scada",
+        "name": "SCADA & Alarm Management",
+        "href": "/operating-model/areas/area-scada"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "capability": {
+        "id": "cap-fouling",
+        "name": "Membrane Fouling Diagnosis",
+        "critical": true
+      },
+      "level": 6,
+      "rail": 7,
+      "evidence_count": 11,
+      "exposures": 23,
+      "last_demonstrated": "2026-09-12",
+      "next_experience": "Teach the SDI-before-ΔP check to C-shift operators",
+      "trainer_ready": true,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-dosing",
+        "name": "Antiscalant Dosing Adjustment",
+        "critical": true
+      },
+      "level": 4,
+      "rail": 5,
+      "evidence_count": 6,
+      "exposures": 14,
+      "last_demonstrated": "2026-08-14",
+      "next_experience": "Run the weekly antiscalant projection unassisted",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "level": 3,
+      "rail": 5,
+      "evidence_count": 5,
+      "exposures": 9,
+      "last_demonstrated": "2026-07-30",
+      "next_experience": "Lead the next storm-event response; Voss observes",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-alarm",
+        "name": "SCADA Alarm Triage",
+        "critical": true
+      },
+      "level": 5,
+      "rail": 6,
+      "evidence_count": 8,
+      "exposures": 17,
+      "last_demonstrated": "2026-08-29",
+      "next_experience": "Run the alarm-flood drill for B and C shifts",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "level": 2,
+      "rail": 4,
+      "evidence_count": 2,
+      "exposures": 3,
+      "last_demonstrated": "2026-09-03",
+      "next_experience": "Estimate PX mixing from conductivity on Train 1",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-pm",
+        "name": "Preventive Maintenance Planning",
+        "critical": true
+      },
+      "level": 3,
+      "rail": 5,
+      "evidence_count": 4,
+      "exposures": 6,
+      "last_demonstrated": "2026-06-02",
+      "next_experience": "Build the Q4 HP pump PM window with Ibarra reviewing",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-compliance",
+        "name": "Water Quality Compliance Reporting",
+        "critical": true
+      },
+      "level": 4,
+      "rail": 5,
+      "evidence_count": 5,
+      "exposures": 10,
+      "last_demonstrated": "2026-07-22",
+      "next_experience": "Submit the September return without review",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-contractor",
+        "name": "Contractor Coordination",
+        "critical": true
+      },
+      "level": 2,
+      "rail": 4,
+      "evidence_count": 2,
+      "exposures": 3,
+      "last_demonstrated": "2026-05-11",
+      "next_experience": "Lead the October diver booking",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "level": 1,
+      "rail": 3,
+      "evidence_count": 1,
+      "exposures": 2,
+      "last_demonstrated": "2026-06-18",
+      "next_experience": "Tabletop shutdown scenario, Rojas leading",
+      "trainer_ready": false,
+      "changed": false
+    },
+    {
+      "capability": {
+        "id": "cap-rca",
+        "name": "Root Cause Analysis of Plant Trips",
+        "critical": true
+      },
+      "level": 4,
+      "rail": 5,
+      "evidence_count": 4,
+      "exposures": 7,
+      "last_demonstrated": "2026-09-19",
+      "next_experience": "Lead the next trip RCA; Voss reviews the final only",
+      "trainer_ready": false,
+      "changed": false
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-r13",
+      "capability": {
+        "id": "cap-rca",
+        "name": "Root Cause Analysis of Plant Trips",
+        "critical": true
+      },
+      "evidence_type": "work_product",
+      "description": "Wrote RCA-2026-011 for the Train 3 HP pump low-suction trip. Traced it to backwash draw on the filtered-water tank, not the VFD.",
+      "source": {
+        "label": "RCA-2026-011",
+        "href": "/knowledge#k-case-t3-trip"
+      },
+      "recorded_on": "2026-09-19",
+      "ai_interpretation": "Correct causal chain from historian data; proposed a 3 s trip delay and staggered backwash.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 3,
+      "level_after": 4,
+      "resulting_recommendation": "Next: lead the RCA on the next trip without review of the draft."
+    },
+    {
+      "id": "ev-r12",
+      "capability": {
+        "id": "cap-fouling",
+        "name": "Membrane Fouling Diagnosis",
+        "critical": true
+      },
+      "evidence_type": "peer_teaching",
+      "description": "Walked Fuentes through SDI15 drift from 2.9 to 3.8 on cartridge bank B and the decision to book a Train 2 CIP.",
+      "source": {
+        "label": "Cartridge filter SDI drift review",
+        "href": "/sessions/sess-sdi"
+      },
+      "recorded_on": "2026-09-12",
+      "ai_interpretation": "Taught the SDI-before-ΔP heuristic unprompted; Fuentes reproduced the reasoning.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 5,
+      "level_after": 6,
+      "resulting_recommendation": "Rojas is trainer-ready on fouling diagnosis."
+    },
+    {
+      "id": "ev-r11",
+      "capability": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "evidence_type": "expert_observation",
+      "description": "Assisted Ibarra's PX rebalance on Train 2; read LP/HP flow ratio and called the 103% setpoint.",
+      "source": {
+        "label": "Pressure exchanger efficiency loss",
+        "href": "/sessions/sess-erd"
+      },
+      "recorded_on": "2026-09-03",
+      "ai_interpretation": "Understands flow balance; did not estimate mixing.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 1,
+      "level_after": 2,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r10",
+      "capability": {
+        "id": "cap-alarm",
+        "name": "SCADA Alarm Triage",
+        "critical": true
+      },
+      "evidence_type": "repeated_performance",
+      "description": "Third night-shift alarm flood handled without escalation: 96 alarms, root cause isolated in 7 min.",
+      "source": null,
+      "recorded_on": "2026-08-29",
+      "ai_interpretation": null,
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 4,
+      "level_after": 5,
+      "resulting_recommendation": "Candidate to run the alarm-flood drill for B and C shifts."
+    },
+    {
+      "id": "ev-r09",
+      "capability": {
+        "id": "cap-alarm",
+        "name": "SCADA Alarm Triage",
+        "critical": true
+      },
+      "evidence_type": "scenario_performance",
+      "description": "As shift lead during the 21 Aug flood, directed Fuentes to shelve rack 4 alarms and put dosing in local manual.",
+      "source": {
+        "label": "Night-shift alarm flood triage",
+        "href": "/sessions/sess-alarm"
+      },
+      "recorded_on": "2026-08-21",
+      "ai_interpretation": "Prioritized the dosing blind spot over alarm count.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": null,
+      "level_after": null,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r08",
+      "capability": {
+        "id": "cap-dosing",
+        "name": "Antiscalant Dosing Adjustment",
+        "critical": true
+      },
+      "evidence_type": "real_world_outcome",
+      "description": "Trimmed Line 1 antiscalant from 3.2 to 2.7 mg/L after feed cooled to 24.6 °C; concentrate LSI held at +1.4 for 3 weeks.",
+      "source": null,
+      "recorded_on": "2026-08-14",
+      "ai_interpretation": "Dose correction consistent with the temperature heuristic.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 3,
+      "level_after": 4,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r07",
+      "capability": {
+        "id": "cap-rca",
+        "name": "Root Cause Analysis of Plant Trips",
+        "critical": true
+      },
+      "evidence_type": "learner_explanation",
+      "description": "Attributed the 2 Aug Train 1 trip to a VFD fault.",
+      "source": null,
+      "recorded_on": "2026-08-05",
+      "ai_interpretation": "Historian showed a suction dip before the VFD alarm. Explanation not supported.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "rejected",
+      "level_before": null,
+      "level_after": null,
+      "resulting_recommendation": "Review historian export before assigning cause."
+    },
+    {
+      "id": "ev-r06",
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "evidence_type": "expert_observation",
+      "description": "Stepped FeCl₃ from 3.5 to 6.0 mg/L at 21 NTU on Line 1 and confirmed floc at the media filter inlet in 16 min.",
+      "source": null,
+      "recorded_on": "2026-07-30",
+      "ai_interpretation": "Follows SOP-PT-04 correctly; acted on the threshold, not the trend.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 2,
+      "level_after": 3,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r05",
+      "capability": {
+        "id": "cap-compliance",
+        "name": "Water Quality Compliance Reporting",
+        "critical": true
+      },
+      "evidence_type": "work_product",
+      "description": "Prepared the July regulator return; boron 0.82 mg/L flagged in the cover note (82% of limit).",
+      "source": {
+        "label": "REG-QR-01 template",
+        "href": "/knowledge#k-compliance-return"
+      },
+      "recorded_on": "2026-07-22",
+      "ai_interpretation": null,
+      "validated_by": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "validation_status": "validated",
+      "level_before": 3,
+      "level_after": 4,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r04",
+      "capability": {
+        "id": "cap-fouling",
+        "name": "Membrane Fouling Diagnosis",
+        "critical": true
+      },
+      "evidence_type": "repeated_performance",
+      "description": "Four normalizations in a row matched Voss's within 1.5% on Trains 1–4.",
+      "source": null,
+      "recorded_on": "2026-07-09",
+      "ai_interpretation": null,
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 4,
+      "level_after": 5,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r03",
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "evidence_type": "learner_explanation",
+      "description": "Explained the three automatic shutdown triggers and why HP pumps stop before the intake.",
+      "source": null,
+      "recorded_on": "2026-06-18",
+      "ai_interpretation": "Can explain triggers; has not performed any step of a shutdown.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 0,
+      "level_after": 1,
+      "resulting_recommendation": "Tabletop scenario before any live drill."
+    },
+    {
+      "id": "ev-r02",
+      "capability": {
+        "id": "cap-pm",
+        "name": "Preventive Maintenance Planning",
+        "critical": true
+      },
+      "evidence_type": "work_product",
+      "description": "Co-built the Q3 cartridge change plan with Ibarra on the condition-based rule.",
+      "source": null,
+      "recorded_on": "2026-06-02",
+      "ai_interpretation": null,
+      "validated_by": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "validation_status": "validated",
+      "level_before": 2,
+      "level_after": 3,
+      "resulting_recommendation": null
+    },
+    {
+      "id": "ev-r01",
+      "capability": {
+        "id": "cap-contractor",
+        "name": "Contractor Coordination",
+        "critical": true
+      },
+      "evidence_type": "expert_observation",
+      "description": "Joined Voss on the May diver mobilization call; drafted the permit-to-work.",
+      "source": null,
+      "recorded_on": "2026-05-11",
+      "ai_interpretation": null,
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "level_before": 1,
+      "level_after": 2,
+      "resulting_recommendation": null
+    }
+  ]
+}

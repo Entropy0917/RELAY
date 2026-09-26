@@ -1,0 +1,204 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "prepare",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "current",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "synthesis",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "validation",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "next-action",
+        "state": "upcoming",
+        "href": null
+      }
+    ]
+  },
+  "brief": null,
+  "ai_error": {
+    "kind": "provider_unreachable",
+    "function": "prepare_session",
+    "message": "RELAY could not reach the AI provider to build today's Session Brief. Nothing was saved. Retry, or start the session without a brief and capture it as usual.",
+    "retry_href": "/sessions/sess-l2/prepare",
+    "retry_method": "GET"
+  },
+  "start_href": "/sessions/sess-l2/capture"
+}

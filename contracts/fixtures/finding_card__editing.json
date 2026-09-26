@@ -1,0 +1,91 @@
+{
+  "session_id": "sess-l2",
+  "finding": {
+    "kind": "tacit_knowledge",
+    "id": "f-tacit",
+    "title": "Watch the Rate of Rise, Not the Threshold",
+    "status": "pending",
+    "confidence": "high",
+    "evidence_sources": [
+      "Session transcript 05:03–05:27",
+      "Expert debrief",
+      "SOP-PT-04 Intake Turbidity Response"
+    ],
+    "rationale": {
+      "why": "Dr. Voss's storm response departs from SOP-PT-04 in four specific, repeatable ways. None appear in the SOP, the blueprint or the maintenance plan.",
+      "evidence": [
+        "05:27: \"The threshold tells you where you are. The rate tells you where you're going.\"",
+        "05:09: Line 2 probe reads low after storms; bench grab 2.8 NTU above probe",
+        "05:06: tide and swell used to predict when the event peaks"
+      ],
+      "om_component": "Intake & Pretreatment · informal knowledge",
+      "if_not_transferred": "The SOP stays the only written rule. Operators wait for 20 NTU on a probe that under-reads by ~3 NTU after storms."
+    },
+    "actions": [
+      "approve",
+      "edit",
+      "reject"
+    ],
+    "action_href": "/sessions/sess-l2/findings/f-tacit",
+    "formal_rule": "Switch to enhanced coagulant dosing when intake turbidity exceeds 20 NTU. (SOP-PT-04 §3.2)",
+    "expert_practice": [
+      "Acts before 20 NTU when the rise is steep and accelerating, judged over the last hour",
+      "Takes a manual SDI15 on the cartridge filters rather than trusting the online estimate",
+      "Checks tide and swell forecast; on spring tides expects the peak up to two hours after high water",
+      "Discounts the Line 2 probe after storms: biofouling on the window makes it read low"
+    ],
+    "proposed_record": {
+      "id": "ki-rate-of-rise",
+      "title": "Watch the Rate of Rise, Not the Threshold",
+      "type": "heuristic",
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      "situation": "Intake turbidity is below the 20 NTU enhanced-dosing trigger but rising fast, typically in the 12–36 hours after an offshore storm.",
+      "observed_signals": [
+        "Rise accelerating past ~2 NTU/h sustained over an hour",
+        "Manual SDI15 on the cartridge filters trending up (e.g. 2.9 → 3.6 in five hours)",
+        "Swell forecast building, spring tide, high water still ahead",
+        "Line 2 probe reading below a bench grab sample"
+      ],
+      "expert_reasoning": "The threshold tells you where the water is; the rate tells you where it will be when a dosing change arrives 40–50 minutes later at the cartridges. After storms the Line 2 probe reads low, so the real margin is smaller than the screen shows.",
+      "recommended_response": "Confirm with a bench grab and a manual SDI15. Check tide and swell. Reduce the affected line's feed flow, shift load to the cleaner line, step coagulant up early and confirm by jar test. Tell the control room and shift supervisor.",
+      "why_it_matters": "Waiting for 20 NTU on a fast event lets solids reach the cartridge filters before pretreatment responds, pushing SDI toward the membrane limit of 5 and risking an unplanned CIP.",
+      "source": {
+        "label": "Line 2 intake turbidity event · 26 Sep 2026",
+        "href": "/sessions/sess-l2/synthesis"
+      },
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "pending",
+      "validated_by": null,
+      "people_exposed": [
+        {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      ],
+      "captured_on": "2026-09-26",
+      "is_new": true
+    }
+  },
+  "editing": true,
+  "can_validate": true
+}

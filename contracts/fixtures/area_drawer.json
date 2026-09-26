@@ -1,0 +1,281 @@
+{
+  "area": {
+    "id": "area-erd",
+    "name": "Energy Recovery",
+    "href": "/operating-model/areas/area-erd",
+    "local_owner": null,
+    "owner_confirmed": false,
+    "formal_pct": 0.7,
+    "informal_pct": 0.25,
+    "local_capability": "Limited",
+    "trainer_coverage": false,
+    "status": "at_risk"
+  },
+  "description": "Four PX pressure-exchanger arrays (one per RO train) recovering brine pressure into the HP feed. Target specific energy ≤ 3.30 kWh/m³; currently 3.34 after the September rebalance.",
+  "dimensions": [
+    {
+      "dimension": "processes",
+      "items": [
+        {
+          "label": "PX flow balancing",
+          "detail": "LP-in held at 102–103% of HP-out via booster VFD; weekly check.",
+          "owner": null,
+          "depends_on_expert": true
+        },
+        {
+          "label": "Mixing check by conductivity",
+          "detail": "Membrane-inlet vs. filtered-seawater conductivity after each rebalance.",
+          "owner": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          }
+        },
+        {
+          "label": "PX rotor inspection",
+          "detail": "Every 16,000 run hours or on noise complaint.",
+          "owner": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          }
+        }
+      ]
+    },
+    {
+      "dimension": "people_roles",
+      "items": [
+        {
+          "label": "Area owner",
+          "detail": "Unassigned. Ibarra proposed; not confirmed by plant manager.",
+          "depends_on_expert": true
+        },
+        {
+          "label": "Shift operators",
+          "detail": "Read SEC on HMI; do not adjust booster setpoints.",
+          "owner": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          }
+        }
+      ]
+    },
+    {
+      "dimension": "governance",
+      "items": [
+        {
+          "label": "Booster setpoint changes",
+          "detail": "Logged in MOC register; today approved verbally by Voss.",
+          "depends_on_expert": true
+        },
+        {
+          "label": "Monthly energy review",
+          "detail": "Plant manager sign-off on SEC vs. budget.",
+          "owner": {
+            "id": "p-navarro",
+            "name": "Lucía Navarro",
+            "initials": "LN",
+            "title": "Program Manager",
+            "kind": "manager",
+            "href": "/people/p-navarro"
+          }
+        }
+      ]
+    },
+    {
+      "dimension": "tools_systems",
+      "items": [
+        {
+          "label": "SCADA SEC trend screen",
+          "detail": "kWh/m³ per train, 1-min resolution.",
+          "owner": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          }
+        },
+        {
+          "label": "PX performance spreadsheet",
+          "detail": "Voss's personal workbook; estimates mixing from four conductivity readings.",
+          "owner": {
+            "id": "p-voss",
+            "name": "Dr. Helena Voss",
+            "initials": "HV",
+            "title": "Senior Desalination Process Engineer",
+            "kind": "expert",
+            "href": "/people/p-voss"
+          },
+          "depends_on_expert": true
+        }
+      ]
+    },
+    {
+      "dimension": "data_metrics",
+      "items": [
+        {
+          "label": "Specific energy consumption",
+          "detail": "3.34 kWh/m³ (target ≤ 3.30).",
+          "owner": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          }
+        },
+        {
+          "label": "Volumetric mixing",
+          "detail": "Estimated 5.2% after rebalance (design 4.5%).",
+          "depends_on_expert": true
+        },
+        {
+          "label": "HP pump efficiency",
+          "detail": "Monthly from motor kW and flow.",
+          "owner": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          }
+        }
+      ]
+    },
+    {
+      "dimension": "decision_rights",
+      "items": [
+        {
+          "label": "When to rebalance vs. inspect rotors",
+          "detail": "Voss decides from mixing trend and noise.",
+          "owner": {
+            "id": "p-voss",
+            "name": "Dr. Helena Voss",
+            "initials": "HV",
+            "title": "Senior Desalination Process Engineer",
+            "kind": "expert",
+            "href": "/people/p-voss"
+          },
+          "depends_on_expert": true
+        },
+        {
+          "label": "Taking a PX array offline",
+          "detail": "Shift lead may isolate on high vibration.",
+          "owner": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          }
+        }
+      ]
+    },
+    {
+      "dimension": "external_relationships",
+      "items": [
+        {
+          "label": "PX OEM regional applications engineer",
+          "detail": "Releases hub stock; bypasses the ticket queue.",
+          "owner": {
+            "id": "p-voss",
+            "name": "Dr. Helena Voss",
+            "initials": "HV",
+            "title": "Senior Desalination Process Engineer",
+            "kind": "expert",
+            "href": "/people/p-voss"
+          },
+          "depends_on_expert": true
+        },
+        {
+          "label": "Motor rewind contractor",
+          "detail": "Framework contract via procurement.",
+          "owner": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          }
+        }
+      ]
+    },
+    {
+      "dimension": "capabilities",
+      "items": [
+        {
+          "label": "Energy Recovery Optimization",
+          "detail": "Ibarra L3, Rojas L2, Fuentes L0. No local at L4.",
+          "depends_on_expert": true
+        },
+        {
+          "label": "Preventive Maintenance Planning",
+          "detail": "Ibarra L6 — covers PX rotor PM scheduling.",
+          "owner": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          }
+        }
+      ]
+    }
+  ],
+  "transfer_readiness": {
+    "key": "area_transfer_readiness",
+    "label": "AREA TRANSFER READINESS",
+    "value": 0.155,
+    "display": "16%",
+    "unit": "percent",
+    "status": "at_risk",
+    "formula": {
+      "expression": "0.25 × owner confirmed + 0.30 × capabilities localized + 0.15 × formal + 0.20 × informal + 0.10 × trainer coverage",
+      "inputs": [
+        {
+          "label": "Owner confirmed (× 0.25)",
+          "value": 0,
+          "display": "No"
+        },
+        {
+          "label": "Capabilities localized (× 0.30)",
+          "value": 0,
+          "display": "0 / 1"
+        },
+        {
+          "label": "Formal transfer (× 0.15)",
+          "value": 0.7,
+          "display": "70%"
+        },
+        {
+          "label": "Informal transfer (× 0.20)",
+          "value": 0.25,
+          "display": "25%"
+        },
+        {
+          "label": "Trainer coverage (× 0.10)",
+          "value": 0,
+          "display": "No"
+        }
+      ]
+    }
+  },
+  "blueprint_href": "/blueprint?area=area-erd"
+}

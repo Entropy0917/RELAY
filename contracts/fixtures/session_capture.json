@@ -1,0 +1,200 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "capture",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "done",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "current",
+        "href": "/sessions/sess-l2/capture"
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "synthesis",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "validation",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "next-action",
+        "state": "upcoming",
+        "href": null
+      }
+    ]
+  },
+  "transcript": "",
+  "notes": "",
+  "sample_transcript_label": "Load Line 2 intake turbidity transcript",
+  "sample_transcript": "Line 2 intake turbidity event — control room, 26 Sep 2026. Present: H. Voss (V), M. Rojas (R).\n\n[04:52] R: Line 2 intake is reading 11.8 NTU. Line 1 is sitting at 6.\n[04:52] V: Still well under the 20 trigger. What are you looking at?\n[04:53] R: Not the number. The trend. 4.1 at 00:40, 6.0 at 02:00, 8.3 at 03:30. The last forty minutes it went 9.9 to 11.8.\n[04:53] V: So what's the slope?\n[04:54] R: About 1.3 an hour until three. Since then closer to 2.8 an hour. It's accelerating.\n[04:54] V: If it holds?\n[04:55] R: We cross 20 before seven. The SOP says switch to enhanced dosing at 20. By the time that reaches the filters we're already carrying the solids.\n[04:55] V: How long is that lag on Line 2?\n[04:56] R: Dose point to flocculator, then through the media filters. Forty to fifty minutes before we see it at the cartridges.\n[04:56] V: Good. Before you touch anything, what else do you want to know?\n[04:57] R: Whether pretreatment is already feeling it. Media filter DP is 0.42 bar. Normal is under 0.35.\n[04:57] V: Look at the cartridges. SDI.\n[04:58] R: Last manual SDI15 on 2B was 2.9 at midnight. The online estimate says 3.3.\n[04:58] V: Run a manual test on 2B. Don't trust the online estimate when the water is changing this fast.\n[05:03] R: Manual SDI15 on 2B is 3.6.\n[05:03] V: 2.9 to 3.6 in five hours. That trend matters more to me than any single reading. Past 4 at the cartridges, we're feeding it to the membranes.\n[05:04] V: What is the sea doing?\n[05:04] R: I haven't looked.\n[05:05] V: Pull the marine forecast. Swell and tide.\n[05:06] R: Swell 2.3 metres, building to 2.9 by ten. High tide 07:48.\n[05:06] V: So it gets worse before it gets better. The storm has passed but the swell is still working the seabed at the intake head. Line 2's head sits in seven metres of water on sand. Line 1 is deeper, on rock. That's why they're diverging.\n[05:07] R: And the flood tide brings the river plume north toward us?\n[05:07] V: On a spring tide, yes. Today is springs. I've seen it peak up to two hours after high water.\n[05:08] R: So the peak could be closer to ten than seven.\n[05:08] V: One more thing. When was the Line 2 probe last cleaned?\n[05:09] R: Wiper replaced in July. Cleaning is on the weekly round, Fridays.\n[05:09] V: After a storm that window grows a film within days. It reads low. Get a grab from the intake well and run it on the bench.\n[05:15] R: Bench says 15.4. Probe says 12.6.\n[05:15] V: Call it three NTU low. What does that do to your estimate?\n[05:16] R: We're closer than the screen says. An hour to twenty, not two.\n[05:16] V: What do you want to do?\n[05:17] R: Cut Line 2 feed from 1,380 to 1,100 cubic metres an hour. That takes the media filters from about 9.6 to 7.7 metres per hour. Line 1 is clean and has headroom to 1,500, so it picks up most of the difference.\n[05:17] V: Coagulant?\n[05:18] R: Step ferric now, 2.4 to 3.5 milligrams per litre, instead of waiting for 20 and jumping to 5. Jar test at six to confirm.\n[05:18] V: The SOP doesn't say that.\n[05:19] R: The SOP is a threshold. The water is telling us about the rate. If I wait for 20 I'm reacting to something that already happened an hour upstream.\n[05:19] V: Permeate storage? You're taking production off Line 2.\n[05:20] R: Tank is at 71%. With Line 1 up, net loss is about 160 an hour. We're fine through the morning demand peak.\n[05:20] V: Who needs to know?\n[05:21] R: Camila, for the control room log. And the shift supervisor, because this changes the production plan.\n[05:21] V: Do it.\n[05:24] R: Line 2 feed ramping. 1,240. 1,100. Holding. Line 1 at 1,490.\n[05:25] R: Ferric setpoint 3.5. Logged as a pre-emptive change, trend screenshot attached.\n[05:26] V: If the probe hadn't been fouled, would you have done anything differently?\n[05:27] R: Same actions, maybe thirty minutes later. The slope was enough on its own.\n[05:27] V: That's the right answer. The threshold tells you where you are. The rate tells you where you're going.\n[05:28] R: Should I raise a work order for the probe?\n[05:28] V: Yes. And move probe cleaning onto the post-storm checklist, not the weekly round. Diego will need to change the plan for it.\n[05:29] R: What would make you take Line 2 off completely?\n[05:30] V: Cartridge SDI above 5, or cartridge DP climbing fast right after a change-out. Then you protect the membranes and take the production hit. We're not there.\n[05:31] R: And if Line 1 starts rising too?\n[05:31] V: Then it's a plant-level decision, and a different sequence. We'll walk that one properly another day.\n[06:10] R: Jar test. At 3.5 mg/L settled water is 1.8 NTU. At 2.4 it was 3.9.\n[06:11] V: Keep 3.5.\n[06:41] R: Line 2 probe just hit 19.2. Bench grab is 21.8. We're over the formal trigger.\n[06:42] V: Cartridges?\n[06:42] R: 2B SDI15 is 3.4, down from 3.6. Media filter DP 0.38 and flat.\n[06:43] V: So by the time the SOP asked you to act, you'd already acted, and pretreatment is holding. Leave the settings. Recheck SDI at 08:00 and again after high water.\n[06:43] R: Putting the 08:00 and 10:00 checks on the handover sheet now.",
+  "submit_href": "/sessions/sess-l2/capture"
+}

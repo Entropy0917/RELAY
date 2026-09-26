@@ -1,0 +1,26 @@
+{
+  "engagement": {"id": "eng-cwa", "name": "Desalination Operations Localization", "organization": "Coastal Water Authority", "sector": "Water utilities", "region": "Northern coastal region"},
+  "engagements": [
+    {"id": "eng-cwa", "name": "Desalination Operations Localization", "organization": "Coastal Water Authority", "sector": "Water utilities", "region": "Northern coastal region"},
+    {"id": "eng-nmr", "name": "Rolling Mill Maintenance Transfer", "organization": "Norvale Metals", "sector": "Manufacturing", "region": "Midlands"}
+  ],
+  "personas": [
+    {"id": "persona-expert", "role": "expert", "person": {"id": "p-voss", "name": "Dr. Helena Voss", "initials": "HV", "title": "Senior Desalination Process Engineer", "kind": "expert", "href": "/people/p-voss"}},
+    {"id": "persona-learner", "role": "learner", "person": {"id": "p-rojas", "name": "Mateo Rojas", "initials": "MR", "title": "Plant Operations Lead", "kind": "counterpart", "href": "/people/p-rojas"}},
+    {"id": "persona-pm", "role": "program_manager", "person": {"id": "p-navarro", "name": "Lucía Navarro", "initials": "LN", "title": "Program Manager", "kind": "manager", "href": "/people/p-navarro"}}
+  ],
+  "current_persona": {"id": "persona-expert", "role": "expert", "person": {"id": "p-voss", "name": "Dr. Helena Voss", "initials": "HV", "title": "Senior Desalination Process Engineer", "kind": "expert", "href": "/people/p-voss"}},
+  "nav": [
+    {"key": "overview", "label": "Overview", "href": "/overview"},
+    {"key": "operating_model", "label": "Operating Model", "href": "/operating-model"},
+    {"key": "blueprint", "label": "Transfer Blueprint", "href": "/blueprint"},
+    {"key": "people", "label": "People", "href": "/people"},
+    {"key": "sessions", "label": "Sessions", "href": "/sessions", "badge": "1"},
+    {"key": "knowledge", "label": "Knowledge", "href": "/knowledge"},
+    {"key": "readiness", "label": "Readiness", "href": "/readiness"}
+  ],
+  "active": "overview",
+  "departure": {"expert": {"id": "p-voss", "name": "Dr. Helena Voss", "initials": "HV", "title": "Senior Desalination Process Engineer", "kind": "expert", "href": "/people/p-voss"}, "departure_date": "2026-11-06", "days_remaining": 41},
+  "engagement_switch_href": "/engagement",
+  "persona_switch_href": "/persona"
+}

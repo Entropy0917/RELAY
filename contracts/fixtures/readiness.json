@@ -1,0 +1,1006 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "readiness",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "headline": {
+    "key": "om_readiness",
+    "label": "OPERATING MODEL READINESS",
+    "value": 0.64,
+    "display": "64%",
+    "unit": "percent",
+    "status": "transfer_in_progress",
+    "formula": {
+      "expression": "0.25 × local ownership + 0.30 × capability localization + 0.15 × formal transfer + 0.20 × informal transfer + 0.10 × trainer coverage",
+      "inputs": [
+        {
+          "label": "Local ownership (× 0.25)",
+          "value": 0.7778,
+          "display": "78%"
+        },
+        {
+          "label": "Capability localization (× 0.30)",
+          "value": 0.6,
+          "display": "60%"
+        },
+        {
+          "label": "Formal knowledge transfer (× 0.15)",
+          "value": 0.8722,
+          "display": "87%"
+        },
+        {
+          "label": "Informal knowledge transfer (× 0.20)",
+          "value": 0.5556,
+          "display": "56%"
+        },
+        {
+          "label": "Trainer coverage (× 0.10)",
+          "value": 0.2222,
+          "display": "22%"
+        }
+      ]
+    }
+  },
+  "metrics": [
+    {
+      "key": "capability_localization",
+      "label": "CAPABILITY LOCALIZATION",
+      "value": 0.6,
+      "display": "60%",
+      "unit": "percent",
+      "status": "transfer_in_progress",
+      "formula": {
+        "expression": "critical capabilities with ≥1 local at level ≥4 ÷ critical capabilities",
+        "inputs": [
+          {
+            "label": "Localized critical capabilities",
+            "value": 6,
+            "display": "6"
+          },
+          {
+            "label": "Critical capabilities",
+            "value": 10,
+            "display": "10"
+          }
+        ]
+      }
+    },
+    {
+      "key": "local_ownership",
+      "label": "LOCAL OWNERSHIP",
+      "value": 0.7778,
+      "display": "78%",
+      "unit": "percent",
+      "status": "on_track",
+      "formula": {
+        "expression": "areas with a confirmed local owner ÷ operating-model areas",
+        "inputs": [
+          {
+            "label": "Areas with confirmed local owner",
+            "value": 7,
+            "display": "7"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "trainer_coverage",
+      "label": "TRAINER COVERAGE",
+      "value": 0.2222,
+      "display": "22%",
+      "unit": "percent",
+      "status": "critical",
+      "formula": {
+        "expression": "areas where every critical capability has a local at level 6 ÷ operating-model areas",
+        "inputs": [
+          {
+            "label": "Areas with full local trainer coverage",
+            "value": 2,
+            "display": "2"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "formal_transfer",
+      "label": "FORMAL KNOWLEDGE TRANSFER",
+      "value": 0.8722,
+      "display": "87%",
+      "unit": "percent",
+      "status": "on_track",
+      "formula": {
+        "expression": "mean formal transfer across operating-model areas",
+        "inputs": [
+          {
+            "label": "Sum of area formal transfer",
+            "value": 7.85,
+            "display": "7.85"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "informal_transfer",
+      "label": "INFORMAL KNOWLEDGE TRANSFER",
+      "value": 0.5556,
+      "display": "56%",
+      "unit": "percent",
+      "status": "at_risk",
+      "formula": {
+        "expression": "mean informal (tacit) transfer across operating-model areas",
+        "inputs": [
+          {
+            "label": "Sum of area informal transfer",
+            "value": 5.0,
+            "display": "5.00"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "expert_dependency",
+      "label": "EXPERT DEPENDENCY",
+      "value": 0.4,
+      "display": "40%",
+      "unit": "percent",
+      "status": "critical",
+      "formula": {
+        "expression": "critical capabilities where no local is at level ≥4 ÷ critical capabilities",
+        "inputs": [
+          {
+            "label": "Expert-dependent capabilities",
+            "value": 4,
+            "display": "4"
+          },
+          {
+            "label": "Critical capabilities",
+            "value": 10,
+            "display": "10"
+          }
+        ]
+      }
+    },
+    {
+      "key": "days_to_departure",
+      "label": "DAYS TO EXPERT DEPARTURE",
+      "value": 41,
+      "display": "41 DAYS",
+      "unit": "days",
+      "status": "at_risk",
+      "formula": {
+        "expression": "departure date − today (day of year)",
+        "inputs": [
+          {
+            "label": "Departure — 6 Nov 2026",
+            "value": 310,
+            "display": "day 310"
+          },
+          {
+            "label": "Today — 26 Sep 2026",
+            "value": 269,
+            "display": "day 269"
+          }
+        ]
+      }
+    },
+    {
+      "key": "knowledge_at_risk",
+      "label": "KNOWLEDGE AT RISK",
+      "value": 3,
+      "display": "3",
+      "unit": "count",
+      "status": "at_risk",
+      "formula": {
+        "expression": "library items with no local exposed + items still pending expert validation",
+        "inputs": [
+          {
+            "label": "Items with no local exposed",
+            "value": 2,
+            "display": "2"
+          },
+          {
+            "label": "Other items pending validation",
+            "value": 1,
+            "display": "1"
+          }
+        ]
+      }
+    }
+  ],
+  "weights": [
+    {
+      "component": "Local ownership",
+      "weight": 0.25,
+      "metric_key": "local_ownership"
+    },
+    {
+      "component": "Capability localization",
+      "weight": 0.3,
+      "metric_key": "capability_localization"
+    },
+    {
+      "component": "Formal knowledge transfer",
+      "weight": 0.15,
+      "metric_key": "formal_transfer"
+    },
+    {
+      "component": "Informal knowledge transfer",
+      "weight": 0.2,
+      "metric_key": "informal_transfer"
+    },
+    {
+      "component": "Trainer coverage",
+      "weight": 0.1,
+      "metric_key": "trainer_coverage"
+    }
+  ],
+  "areas": [
+    {
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      "formal_pct": 0.95,
+      "informal_pct": 0.7,
+      "local_owner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "status": "on_track"
+    },
+    {
+      "area": {
+        "id": "area-ro",
+        "name": "Reverse Osmosis Operations",
+        "href": "/operating-model/areas/area-ro"
+      },
+      "formal_pct": 1.0,
+      "informal_pct": 0.85,
+      "local_owner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "status": "sustainable"
+    },
+    {
+      "area": {
+        "id": "area-dosing",
+        "name": "Chemical Dosing",
+        "href": "/operating-model/areas/area-dosing"
+      },
+      "formal_pct": 0.9,
+      "informal_pct": 0.6,
+      "local_owner": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "status": "transfer_in_progress"
+    },
+    {
+      "area": {
+        "id": "area-erd",
+        "name": "Energy Recovery",
+        "href": "/operating-model/areas/area-erd"
+      },
+      "formal_pct": 0.7,
+      "informal_pct": 0.25,
+      "local_owner": null,
+      "status": "at_risk"
+    },
+    {
+      "area": {
+        "id": "area-maint",
+        "name": "Maintenance Planning",
+        "href": "/operating-model/areas/area-maint"
+      },
+      "formal_pct": 0.85,
+      "informal_pct": 0.55,
+      "local_owner": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "status": "transfer_in_progress"
+    },
+    {
+      "area": {
+        "id": "area-compliance",
+        "name": "Water Quality Compliance",
+        "href": "/operating-model/areas/area-compliance"
+      },
+      "formal_pct": 1.0,
+      "informal_pct": 0.8,
+      "local_owner": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "status": "sustainable"
+    },
+    {
+      "area": {
+        "id": "area-scada",
+        "name": "SCADA & Alarm Management",
+        "href": "/operating-model/areas/area-scada"
+      },
+      "formal_pct": 0.9,
+      "informal_pct": 0.65,
+      "local_owner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "status": "transfer_in_progress"
+    },
+    {
+      "area": {
+        "id": "area-contractors",
+        "name": "Contractor & Supplier Management",
+        "href": "/operating-model/areas/area-contractors"
+      },
+      "formal_pct": 0.8,
+      "informal_pct": 0.4,
+      "local_owner": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "status": "at_risk"
+    },
+    {
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "formal_pct": 0.75,
+      "informal_pct": 0.2,
+      "local_owner": null,
+      "status": "critical"
+    }
+  ],
+  "departure": {
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "stats": [
+      {
+        "label": "OPERATING MODEL AREAS",
+        "display": "7 / 9",
+        "caption": "locally owned",
+        "metric": {
+          "key": "local_ownership",
+          "label": "LOCAL OWNERSHIP",
+          "value": 0.7778,
+          "display": "78%",
+          "unit": "percent",
+          "status": "on_track",
+          "formula": {
+            "expression": "areas with a confirmed local owner ÷ operating-model areas",
+            "inputs": [
+              {
+                "label": "Areas with confirmed local owner",
+                "value": 7,
+                "display": "7"
+              },
+              {
+                "label": "Operating-model areas",
+                "value": 9,
+                "display": "9"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "CRITICAL CAPABILITIES",
+        "display": "6 / 10",
+        "caption": "localized at level ≥4",
+        "metric": {
+          "key": "capability_localization",
+          "label": "CAPABILITY LOCALIZATION",
+          "value": 0.6,
+          "display": "60%",
+          "unit": "percent",
+          "status": "transfer_in_progress",
+          "formula": {
+            "expression": "critical capabilities with ≥1 local at level ≥4 ÷ critical capabilities",
+            "inputs": [
+              {
+                "label": "Localized critical capabilities",
+                "value": 6,
+                "display": "6"
+              },
+              {
+                "label": "Critical capabilities",
+                "value": 10,
+                "display": "10"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "LOCAL TRAINERS",
+        "display": "3 / 10",
+        "caption": "capabilities teachable locally"
+      },
+      {
+        "label": "EXPERT-DEPENDENT",
+        "display": "4",
+        "caption": "capabilities with no local at level ≥4",
+        "metric": {
+          "key": "expert_dependent",
+          "label": "EXPERT-DEPENDENT",
+          "value": 4,
+          "display": "4",
+          "unit": "count",
+          "status": "critical",
+          "formula": {
+            "expression": "critical capabilities where no local is at level ≥4",
+            "inputs": [
+              {
+                "label": "Critical capabilities",
+                "value": 10,
+                "display": "10"
+              },
+              {
+                "label": "Localized critical capabilities",
+                "value": 6,
+                "display": "6"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "KNOWLEDGE LIBRARY",
+        "display": "13 / 15",
+        "caption": "records validated"
+      }
+    ],
+    "before_departure": [
+      {
+        "rank": 1,
+        "text": "Tabletop shutdown scenario, then supervised drill on Train 4",
+        "href": "/sessions",
+        "capability": {
+          "id": "cap-shutdown",
+          "name": "Emergency Plant Shutdown",
+          "critical": true
+        },
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        },
+        "ai_suggested": true
+      },
+      {
+        "rank": 2,
+        "text": "Name and confirm owners for Energy Recovery and Incident Response",
+        "href": "/operating-model",
+        "capability": null,
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        },
+        "ai_suggested": true
+      },
+      {
+        "rank": 3,
+        "text": "Introduce Rojas to the grid operator duty engineer on the direct line",
+        "href": "/knowledge#k-rel-grid",
+        "capability": {
+          "id": "cap-shutdown",
+          "name": "Emergency Plant Shutdown",
+          "critical": true
+        },
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        },
+        "ai_suggested": true
+      },
+      {
+        "rank": 4,
+        "text": "Move Voss's PX performance workbook to the plant share and walk Ibarra through it",
+        "href": "/blueprint?area=area-erd",
+        "capability": {
+          "id": "cap-erd",
+          "name": "Energy Recovery Optimization",
+          "critical": true
+        },
+        "person": {
+          "id": "p-ibarra",
+          "name": "Diego Ibarra",
+          "initials": "DI",
+          "title": "Maintenance Planner",
+          "kind": "counterpart",
+          "href": "/people/p-ibarra"
+        },
+        "ai_suggested": true
+      },
+      {
+        "rank": 5,
+        "text": "Rojas leads a storm-event turbidity response with Voss observing only",
+        "href": "/blueprint?area=area-intake",
+        "capability": {
+          "id": "cap-turbidity",
+          "name": "Intake Turbidity Response",
+          "critical": true
+        },
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        },
+        "ai_suggested": false
+      }
+    ]
+  },
+  "flags": [
+    {
+      "kind": "no_local_coverage",
+      "label": "No local coverage",
+      "detail": "Emergency Plant Shutdown: highest local level is Observed (Rojas, Fuentes).",
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "severity": "critical"
+    },
+    {
+      "kind": "no_local_owner",
+      "label": "No local owner",
+      "detail": "Incident Response has no owner. Shutdown procedure stops at 'trains isolated'.",
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "capability": null,
+      "severity": "critical"
+    },
+    {
+      "kind": "no_local_owner",
+      "label": "No local owner",
+      "detail": "Energy Recovery: Ibarra proposed in August, not confirmed.",
+      "area": {
+        "id": "area-erd",
+        "name": "Energy Recovery",
+        "href": "/operating-model/areas/area-erd"
+      },
+      "capability": null,
+      "severity": "high"
+    },
+    {
+      "kind": "single_holder",
+      "label": "Single holder",
+      "detail": "PX mixing estimate and rebalance decision held only by Voss; method lives in a personal workbook.",
+      "area": {
+        "id": "area-erd",
+        "name": "Energy Recovery",
+        "href": "/operating-model/areas/area-erd"
+      },
+      "capability": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "severity": "critical"
+    },
+    {
+      "kind": "undocumented_tacit",
+      "label": "Undocumented tacit knowledge",
+      "detail": "Rate-of-rise trigger and Line 2 probe under-read are practiced but not in SOP-PT-04.",
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "severity": "high"
+    },
+    {
+      "kind": "observed_only",
+      "label": "Observed only",
+      "detail": "Rojas has watched one restart (9 Mar) and performed no step of it.",
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "severity": "high"
+    },
+    {
+      "kind": "expert_relationship",
+      "label": "Expert-held relationship",
+      "detail": "Grid operator duty engineer and PX OEM regional engineer deal only with Voss.",
+      "area": {
+        "id": "area-contractors",
+        "name": "Contractor & Supplier Management",
+        "href": "/operating-model/areas/area-contractors"
+      },
+      "capability": {
+        "id": "cap-contractor",
+        "name": "Contractor Coordination",
+        "critical": true
+      },
+      "severity": "medium"
+    },
+    {
+      "kind": "no_local_trainer",
+      "label": "No local trainer",
+      "detail": "Intake Turbidity Response: Rojas at level 3; no local can teach it to night shift.",
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "severity": "medium"
+    }
+  ],
+  "propagation": {
+    "capability": {
+      "id": "cap-fouling",
+      "name": "Membrane Fouling Diagnosis",
+      "critical": true
+    },
+    "capability_options": [
+      {
+        "value": "cap-fouling",
+        "label": "Membrane Fouling Diagnosis",
+        "count": 3
+      },
+      {
+        "value": "cap-dosing",
+        "label": "Antiscalant Dosing Adjustment",
+        "count": 3
+      },
+      {
+        "value": "cap-turbidity",
+        "label": "Intake Turbidity Response",
+        "count": 2
+      },
+      {
+        "value": "cap-alarm",
+        "label": "SCADA Alarm Triage",
+        "count": 3
+      },
+      {
+        "value": "cap-erd",
+        "label": "Energy Recovery Optimization",
+        "count": 2
+      },
+      {
+        "value": "cap-pm",
+        "label": "Preventive Maintenance Planning",
+        "count": 3
+      },
+      {
+        "value": "cap-compliance",
+        "label": "Water Quality Compliance Reporting",
+        "count": 3
+      },
+      {
+        "value": "cap-contractor",
+        "label": "Contractor Coordination",
+        "count": 2
+      },
+      {
+        "value": "cap-shutdown",
+        "label": "Emergency Plant Shutdown",
+        "count": 2
+      },
+      {
+        "value": "cap-rca",
+        "label": "Root Cause Analysis of Plant Trips",
+        "count": 3
+      }
+    ],
+    "nodes": [
+      {
+        "id": "n-voss",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        },
+        "level": 6,
+        "depth": 0
+      },
+      {
+        "id": "n-rojas",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        },
+        "level": 6,
+        "depth": 1
+      },
+      {
+        "id": "n-ibarra",
+        "person": {
+          "id": "p-ibarra",
+          "name": "Diego Ibarra",
+          "initials": "DI",
+          "title": "Maintenance Planner",
+          "kind": "counterpart",
+          "href": "/people/p-ibarra"
+        },
+        "level": 3,
+        "depth": 1
+      },
+      {
+        "id": "n-fuentes",
+        "person": {
+          "id": "p-fuentes",
+          "name": "Camila Fuentes",
+          "initials": "CF",
+          "title": "Control Room Operator",
+          "kind": "counterpart",
+          "href": "/people/p-fuentes"
+        },
+        "level": 3,
+        "depth": 2
+      },
+      {
+        "id": "n-shift",
+        "person": {
+          "id": "grp-shift-ops",
+          "name": "Shift operators",
+          "initials": "SO",
+          "title": "Shift Operator, A–D shifts",
+          "kind": "counterpart",
+          "href": "/people"
+        },
+        "level": null,
+        "depth": 2,
+        "group_label": "Shift operators (6)"
+      }
+    ],
+    "edges": [
+      {
+        "source": "n-voss",
+        "target": "n-rojas",
+        "label": "taught 19 Mar"
+      },
+      {
+        "source": "n-voss",
+        "target": "n-ibarra",
+        "label": "co-diagnosed 5 Jun"
+      },
+      {
+        "source": "n-rojas",
+        "target": "n-fuentes",
+        "label": "taught 12 Sep"
+      },
+      {
+        "source": "n-rojas",
+        "target": "n-shift",
+        "label": "briefed 16 Sep"
+      }
+    ],
+    "href": "/readiness/propagation"
+  }
+}

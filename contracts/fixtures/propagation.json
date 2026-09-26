@@ -1,0 +1,150 @@
+{
+  "capability": {
+    "id": "cap-fouling",
+    "name": "Membrane Fouling Diagnosis",
+    "critical": true
+  },
+  "capability_options": [
+    {
+      "value": "cap-fouling",
+      "label": "Membrane Fouling Diagnosis",
+      "count": 3
+    },
+    {
+      "value": "cap-dosing",
+      "label": "Antiscalant Dosing Adjustment",
+      "count": 3
+    },
+    {
+      "value": "cap-turbidity",
+      "label": "Intake Turbidity Response",
+      "count": 2
+    },
+    {
+      "value": "cap-alarm",
+      "label": "SCADA Alarm Triage",
+      "count": 3
+    },
+    {
+      "value": "cap-erd",
+      "label": "Energy Recovery Optimization",
+      "count": 2
+    },
+    {
+      "value": "cap-pm",
+      "label": "Preventive Maintenance Planning",
+      "count": 3
+    },
+    {
+      "value": "cap-compliance",
+      "label": "Water Quality Compliance Reporting",
+      "count": 3
+    },
+    {
+      "value": "cap-contractor",
+      "label": "Contractor Coordination",
+      "count": 2
+    },
+    {
+      "value": "cap-shutdown",
+      "label": "Emergency Plant Shutdown",
+      "count": 2
+    },
+    {
+      "value": "cap-rca",
+      "label": "Root Cause Analysis of Plant Trips",
+      "count": 3
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n-voss",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "level": 6,
+      "depth": 0
+    },
+    {
+      "id": "n-rojas",
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "level": 6,
+      "depth": 1
+    },
+    {
+      "id": "n-ibarra",
+      "person": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "level": 3,
+      "depth": 1
+    },
+    {
+      "id": "n-fuentes",
+      "person": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "level": 3,
+      "depth": 2
+    },
+    {
+      "id": "n-shift",
+      "person": {
+        "id": "grp-shift-ops",
+        "name": "Shift operators",
+        "initials": "SO",
+        "title": "Shift Operator, A–D shifts",
+        "kind": "counterpart",
+        "href": "/people"
+      },
+      "level": null,
+      "depth": 2,
+      "group_label": "Shift operators (6)"
+    }
+  ],
+  "edges": [
+    {
+      "source": "n-voss",
+      "target": "n-rojas",
+      "label": "taught 19 Mar"
+    },
+    {
+      "source": "n-voss",
+      "target": "n-ibarra",
+      "label": "co-diagnosed 5 Jun"
+    },
+    {
+      "source": "n-rojas",
+      "target": "n-fuentes",
+      "label": "taught 12 Sep"
+    },
+    {
+      "source": "n-rojas",
+      "target": "n-shift",
+      "label": "briefed 16 Sep"
+    }
+  ],
+  "href": "/readiness/propagation"
+}

@@ -1,0 +1,468 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "validation",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "done",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "done",
+        "href": "/sessions/sess-l2/capture"
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "done",
+        "href": "/sessions/sess-l2/expert-debrief"
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "done",
+        "href": "/sessions/sess-l2/learner-debrief"
+      },
+      {
+        "stage": "synthesis",
+        "state": "done",
+        "href": "/sessions/sess-l2/synthesis"
+      },
+      {
+        "stage": "validation",
+        "state": "current",
+        "href": "/sessions/sess-l2/validation"
+      },
+      {
+        "stage": "next-action",
+        "state": "upcoming",
+        "href": null
+      }
+    ]
+  },
+  "findings": [
+    {
+      "kind": "capability_evidence",
+      "id": "f-cap",
+      "title": "Mateo Rojas acted on the rate of rise before the formal trigger",
+      "status": "approved",
+      "confidence": "high",
+      "evidence_sources": [
+        "Session transcript 04:53–05:25",
+        "Learner debrief Q1",
+        "Expert observation (Dr. Voss)"
+      ],
+      "rationale": {
+        "why": "Mateo read the trend, not the threshold, and proposed the correct response without prompting. His debrief answer reproduces the reasoning, including the dosing lag.",
+        "evidence": [
+          "04:54: computed the slope change, 1.3 to 2.8 NTU/h, unprompted",
+          "05:17: proposed Line 2 feed cut to 1,100 m³/h and load shift to Line 1 before 20 NTU",
+          "06:42: outcome held; 2B SDI15 fell from 3.6 to 3.4 after the formal trigger was crossed"
+        ],
+        "om_component": "Intake & Pretreatment",
+        "if_not_transferred": "Storm response keeps waiting on Dr. Voss's judgment call; after 6 Nov no one on shift is cleared to act before 20 NTU."
+      },
+      "actions": [],
+      "action_href": "/sessions/sess-l2/findings/f-cap",
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "evidence": [
+        "Identified the accelerating rise (1.3 → 2.8 NTU/h) at 11.8 NTU, 8 NTU below the SOP trigger",
+        "Estimated time-to-trigger and the 40–50 min dose-to-cartridge lag on Line 2",
+        "Reduced Line 2 feed 1,380 → 1,100 m³/h and shifted load to Line 1 before the trigger",
+        "Stepped ferric 2.4 → 3.5 mg/L and confirmed it by jar test (settled 1.8 NTU)",
+        "Checked permeate storage and notified the control room and shift supervisor"
+      ],
+      "current_level": 3,
+      "suggested_level": 4,
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validated_at": "2026-09-26T10:14:00"
+    },
+    {
+      "kind": "tacit_knowledge",
+      "id": "f-tacit",
+      "title": "Watch the Rate of Rise, Not the Threshold",
+      "status": "edited",
+      "confidence": "high",
+      "evidence_sources": [
+        "Session transcript 05:03–05:27",
+        "Expert debrief",
+        "SOP-PT-04 Intake Turbidity Response"
+      ],
+      "rationale": {
+        "why": "Dr. Voss's storm response departs from SOP-PT-04 in four specific, repeatable ways. None appear in the SOP, the blueprint or the maintenance plan.",
+        "evidence": [
+          "05:27: \"The threshold tells you where you are. The rate tells you where you're going.\"",
+          "05:09: Line 2 probe reads low after storms; bench grab 2.8 NTU above probe",
+          "05:06: tide and swell used to predict when the event peaks"
+        ],
+        "om_component": "Intake & Pretreatment · informal knowledge",
+        "if_not_transferred": "The SOP stays the only written rule. Operators wait for 20 NTU on a probe that under-reads by ~3 NTU after storms."
+      },
+      "actions": [],
+      "action_href": "/sessions/sess-l2/findings/f-tacit",
+      "formal_rule": "Switch to enhanced coagulant dosing when intake turbidity exceeds 20 NTU. (SOP-PT-04 §3.2)",
+      "expert_practice": [
+        "Acts before 20 NTU when the rise is steep and accelerating, judged over the last hour",
+        "Takes a manual SDI15 on the cartridge filters rather than trusting the online estimate",
+        "Checks tide and swell forecast; on spring tides expects the peak up to two hours after high water",
+        "Discounts the Line 2 probe after storms: biofouling on the window makes it read low"
+      ],
+      "proposed_record": {
+        "id": "ki-rate-of-rise",
+        "title": "Watch the Rate of Rise, Not the Threshold",
+        "type": "heuristic",
+        "capability": {
+          "id": "cap-turbidity",
+          "name": "Intake Turbidity Response",
+          "critical": true
+        },
+        "area": {
+          "id": "area-intake",
+          "name": "Intake & Pretreatment",
+          "href": "/operating-model/areas/area-intake"
+        },
+        "situation": "Intake turbidity is below the 20 NTU enhanced-dosing trigger but rising fast, typically in the 12–36 hours after an offshore storm.",
+        "observed_signals": [
+          "Rise accelerating past ~2 NTU/h sustained over an hour",
+          "Manual SDI15 on the cartridge filters trending up (e.g. 2.9 → 3.6 in five hours)",
+          "Swell forecast building, spring tide, high water still ahead",
+          "Line 2 probe reading below a bench grab sample"
+        ],
+        "expert_reasoning": "The threshold tells you where the water is; the rate tells you where it will be when a dosing change arrives 40–50 minutes later at the cartridges. Act when the rise exceeds 2 NTU/h sustained over 60 minutes, whatever the absolute value. For 3–5 days after a storm, add 3 NTU to the Line 2 probe or use a bench grab.",
+        "recommended_response": "Confirm with a bench grab and a manual SDI15. Check tide and swell. Reduce the affected line's feed flow, shift load to the cleaner line, step coagulant up early and confirm by jar test. Tell the control room and shift supervisor.",
+        "why_it_matters": "Waiting for 20 NTU on a fast event lets solids reach the cartridge filters before pretreatment responds, pushing SDI toward the membrane limit of 5 and risking an unplanned CIP.",
+        "source": {
+          "label": "Line 2 intake turbidity event · 26 Sep 2026",
+          "href": "/sessions/sess-l2/synthesis"
+        },
+        "expert": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        },
+        "validation_status": "validated",
+        "validated_by": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        },
+        "people_exposed": [
+          {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          }
+        ],
+        "captured_on": "2026-09-26",
+        "is_new": true
+      },
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validated_at": "2026-09-26T10:19:00",
+      "reviewer_note": "Added the numbers: 2 NTU/h over 60 min, and the Line 2 probe offset (~3 NTU low for 3–5 days after a storm). Line 1 doesn't show it; different mount, better flushed."
+    },
+    {
+      "kind": "remaining_gap",
+      "id": "f-gap",
+      "title": "Emergency Plant Shutdown: triggers understood, sequence not demonstrated",
+      "status": "approved",
+      "confidence": "medium",
+      "evidence_sources": [
+        "Learner debrief Q2",
+        "Session transcript 05:29–05:31",
+        "Passport: Emergency Plant Shutdown at Observed since 2026-03-18"
+      ],
+      "rationale": {
+        "why": "Mateo named the membrane-protection triggers correctly but said he is unsure of the sequence once both lines must come down. Understanding is not demonstrated capability.",
+        "evidence": [
+          "Learner debrief Q2: \"I know the triggers. I'm less sure of the order after that.\"",
+          "Only exposure: observed one shutdown, March 2026",
+          "Incident Response area has no local owner and no local trainer"
+        ],
+        "om_component": "Incident Response",
+        "if_not_transferred": "A two-line shutdown after 6 Nov is run from memory of one observed event, with no local person able to sequence it."
+      },
+      "actions": [],
+      "action_href": "/sessions/sess-l2/findings/f-gap",
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "understanding": [
+        "Cartridge SDI above 5 means protect the membranes and take the line off",
+        "If both intakes are rising there is nowhere to shift load, so the plant comes down",
+        "The grid operator must be told about the load drop"
+      ],
+      "not_demonstrated": [
+        "Isolating RO trains in the correct order",
+        "Notifying the grid operator ahead of the high-pressure pump load drop",
+        "Managing permeate storage and supply to the network during the outage",
+        "Restart sequencing, including flush and SDI confirmation before feed",
+        "Regulator notification within the permit window",
+        "Shift handover during a shutdown"
+      ],
+      "instruction": "Do not advance Emergency Plant Shutdown. Mateo remains at Observed.",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validated_at": "2026-09-26T10:22:00"
+    },
+    {
+      "kind": "next_activity",
+      "id": "f-next",
+      "title": "Mateo leads a shutdown tabletop, then a supervised drill",
+      "status": "pending",
+      "confidence": "medium",
+      "evidence_sources": [
+        "Remaining gap finding",
+        "Transfer blueprint: Incident Response",
+        "Expert availability to 6 Nov"
+      ],
+      "rationale": {
+        "why": "Emergency Plant Shutdown is the last critical capability with no local holder above Observed. A tabletop is low-risk and exposes the sequence; a supervised drill on Line 2 then produces performance evidence before Dr. Voss leaves.",
+        "evidence": [
+          "Incident Response: informal 20%, no local owner, status critical",
+          "Mateo at Observed on Emergency Plant Shutdown",
+          "Two drill windows remain before 6 Nov (low-demand weekends 10 Oct and 24 Oct)"
+        ],
+        "om_component": "Incident Response",
+        "if_not_transferred": "The plant's worst-case procedure leaves with Dr. Voss."
+      },
+      "actions": [
+        "approve",
+        "edit",
+        "reject"
+      ],
+      "action_href": "/sessions/sess-l2/findings/f-next",
+      "objective": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "recommended_experience": "Mateo runs a tabletop of a two-line shutdown triggered by both intakes rising after a storm, then leads a supervised Line 2 shutdown drill. Dr. Voss observes and intervenes only if membranes or supply are at risk.",
+      "responsibilities": [
+        "Decide the shutdown trigger and call it",
+        "Isolate RO trains in order and confirm each is safe",
+        "Notify the grid operator before the load drop",
+        "Set permeate storage drawdown and network supply limits",
+        "Draft the regulator notification",
+        "Plan restart: flush, SDI check, feed ramp",
+        "Brief the incoming shift"
+      ],
+      "target_date": "2026-10-10",
+      "backup_experience": "If the drill window slips, run the tabletop twice with Camila Fuentes acting as control room, and hold the drill for 24 Oct."
+    }
+  ],
+  "inputs_used": [
+    "Session transcript",
+    "Expert debrief",
+    "Learner debrief",
+    "Operating model: Intake & Pretreatment",
+    "Transfer blueprint",
+    "SOP-PT-04 Intake Turbidity Response",
+    "Previous capability evidence: Mateo Rojas"
+  ],
+  "ai_error": null,
+  "can_validate": true,
+  "complete_href": "/sessions/sess-l2/validate"
+}

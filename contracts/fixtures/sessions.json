@@ -1,0 +1,264 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "today": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "prepare",
+    "complete": false,
+    "knowledge_captured": 0,
+    "evidence_recorded": 0,
+    "teaching_opportunities": 0,
+    "follow_ups": 0,
+    "href": "/sessions/sess-l2/prepare"
+  },
+  "sessions": [
+    {
+      "id": "sess-sdi",
+      "title": "Cartridge filter SDI drift review",
+      "held_on": "2026-09-12",
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "learner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "focus": {
+        "id": "cap-fouling",
+        "name": "Membrane Fouling Diagnosis",
+        "critical": true
+      },
+      "stage": "next-action",
+      "complete": true,
+      "knowledge_captured": 2,
+      "evidence_recorded": 1,
+      "teaching_opportunities": 1,
+      "follow_ups": 2,
+      "href": "/sessions/sess-sdi/next-action"
+    },
+    {
+      "id": "sess-erd",
+      "title": "Pressure exchanger efficiency loss",
+      "held_on": "2026-09-03",
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "learner": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "focus": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "stage": "next-action",
+      "complete": true,
+      "knowledge_captured": 1,
+      "evidence_recorded": 1,
+      "teaching_opportunities": 0,
+      "follow_ups": 3,
+      "href": "/sessions/sess-erd/next-action"
+    },
+    {
+      "id": "sess-alarm",
+      "title": "Night-shift alarm flood triage",
+      "held_on": "2026-08-21",
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "learner": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "focus": {
+        "id": "cap-alarm",
+        "name": "SCADA Alarm Triage",
+        "critical": true
+      },
+      "stage": "next-action",
+      "complete": true,
+      "knowledge_captured": 3,
+      "evidence_recorded": 2,
+      "teaching_opportunities": 1,
+      "follow_ups": 1,
+      "href": "/sessions/sess-alarm/next-action"
+    }
+  ]
+}

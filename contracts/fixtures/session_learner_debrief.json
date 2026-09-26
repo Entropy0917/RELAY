@@ -1,0 +1,230 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-learner",
+      "role": "learner",
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "learner-debrief",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "done",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "done",
+        "href": "/sessions/sess-l2/capture"
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "done",
+        "href": "/sessions/sess-l2/expert-debrief"
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "current",
+        "href": "/sessions/sess-l2/learner-debrief"
+      },
+      {
+        "stage": "synthesis",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "validation",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "next-action",
+        "state": "upcoming",
+        "href": null
+      }
+    ]
+  },
+  "role": "learner",
+  "respondent": {
+    "id": "p-rojas",
+    "name": "Mateo Rojas",
+    "initials": "MR",
+    "title": "Plant Operations Lead",
+    "kind": "counterpart",
+    "href": "/people/p-rojas"
+  },
+  "switch_to_persona_id": "persona-learner",
+  "questions": [
+    {
+      "id": "q-l1",
+      "prompt": "Line 2 was at 11.8 NTU, well under the 20 NTU trigger. Why did you treat that as urgent?",
+      "rationale": "Tests whether the early action came from reasoning Mateo can reproduce, or from Dr. Voss's prompting.",
+      "answer": "Because the rise was speeding up. 1.3 an hour, then 2.8. At that rate we'd hit 20 before seven, and a dose change takes forty-plus minutes to reach the cartridges. Waiting for 20 means acting an hour late. The grab sample made it worse, the probe was three low. I'd have cut feed on the slope alone.",
+      "tags": [
+        "understanding"
+      ]
+    },
+    {
+      "id": "q-l2",
+      "prompt": "Suppose Line 1 had started rising at the same time and SDI on 2B passed 5. Walk through what you would do, in order.",
+      "rationale": "Dr. Voss deferred this at 05:31 as a plant-level decision. Probes whether Mateo can carry the response past single-line load shifting into Emergency Plant Shutdown.",
+      "answer": "SDI over 5 means protect the membranes, so take Line 2 off first. If Line 1 is also climbing there's nowhere to move the load, so both lines come down. I know the triggers. I'm less sure of the order after that: which train first, when to call the grid operator about the load drop, how long storage lasts. I've watched Dr. Voss do it once, in March. I'd want her on the radio.",
+      "tags": [
+        "understanding",
+        "experience_gap",
+        "confidence_gap"
+      ]
+    }
+  ],
+  "ai_error": null,
+  "submit_href": "/sessions/sess-l2/debrief/learner",
+  "allowed": true
+}

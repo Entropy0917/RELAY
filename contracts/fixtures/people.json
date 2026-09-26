@@ -1,0 +1,329 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "people",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "experts": [
+    {
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "role_summary": "Seconded process engineer. Designed the pretreatment upgrade and has run every restart since commissioning.",
+      "tenure": "22 years' experience · Assignment: month 10 of 12",
+      "departure": {
+        "expert": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        },
+        "departure_date": "2026-11-06",
+        "days_remaining": 41
+      },
+      "independent_count": 10,
+      "teachable_count": 10,
+      "owned_areas": []
+    }
+  ],
+  "counterparts": [
+    {
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "role_summary": "Leads the four operating shifts. Owns intake, RO and SCADA areas. Candidate trainer for intake turbidity.",
+      "tenure": "9 years at the plant",
+      "independent_count": 5,
+      "teachable_count": 1,
+      "owned_areas": [
+        {
+          "id": "area-intake",
+          "name": "Intake & Pretreatment",
+          "href": "/operating-model/areas/area-intake"
+        },
+        {
+          "id": "area-ro",
+          "name": "Reverse Osmosis Operations",
+          "href": "/operating-model/areas/area-ro"
+        },
+        {
+          "id": "area-scada",
+          "name": "SCADA & Alarm Management",
+          "href": "/operating-model/areas/area-scada"
+        }
+      ]
+    },
+    {
+      "person": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "role_summary": "Control room, B shift. Owns dosing and compliance; submits the monthly regulator return.",
+      "tenure": "4 years at the plant",
+      "independent_count": 3,
+      "teachable_count": 1,
+      "owned_areas": [
+        {
+          "id": "area-dosing",
+          "name": "Chemical Dosing",
+          "href": "/operating-model/areas/area-dosing"
+        },
+        {
+          "id": "area-compliance",
+          "name": "Water Quality Compliance",
+          "href": "/operating-model/areas/area-compliance"
+        }
+      ]
+    },
+    {
+      "person": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "role_summary": "Plans PM across 4 trains and 2 intake lines. Proposed owner for Energy Recovery.",
+      "tenure": "6 years at the plant",
+      "independent_count": 1,
+      "teachable_count": 1,
+      "owned_areas": [
+        {
+          "id": "area-maint",
+          "name": "Maintenance Planning",
+          "href": "/operating-model/areas/area-maint"
+        },
+        {
+          "id": "area-contractors",
+          "name": "Contractor & Supplier Management",
+          "href": "/operating-model/areas/area-contractors"
+        }
+      ]
+    }
+  ],
+  "trainers": [
+    {
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "role_summary": "Trains shift operators on membrane fouling diagnosis. Next: intake turbidity response.",
+      "tenure": "Trainer since Sep 2026",
+      "independent_count": 5,
+      "teachable_count": 1,
+      "owned_areas": [
+        {
+          "id": "area-intake",
+          "name": "Intake & Pretreatment",
+          "href": "/operating-model/areas/area-intake"
+        },
+        {
+          "id": "area-ro",
+          "name": "Reverse Osmosis Operations",
+          "href": "/operating-model/areas/area-ro"
+        },
+        {
+          "id": "area-scada",
+          "name": "SCADA & Alarm Management",
+          "href": "/operating-model/areas/area-scada"
+        }
+      ]
+    },
+    {
+      "person": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "role_summary": "Trains planners on preventive maintenance scheduling and condition-based change-outs.",
+      "tenure": "Trainer since Jul 2026",
+      "independent_count": 1,
+      "teachable_count": 1,
+      "owned_areas": [
+        {
+          "id": "area-maint",
+          "name": "Maintenance Planning",
+          "href": "/operating-model/areas/area-maint"
+        },
+        {
+          "id": "area-contractors",
+          "name": "Contractor & Supplier Management",
+          "href": "/operating-model/areas/area-contractors"
+        }
+      ]
+    },
+    {
+      "person": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "role_summary": "Trains control room staff on the monthly compliance return.",
+      "tenure": "Trainer since Apr 2026",
+      "independent_count": 3,
+      "teachable_count": 1,
+      "owned_areas": [
+        {
+          "id": "area-dosing",
+          "name": "Chemical Dosing",
+          "href": "/operating-model/areas/area-dosing"
+        },
+        {
+          "id": "area-compliance",
+          "name": "Water Quality Compliance",
+          "href": "/operating-model/areas/area-compliance"
+        }
+      ]
+    }
+  ]
+}

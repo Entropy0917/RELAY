@@ -1,0 +1,1474 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "blueprint",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "summary": [
+    {
+      "key": "formal_transfer",
+      "label": "FORMAL KNOWLEDGE TRANSFER",
+      "value": 0.8722,
+      "display": "87%",
+      "unit": "percent",
+      "status": "on_track",
+      "formula": {
+        "expression": "mean formal transfer across operating-model areas",
+        "inputs": [
+          {
+            "label": "Sum of area formal transfer",
+            "value": 7.85,
+            "display": "7.85"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "informal_transfer",
+      "label": "INFORMAL KNOWLEDGE TRANSFER",
+      "value": 0.5556,
+      "display": "56%",
+      "unit": "percent",
+      "status": "at_risk",
+      "formula": {
+        "expression": "mean informal (tacit) transfer across operating-model areas",
+        "inputs": [
+          {
+            "label": "Sum of area informal transfer",
+            "value": 5.0,
+            "display": "5.00"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "local_ownership",
+      "label": "LOCAL OWNERSHIP",
+      "value": 0.7778,
+      "display": "78%",
+      "unit": "percent",
+      "status": "on_track",
+      "formula": {
+        "expression": "areas with a confirmed local owner ÷ operating-model areas",
+        "inputs": [
+          {
+            "label": "Areas with confirmed local owner",
+            "value": 7,
+            "display": "7"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": "bp-intake",
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      "name": "Intake & Pretreatment",
+      "status": "on_track",
+      "local_owner_target": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 3
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 2
+        }
+      ],
+      "local_trainer": null,
+      "transfer_risk": "Formal trigger documented; the judgment that makes it work early is not.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-intake-form-1",
+              "label": "SOP-PT-04 enhanced coagulation trigger",
+              "state": "complete"
+            },
+            {
+              "id": "bp-intake-form-2",
+              "label": "Media filter backwash sequence",
+              "state": "complete"
+            },
+            {
+              "id": "bp-intake-form-3",
+              "label": "Cartridge filter change criteria",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-intake-info-1",
+              "label": "Rate-of-rise vs. absolute turbidity",
+              "state": "partial"
+            },
+            {
+              "id": "bp-intake-info-2",
+              "label": "Line 2 probe under-read after storms",
+              "state": "partial"
+            },
+            {
+              "id": "bp-intake-info-3",
+              "label": "Swell forecast as leading signal",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-intake-tech-1",
+              "label": "FeCl₃ dose step and floc check",
+              "state": "complete"
+            },
+            {
+              "id": "bp-intake-tech-2",
+              "label": "Grab-sample turbidity and SDI15",
+              "state": "complete"
+            },
+            {
+              "id": "bp-intake-tech-3",
+              "label": "Feed-flow reduction per line",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-intake-deci-1",
+              "label": "When to act before 20 NTU",
+              "state": "partial"
+            },
+            {
+              "id": "bp-intake-deci-2",
+              "label": "When to take a line off intake",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "relationships",
+          "items": [
+            {
+              "id": "bp-intake-rela-1",
+              "label": "Port authority swell bulletin",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "tools_systems",
+          "items": [
+            {
+              "id": "bp-intake-tool-1",
+              "label": "SCADA intake trend screen",
+              "state": "complete"
+            },
+            {
+              "id": "bp-intake-tool-2",
+              "label": "Portable turbidimeter calibration",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-intake-gove-1",
+              "label": "Shift log entry for coagulant changes",
+              "state": "complete"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [
+        {
+          "title": "Intake turbidity escalation",
+          "formal_rule": "Switch to enhanced coagulant dosing when intake turbidity exceeds 20 NTU.",
+          "expert_practice": [
+            "Acts when the rate of rise is steep (>2 NTU/h), well before 20 NTU.",
+            "Checks SDI15 trend on the cartridge filters before changing dose.",
+            "Checks tide and swell forecast for the next 12 h.",
+            "Treats Line 2 as under-reading after storms — biofouling on the probe."
+          ],
+          "capture_href": "/sessions/sess-l2/capture"
+        }
+      ],
+      "recommended_action": "Validate Rojas's rate-of-rise response from the Line 2 session and capture it as a heuristic."
+    },
+    {
+      "id": "bp-ro",
+      "area": {
+        "id": "area-ro",
+        "name": "Reverse Osmosis Operations",
+        "href": "/operating-model/areas/area-ro"
+      },
+      "name": "Reverse Osmosis Operations",
+      "status": "sustainable",
+      "local_owner_target": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 6
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 3
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 3
+        }
+      ],
+      "local_trainer": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "transfer_risk": "Low. Rojas teaches fouling diagnosis; recovery exception still held informally.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-ro-form-1",
+              "label": "Normalization per ASTM D4516",
+              "state": "complete"
+            },
+            {
+              "id": "bp-ro-form-2",
+              "label": "CIP procedure, acid and alkaline",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-ro-info-1",
+              "label": "SDI moves before ΔP",
+              "state": "complete"
+            },
+            {
+              "id": "bp-ro-info-2",
+              "label": "Recovery cap above 29 °C feed",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-ro-tech-1",
+              "label": "Fouling vs. scaling diagnosis",
+              "state": "complete"
+            },
+            {
+              "id": "bp-ro-tech-2",
+              "label": "Probe testing a pressure vessel",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-ro-deci-1",
+              "label": "When to book an unplanned CIP",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "tools_systems",
+          "items": [
+            {
+              "id": "bp-ro-tool-1",
+              "label": "Normalization workbook",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-ro-gove-1",
+              "label": "CIP authorization",
+              "state": "complete"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": null
+    },
+    {
+      "id": "bp-dosing",
+      "area": {
+        "id": "area-dosing",
+        "name": "Chemical Dosing",
+        "href": "/operating-model/areas/area-dosing"
+      },
+      "name": "Chemical Dosing",
+      "status": "transfer_in_progress",
+      "local_owner_target": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 4
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 5
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 1
+        }
+      ],
+      "local_trainer": null,
+      "transfer_risk": "Temperature-based dose correction held by Voss and Fuentes only; not in SOP.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-dosing-form-1",
+              "label": "Antiscalant vendor projection",
+              "state": "complete"
+            },
+            {
+              "id": "bp-dosing-form-2",
+              "label": "SBS dechlorination SOP",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-dosing-info-1",
+              "label": "Dose follows feed temperature",
+              "state": "partial"
+            },
+            {
+              "id": "bp-dosing-info-2",
+              "label": "No chlorine shock upstream of membranes",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-dosing-tech-1",
+              "label": "Dose pump calibration drawdown",
+              "state": "complete"
+            },
+            {
+              "id": "bp-dosing-tech-2",
+              "label": "LSI calculation from feed chemistry",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-dosing-deci-1",
+              "label": "Dose override outside vendor curve",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "relationships",
+          "items": [
+            {
+              "id": "bp-dosing-rela-1",
+              "label": "Antiscalant supplier technical rep",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-dosing-gove-1",
+              "label": "Chemical change MOC",
+              "state": "complete"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": "Fuentes re-runs the weekly projection unassisted for 3 weeks."
+    },
+    {
+      "id": "bp-erd",
+      "area": {
+        "id": "area-erd",
+        "name": "Energy Recovery",
+        "href": "/operating-model/areas/area-erd"
+      },
+      "name": "Energy Recovery",
+      "status": "at_risk",
+      "local_owner_target": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 2
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 3
+        }
+      ],
+      "local_trainer": null,
+      "transfer_risk": "Single holder. Mixing estimate lives in Voss's spreadsheet; no owner confirmed.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-erd-form-1",
+              "label": "PX OEM operating manual",
+              "state": "complete"
+            },
+            {
+              "id": "bp-erd-form-2",
+              "label": "HP pump curves",
+              "state": "complete"
+            },
+            {
+              "id": "bp-erd-form-3",
+              "label": "Booster VFD setpoint table",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-erd-info-1",
+              "label": "Mixing rises when LP flow drifts",
+              "state": "partial"
+            },
+            {
+              "id": "bp-erd-info-2",
+              "label": "Rotor noise signature before failure",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-erd-tech-1",
+              "label": "PX flow rebalance",
+              "state": "partial"
+            },
+            {
+              "id": "bp-erd-tech-2",
+              "label": "Mixing estimate by conductivity",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-erd-deci-1",
+              "label": "Rebalance vs. rotor inspection",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "relationships",
+          "items": [
+            {
+              "id": "bp-erd-rela-1",
+              "label": "PX OEM regional applications engineer",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "tools_systems",
+          "items": [
+            {
+              "id": "bp-erd-tool-1",
+              "label": "PX performance workbook",
+              "state": "none"
+            },
+            {
+              "id": "bp-erd-tool-2",
+              "label": "SEC trend screen",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-erd-gove-1",
+              "label": "Area owner confirmed",
+              "state": "none"
+            },
+            {
+              "id": "bp-erd-gove-2",
+              "label": "Booster setpoint MOC",
+              "state": "partial"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": "Confirm Ibarra as owner; move the PX workbook onto the plant share and walk him through it."
+    },
+    {
+      "id": "bp-maint",
+      "area": {
+        "id": "area-maint",
+        "name": "Maintenance Planning",
+        "href": "/operating-model/areas/area-maint"
+      },
+      "name": "Maintenance Planning",
+      "status": "transfer_in_progress",
+      "local_owner_target": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 3
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 1
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 6
+        },
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 4
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 2
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 3
+        }
+      ],
+      "local_trainer": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "transfer_risk": "PM planning is local. RCA of plant trips still leans on Voss for data interpretation.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-maint-form-1",
+              "label": "CMMS PM schedule",
+              "state": "complete"
+            },
+            {
+              "id": "bp-maint-form-2",
+              "label": "OEM service intervals",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-maint-info-1",
+              "label": "Condition-based cartridge change",
+              "state": "complete"
+            },
+            {
+              "id": "bp-maint-info-2",
+              "label": "Backwash/suction trip interaction",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-maint-tech-1",
+              "label": "PM schedule build",
+              "state": "complete"
+            },
+            {
+              "id": "bp-maint-tech-2",
+              "label": "Trip RCA from historian data",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-maint-deci-1",
+              "label": "Deferring PM under demand pressure",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "tools_systems",
+          "items": [
+            {
+              "id": "bp-maint-tool-1",
+              "label": "CMMS",
+              "state": "complete"
+            },
+            {
+              "id": "bp-maint-tool-2",
+              "label": "Historian trend export",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-maint-gove-1",
+              "label": "Maintenance backlog review",
+              "state": "complete"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": null
+    },
+    {
+      "id": "bp-compliance",
+      "area": {
+        "id": "area-compliance",
+        "name": "Water Quality Compliance",
+        "href": "/operating-model/areas/area-compliance"
+      },
+      "name": "Water Quality Compliance",
+      "status": "sustainable",
+      "local_owner_target": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 4
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 6
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 1
+        }
+      ],
+      "local_trainer": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "transfer_risk": "Low. Fuentes owns and teaches the monthly return.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-compliance-form-1",
+              "label": "Regulator return template",
+              "state": "complete"
+            },
+            {
+              "id": "bp-compliance-form-2",
+              "label": "Sampling plan",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-compliance-info-1",
+              "label": "Flag results above 80% of limit",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-compliance-tech-1",
+              "label": "Lab result reconciliation",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "relationships",
+          "items": [
+            {
+              "id": "bp-compliance-rela-1",
+              "label": "Regulator compliance officer",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-compliance-gove-1",
+              "label": "Return sign-off",
+              "state": "complete"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": null
+    },
+    {
+      "id": "bp-scada",
+      "area": {
+        "id": "area-scada",
+        "name": "SCADA & Alarm Management",
+        "href": "/operating-model/areas/area-scada"
+      },
+      "name": "SCADA & Alarm Management",
+      "status": "transfer_in_progress",
+      "local_owner_target": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 5
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 4
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 1
+        }
+      ],
+      "local_trainer": null,
+      "transfer_risk": "Alarm-flood response practiced; rationalization of standing alarms not started.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-scada-form-1",
+              "label": "Alarm philosophy document",
+              "state": "complete"
+            },
+            {
+              "id": "bp-scada-form-2",
+              "label": "HMI operator manual",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-scada-info-1",
+              "label": "First five minutes of an alarm flood",
+              "state": "partial"
+            },
+            {
+              "id": "bp-scada-info-2",
+              "label": "Which alarms are chronic nuisance",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-scada-tech-1",
+              "label": "Alarm shelving",
+              "state": "complete"
+            },
+            {
+              "id": "bp-scada-tech-2",
+              "label": "Switching dosing to local manual",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-scada-deci-1",
+              "label": "When to call the on-call instrument tech",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "tools_systems",
+          "items": [
+            {
+              "id": "bp-scada-tool-1",
+              "label": "Alarm historian report",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-scada-gove-1",
+              "label": "Alarm shelving authorization",
+              "state": "complete"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": null
+    },
+    {
+      "id": "bp-contractors",
+      "area": {
+        "id": "area-contractors",
+        "name": "Contractor & Supplier Management",
+        "href": "/operating-model/areas/area-contractors"
+      },
+      "name": "Contractor & Supplier Management",
+      "status": "at_risk",
+      "local_owner_target": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 2
+        },
+        {
+          "person": {
+            "id": "p-ibarra",
+            "name": "Diego Ibarra",
+            "initials": "DI",
+            "title": "Maintenance Planner",
+            "kind": "counterpart",
+            "href": "/people/p-ibarra"
+          },
+          "level": 3
+        }
+      ],
+      "local_trainer": null,
+      "transfer_risk": "Contracts exist; the contacts that make them move are Voss's.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-contractors-form-1",
+              "label": "Framework contracts register",
+              "state": "complete"
+            },
+            {
+              "id": "bp-contractors-form-2",
+              "label": "Permit-to-work procedure",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-contractors-info-1",
+              "label": "Book diver slots by swell forecast",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-contractors-tech-1",
+              "label": "Scope-of-work drafting",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "relationships",
+          "items": [
+            {
+              "id": "bp-contractors-rela-1",
+              "label": "Diving contractor supervisor",
+              "state": "none"
+            },
+            {
+              "id": "bp-contractors-rela-2",
+              "label": "Membrane autopsy lab",
+              "state": "none"
+            },
+            {
+              "id": "bp-contractors-rela-3",
+              "label": "HP pump overhaul shop",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-contractors-gove-1",
+              "label": "Contractor performance review",
+              "state": "none"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": "Voss introduces Ibarra to the three contractor leads before 16 Oct."
+    },
+    {
+      "id": "bp-incident",
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "name": "Incident Response",
+      "status": "critical",
+      "local_owner_target": null,
+      "local_capability": [
+        {
+          "person": {
+            "id": "p-rojas",
+            "name": "Mateo Rojas",
+            "initials": "MR",
+            "title": "Plant Operations Lead",
+            "kind": "counterpart",
+            "href": "/people/p-rojas"
+          },
+          "level": 1
+        },
+        {
+          "person": {
+            "id": "p-fuentes",
+            "name": "Camila Fuentes",
+            "initials": "CF",
+            "title": "Control Room Operator",
+            "kind": "counterpart",
+            "href": "/people/p-fuentes"
+          },
+          "level": 1
+        }
+      ],
+      "local_trainer": null,
+      "transfer_risk": "Critical. No owner, no local above Observed on shutdown, restart sequence undocumented.",
+      "groups": [
+        {
+          "category": "formal_knowledge",
+          "items": [
+            {
+              "id": "bp-incident-form-1",
+              "label": "Emergency shutdown procedure (to trains isolated)",
+              "state": "partial"
+            },
+            {
+              "id": "bp-incident-form-2",
+              "label": "Regulator incident notification",
+              "state": "complete"
+            }
+          ]
+        },
+        {
+          "category": "informal_knowledge",
+          "items": [
+            {
+              "id": "bp-incident-info-1",
+              "label": "Throttle distribution to protect permeate storage",
+              "state": "partial"
+            },
+            {
+              "id": "bp-incident-info-2",
+              "label": "Restart sequencing by train",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "technical_capability",
+          "items": [
+            {
+              "id": "bp-incident-tech-1",
+              "label": "Isolating trains in order",
+              "state": "none"
+            },
+            {
+              "id": "bp-incident-tech-2",
+              "label": "Managing permeate storage",
+              "state": "none"
+            },
+            {
+              "id": "bp-incident-tech-3",
+              "label": "Restart sequencing",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "decision_judgment",
+          "items": [
+            {
+              "id": "bp-incident-deci-1",
+              "label": "When to shut down vs. ride through",
+              "state": "none"
+            }
+          ]
+        },
+        {
+          "category": "relationships",
+          "items": [
+            {
+              "id": "bp-incident-rela-1",
+              "label": "Grid operator duty engineer",
+              "state": "none"
+            },
+            {
+              "id": "bp-incident-rela-2",
+              "label": "Network control desk",
+              "state": "partial"
+            }
+          ]
+        },
+        {
+          "category": "governance",
+          "items": [
+            {
+              "id": "bp-incident-gove-1",
+              "label": "Incident commander on each shift",
+              "state": "none"
+            },
+            {
+              "id": "bp-incident-gove-2",
+              "label": "Shift handover during incident",
+              "state": "none"
+            }
+          ]
+        }
+      ],
+      "gap_callouts": [],
+      "recommended_action": "Tabletop shutdown scenario with Rojas leading, then supervised drill on Train 4."
+    }
+  ]
+}

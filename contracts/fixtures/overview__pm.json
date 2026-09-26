@@ -1,0 +1,619 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-pm",
+      "role": "program_manager",
+      "person": {
+        "id": "p-navarro",
+        "name": "Lucía Navarro",
+        "initials": "LN",
+        "title": "Program Manager",
+        "kind": "manager",
+        "href": "/people/p-navarro"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "overview",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "headline": [
+    {
+      "key": "om_readiness",
+      "label": "OPERATING MODEL READINESS",
+      "value": 0.64,
+      "display": "64%",
+      "unit": "percent",
+      "status": "transfer_in_progress",
+      "formula": {
+        "expression": "0.25 × local ownership + 0.30 × capability localization + 0.15 × formal transfer + 0.20 × informal transfer + 0.10 × trainer coverage",
+        "inputs": [
+          {
+            "label": "Local ownership (× 0.25)",
+            "value": 0.7778,
+            "display": "78%"
+          },
+          {
+            "label": "Capability localization (× 0.30)",
+            "value": 0.6,
+            "display": "60%"
+          },
+          {
+            "label": "Formal knowledge transfer (× 0.15)",
+            "value": 0.8722,
+            "display": "87%"
+          },
+          {
+            "label": "Informal knowledge transfer (× 0.20)",
+            "value": 0.5556,
+            "display": "56%"
+          },
+          {
+            "label": "Trainer coverage (× 0.10)",
+            "value": 0.2222,
+            "display": "22%"
+          }
+        ]
+      }
+    },
+    {
+      "key": "capability_localization",
+      "label": "CAPABILITY LOCALIZATION",
+      "value": 0.6,
+      "display": "60%",
+      "unit": "percent",
+      "status": "transfer_in_progress",
+      "formula": {
+        "expression": "critical capabilities with ≥1 local at level ≥4 ÷ critical capabilities",
+        "inputs": [
+          {
+            "label": "Localized critical capabilities",
+            "value": 6,
+            "display": "6"
+          },
+          {
+            "label": "Critical capabilities",
+            "value": 10,
+            "display": "10"
+          }
+        ]
+      }
+    },
+    {
+      "key": "locally_teachable",
+      "label": "LOCALLY TEACHABLE",
+      "value": 3,
+      "display": "3",
+      "unit": "count",
+      "status": "at_risk",
+      "formula": {
+        "expression": "critical capabilities with ≥1 local at level 6 (Can Teach Others)",
+        "inputs": [
+          {
+            "label": "Membrane Fouling Diagnosis — Mateo Rojas",
+            "value": 1,
+            "display": "1"
+          },
+          {
+            "label": "Preventive Maintenance Planning — Diego Ibarra",
+            "value": 1,
+            "display": "1"
+          },
+          {
+            "label": "Water Quality Compliance Reporting — Camila Fuentes",
+            "value": 1,
+            "display": "1"
+          }
+        ]
+      }
+    },
+    {
+      "key": "expert_dependent",
+      "label": "EXPERT-DEPENDENT",
+      "value": 4,
+      "display": "4",
+      "unit": "count",
+      "status": "critical",
+      "formula": {
+        "expression": "critical capabilities where no local is at level ≥4",
+        "inputs": [
+          {
+            "label": "Critical capabilities",
+            "value": 10,
+            "display": "10"
+          },
+          {
+            "label": "Localized critical capabilities",
+            "value": 6,
+            "display": "6"
+          }
+        ]
+      }
+    },
+    {
+      "key": "days_to_departure",
+      "label": "DAYS TO EXPERT DEPARTURE",
+      "value": 41,
+      "display": "41 DAYS",
+      "unit": "days",
+      "status": "at_risk",
+      "formula": {
+        "expression": "departure date − today (day of year)",
+        "inputs": [
+          {
+            "label": "Departure — 6 Nov 2026",
+            "value": 310,
+            "display": "day 310"
+          },
+          {
+            "label": "Today — 26 Sep 2026",
+            "value": 269,
+            "display": "day 269"
+          }
+        ]
+      }
+    }
+  ],
+  "knowledge_at_risk": [
+    {
+      "severity": "critical",
+      "title": "Emergency Plant Shutdown",
+      "problem": "Only Voss has run a full two-train shutdown and restart. Procedure stops at 'trains isolated'; storage, grid call and restart order are undocumented.",
+      "local_label": "LOCAL CAPABILITY",
+      "local_value": "Mateo Rojas — Observed",
+      "recommended_action": "Run a tabletop shutdown with Rojas leading, then a supervised drill on Train 4 before 23 Oct.",
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "rationale": {
+        "why": "Highest consequence capability with no local above level 1 and 41 days left.",
+        "evidence": [
+          "March near-miss: permeate storage fell to 18%",
+          "No local owner for Incident Response",
+          "Grid desk relationship held only by Voss"
+        ],
+        "om_component": "Incident Response",
+        "if_not_transferred": "Next grid dip after 6 Nov is handled without anyone who has restarted the plant."
+      }
+    },
+    {
+      "severity": "critical",
+      "title": "Energy Recovery Optimization",
+      "problem": "PX flow balancing is done by feel from the SEC trend. Specific energy drifted from 3.21 to 3.38 kWh/m³ in three weeks before Voss caught it.",
+      "local_label": "LOCAL CAPABILITY",
+      "local_value": "Diego Ibarra — Performed with Supervision",
+      "recommended_action": "Confirm Ibarra as Energy Recovery owner; two more supervised rebalances on Trains 1 and 3.",
+      "area": {
+        "id": "area-erd",
+        "name": "Energy Recovery",
+        "href": "/operating-model/areas/area-erd"
+      },
+      "rationale": {
+        "why": "Single holder, no owner, informal transfer at 25%.",
+        "evidence": [
+          "sess-erd: Ibarra assisted PX rebalance on Train 2",
+          "PX OEM escalation route held only by Voss"
+        ],
+        "om_component": "Energy Recovery",
+        "if_not_transferred": "~4,850 kWh/day lost for every 0.1 kWh/m³ drift left uncorrected."
+      }
+    },
+    {
+      "severity": "high",
+      "title": "Intake Turbidity Response",
+      "problem": "Formal trigger is 20 NTU. Voss acts on rate of rise, SDI trend and swell forecast, and discounts the Line 2 probe after storms.",
+      "local_label": "LOCAL TRAINER",
+      "local_value": "None",
+      "recommended_action": "Validate today's Line 2 session evidence; capture the rate-of-rise heuristic.",
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      }
+    },
+    {
+      "severity": "medium",
+      "title": "Contractor Coordination",
+      "problem": "Diving, membrane autopsy and HP pump overhaul contractors are called through Voss's contacts.",
+      "local_label": "LOCAL CAPABILITY",
+      "local_value": "Diego Ibarra — Performed with Supervision",
+      "recommended_action": "Ibarra leads the October diver booking; Voss hands over the three contractor contacts in writing.",
+      "area": {
+        "id": "area-contractors",
+        "name": "Contractor & Supplier Management",
+        "href": "/operating-model/areas/area-contractors"
+      }
+    }
+  ],
+  "priority_actions": [
+    {
+      "rank": 1,
+      "text": "Validate findings from the Line 2 intake turbidity session",
+      "href": "/sessions/sess-l2/validation",
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "ai_suggested": true
+    },
+    {
+      "rank": 2,
+      "text": "Schedule tabletop shutdown scenario — Rojas leads, Voss observes",
+      "href": "/sessions",
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "ai_suggested": true
+    },
+    {
+      "rank": 3,
+      "text": "Confirm a local owner for Energy Recovery",
+      "href": "/operating-model/areas/area-erd",
+      "capability": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "person": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "ai_suggested": true
+    },
+    {
+      "rank": 4,
+      "text": "Introduce Rojas to the grid operator duty engineer",
+      "href": "/knowledge#k-rel-grid",
+      "capability": {
+        "id": "cap-shutdown",
+        "name": "Emergency Plant Shutdown",
+        "critical": true
+      },
+      "person": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "ai_suggested": true
+    },
+    {
+      "rank": 5,
+      "text": "Hand over PX OEM regional engineer contact to Ibarra",
+      "href": "/knowledge#k-rel-px-oem",
+      "capability": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "person": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "ai_suggested": false
+    }
+  ],
+  "recent_knowledge": [
+    {
+      "id": "k-l2-probe",
+      "title": "Line 2 Turbidity Probe Reads Low After Storms",
+      "type": "expert_insight",
+      "area": {
+        "id": "area-intake",
+        "name": "Intake & Pretreatment",
+        "href": "/operating-model/areas/area-intake"
+      },
+      "captured_on": "2026-09-26",
+      "source": {
+        "label": "Line 2 intake turbidity event",
+        "href": "/sessions/sess-l2"
+      },
+      "validation_status": "pending",
+      "href": "/knowledge#k-l2-probe"
+    },
+    {
+      "id": "k-case-t3-trip",
+      "title": "Train 3 HP Pump Trip, 17 Sep 2026",
+      "type": "case",
+      "area": {
+        "id": "area-maint",
+        "name": "Maintenance Planning",
+        "href": "/operating-model/areas/area-maint"
+      },
+      "captured_on": "2026-09-19",
+      "source": {
+        "label": "RCA-2026-011",
+        "href": "/knowledge?doc=RCA-2026-011"
+      },
+      "validation_status": "validated",
+      "href": "/knowledge#k-case-t3-trip"
+    },
+    {
+      "id": "k-px-mixing",
+      "title": "PX Mixing Rises When Low-Pressure Flow Drifts",
+      "type": "expert_insight",
+      "area": {
+        "id": "area-erd",
+        "name": "Energy Recovery",
+        "href": "/operating-model/areas/area-erd"
+      },
+      "captured_on": "2026-09-03",
+      "source": {
+        "label": "Pressure exchanger efficiency loss",
+        "href": "/sessions/sess-erd"
+      },
+      "validation_status": "validated",
+      "href": "/knowledge#k-px-mixing"
+    },
+    {
+      "id": "k-rel-grid",
+      "title": "Grid Operator Control Desk: Call Before Load Shed",
+      "type": "relationship",
+      "area": {
+        "id": "area-incident",
+        "name": "Incident Response",
+        "href": "/operating-model/areas/area-incident"
+      },
+      "captured_on": "2026-08-27",
+      "source": null,
+      "validation_status": "pending",
+      "href": "/knowledge#k-rel-grid"
+    },
+    {
+      "id": "k-case-alarm-flood",
+      "title": "August Alarm Flood: 214 Alarms in 38 Minutes",
+      "type": "case",
+      "area": {
+        "id": "area-scada",
+        "name": "SCADA & Alarm Management",
+        "href": "/operating-model/areas/area-scada"
+      },
+      "captured_on": "2026-08-21",
+      "source": {
+        "label": "Night-shift alarm flood triage",
+        "href": "/sessions/sess-alarm"
+      },
+      "validation_status": "validated",
+      "href": "/knowledge#k-case-alarm-flood"
+    }
+  ],
+  "train_the_trainer": [
+    {
+      "capability": {
+        "id": "cap-turbidity",
+        "name": "Intake Turbidity Response",
+        "critical": true
+      },
+      "current_expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "candidate_trainer": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "current_level": 3,
+      "target_level": 6,
+      "recommended_activity": "Rojas leads the next storm-event response and briefs night shift on the rate-of-rise check.",
+      "rationale": {
+        "why": "Rojas owns Intake & Pretreatment and already reads SDI trends at level 6.",
+        "evidence": [
+          "Line 2 session: reduced feed flow on rate of rise before 20 NTU",
+          "k-sdi-before-dp"
+        ],
+        "om_component": "Intake & Pretreatment",
+        "if_not_transferred": "Intake stays with no local trainer."
+      }
+    },
+    {
+      "capability": {
+        "id": "cap-erd",
+        "name": "Energy Recovery Optimization",
+        "critical": true
+      },
+      "current_expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "candidate_trainer": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "current_level": 3,
+      "target_level": 6,
+      "recommended_activity": "Ibarra rebalances Train 1 PX array unassisted, then walks Rojas through the method.",
+      "rationale": {
+        "why": "Ibarra is the only local above level 2 on energy recovery.",
+        "evidence": [
+          "sess-erd, 3 Sep",
+          "k-px-mixing"
+        ],
+        "om_component": "Energy Recovery"
+      }
+    },
+    {
+      "capability": {
+        "id": "cap-alarm",
+        "name": "SCADA Alarm Triage",
+        "critical": true
+      },
+      "current_expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "candidate_trainer": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "current_level": 5,
+      "target_level": 6,
+      "recommended_activity": "Rojas runs the alarm-flood first-five-minutes drill for the B and C shifts.",
+      "rationale": null
+    }
+  ]
+}

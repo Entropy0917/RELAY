@@ -1,0 +1,231 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "expert-debrief",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "done",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "done",
+        "href": "/sessions/sess-l2/capture"
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "current",
+        "href": "/sessions/sess-l2/expert-debrief"
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "synthesis",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "validation",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "next-action",
+        "state": "upcoming",
+        "href": null
+      }
+    ]
+  },
+  "role": "expert",
+  "respondent": {
+    "id": "p-voss",
+    "name": "Dr. Helena Voss",
+    "initials": "HV",
+    "title": "Senior Desalination Process Engineer",
+    "kind": "expert",
+    "href": "/people/p-voss"
+  },
+  "allowed": true,
+  "switch_to_persona_id": "persona-expert",
+  "questions": [
+    {
+      "id": "q-e1",
+      "prompt": "At 04:52 Line 2 read 11.8 NTU, eight below the SOP trigger, and you agreed with Mateo acting anyway. What rate of rise makes you act regardless of the absolute value, and over what window do you judge it?",
+      "rationale": "Mateo overrode SOP-PT-04 on slope alone (05:19) and you endorsed it. The SOP has no rate criterion. This is the undocumented rule to pin down with numbers.",
+      "answer": null,
+      "tags": []
+    },
+    {
+      "id": "q-e2",
+      "prompt": "You asked for a manual SDI on 2B and the tide and swell forecast before Mateo proposed a plan. He had not looked at the sea. What would a less experienced operator most likely get wrong in this event?",
+      "rationale": "Two checks came from you, not Mateo (04:58, 05:05). They separate a correct response from a lucky one.",
+      "answer": null,
+      "tags": []
+    },
+    {
+      "id": "q-e3",
+      "prompt": "You said the Line 2 probe \"reads low\" after a storm. The bench grab was 2.8 NTU above the probe at 05:15. How soon after a storm does that offset appear, how large does it get, and does Line 1 ever show it?",
+      "rationale": "The probe offset changed Mateo's time-to-trigger from two hours to one. It is equipment-specific knowledge held only by you and not in the maintenance plan.",
+      "answer": null,
+      "tags": []
+    }
+  ],
+  "ai_error": null,
+  "submit_href": "/sessions/sess-l2/debrief/expert"
+}

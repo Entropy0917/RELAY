@@ -1,0 +1,239 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "prepare",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "current",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "synthesis",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "validation",
+        "state": "upcoming",
+        "href": null
+      },
+      {
+        "stage": "next-action",
+        "state": "upcoming",
+        "href": null
+      }
+    ]
+  },
+  "brief": {
+    "heading": "TODAY WITH MATEO",
+    "primary_target": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "current_level": 3,
+    "todays_objective": "Line 2 intake turbidity is climbing after last night's storm and is still under the 20 NTU trigger. Let Mateo run the response end to end. Find out whether he acts on the trend or waits for the threshold.",
+    "your_role": "Observe first. Hold your own read of the situation until Mateo has proposed a plan, then test it.",
+    "let_learner_lead": "Mateo decides whether, when and how to change Line 2 pretreatment: feed flow, coagulant dose, load transfer to Line 1.",
+    "expose_if_possible": {
+      "id": "cap-fouling",
+      "name": "Membrane Fouling Diagnosis",
+      "critical": true
+    },
+    "ask_before_explaining": [
+      "Apart from its current value, what is the turbidity trend telling you?",
+      "How long does a coagulant change on Line 2 take to reach the cartridge filters?",
+      "What would make you take Line 2 off line completely?"
+    ],
+    "watch_for": [
+      "Reads the slope of the trend, not only the absolute NTU",
+      "Checks cartridge filter SDI before and after changing dosing",
+      "Looks at the tide and swell forecast before deciding how long the event lasts",
+      "Checks the Line 2 probe against a bench grab sample",
+      "Tells the control room and shift supervisor before changing production"
+    ],
+    "knowledge_gap_to_explore": "SOP-PT-04 triggers enhanced coagulant dosing only at 20 NTU absolute. You act earlier when the rise is steep, and you discount the Line 2 probe after storms. Neither is written down. Name the numbers you actually use.",
+    "coaching_suggestion": "When Mateo asks what you would do, answer with a question: \"Where will it be in an hour?\"",
+    "rationale": {
+      "why": "Intake Turbidity Response is Mateo's closest capability to Performed Independently, and today's storm is a live case. The rate-of-rise practice behind your storm responses is not captured anywhere in the blueprint.",
+      "evidence": [
+        "Mateo at Performed with Supervision since 2026-07-14, across 2 supervised turbidity events",
+        "Blueprint: Intake & Pretreatment informal knowledge at 70%; rate-of-rise response marked as uncaptured",
+        "Cartridge filter SDI session (2026-09-12) recommended a live pretreatment event as the next experience",
+        "41 days until your departure"
+      ],
+      "om_component": "Intake & Pretreatment",
+      "if_not_transferred": "Operators follow the 20 NTU trigger literally. On a fast storm event, solids reach the cartridge filters before the dosing change does, pushing SDI toward the membrane limit and forcing an unplanned Line 2 CIP."
+    }
+  },
+  "ai_error": null,
+  "start_href": "/sessions/sess-l2/capture"
+}

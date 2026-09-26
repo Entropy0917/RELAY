@@ -1,0 +1,423 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "operating_model",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "title": "DESALINATION PLANT OPERATING MODEL",
+  "mission": "Produce 48,500 m³/d of compliant potable water from seawater at ≤ 3.30 kWh/m³, run and maintained by the Authority's own staff after 6 Nov 2026.",
+  "summary": [
+    {
+      "key": "om_readiness",
+      "label": "OPERATING MODEL READINESS",
+      "value": 0.64,
+      "display": "64%",
+      "unit": "percent",
+      "status": "transfer_in_progress",
+      "formula": {
+        "expression": "0.25 × local ownership + 0.30 × capability localization + 0.15 × formal transfer + 0.20 × informal transfer + 0.10 × trainer coverage",
+        "inputs": [
+          {
+            "label": "Local ownership (× 0.25)",
+            "value": 0.7778,
+            "display": "78%"
+          },
+          {
+            "label": "Capability localization (× 0.30)",
+            "value": 0.6,
+            "display": "60%"
+          },
+          {
+            "label": "Formal knowledge transfer (× 0.15)",
+            "value": 0.8722,
+            "display": "87%"
+          },
+          {
+            "label": "Informal knowledge transfer (× 0.20)",
+            "value": 0.5556,
+            "display": "56%"
+          },
+          {
+            "label": "Trainer coverage (× 0.10)",
+            "value": 0.2222,
+            "display": "22%"
+          }
+        ]
+      }
+    },
+    {
+      "key": "local_ownership",
+      "label": "LOCAL OWNERSHIP",
+      "value": 0.7778,
+      "display": "78%",
+      "unit": "percent",
+      "status": "on_track",
+      "formula": {
+        "expression": "areas with a confirmed local owner ÷ operating-model areas",
+        "inputs": [
+          {
+            "label": "Areas with confirmed local owner",
+            "value": 7,
+            "display": "7"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "formal_transfer",
+      "label": "FORMAL KNOWLEDGE TRANSFER",
+      "value": 0.8722,
+      "display": "87%",
+      "unit": "percent",
+      "status": "on_track",
+      "formula": {
+        "expression": "mean formal transfer across operating-model areas",
+        "inputs": [
+          {
+            "label": "Sum of area formal transfer",
+            "value": 7.85,
+            "display": "7.85"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "informal_transfer",
+      "label": "INFORMAL KNOWLEDGE TRANSFER",
+      "value": 0.5556,
+      "display": "56%",
+      "unit": "percent",
+      "status": "at_risk",
+      "formula": {
+        "expression": "mean informal (tacit) transfer across operating-model areas",
+        "inputs": [
+          {
+            "label": "Sum of area informal transfer",
+            "value": 5.0,
+            "display": "5.00"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    },
+    {
+      "key": "trainer_coverage",
+      "label": "TRAINER COVERAGE",
+      "value": 0.2222,
+      "display": "22%",
+      "unit": "percent",
+      "status": "critical",
+      "formula": {
+        "expression": "areas where every critical capability has a local at level 6 ÷ operating-model areas",
+        "inputs": [
+          {
+            "label": "Areas with full local trainer coverage",
+            "value": 2,
+            "display": "2"
+          },
+          {
+            "label": "Operating-model areas",
+            "value": 9,
+            "display": "9"
+          }
+        ]
+      }
+    }
+  ],
+  "areas": [
+    {
+      "id": "area-intake",
+      "name": "Intake & Pretreatment",
+      "href": "/operating-model/areas/area-intake",
+      "local_owner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 0.95,
+      "informal_pct": 0.7,
+      "local_capability": "Developing",
+      "trainer_coverage": false,
+      "status": "on_track"
+    },
+    {
+      "id": "area-ro",
+      "name": "Reverse Osmosis Operations",
+      "href": "/operating-model/areas/area-ro",
+      "local_owner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 1.0,
+      "informal_pct": 0.85,
+      "local_capability": "Strong",
+      "trainer_coverage": true,
+      "status": "sustainable"
+    },
+    {
+      "id": "area-dosing",
+      "name": "Chemical Dosing",
+      "href": "/operating-model/areas/area-dosing",
+      "local_owner": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 0.9,
+      "informal_pct": 0.6,
+      "local_capability": "Developing",
+      "trainer_coverage": false,
+      "status": "transfer_in_progress"
+    },
+    {
+      "id": "area-erd",
+      "name": "Energy Recovery",
+      "href": "/operating-model/areas/area-erd",
+      "local_owner": null,
+      "owner_confirmed": false,
+      "formal_pct": 0.7,
+      "informal_pct": 0.25,
+      "local_capability": "Limited",
+      "trainer_coverage": false,
+      "status": "at_risk"
+    },
+    {
+      "id": "area-maint",
+      "name": "Maintenance Planning",
+      "href": "/operating-model/areas/area-maint",
+      "local_owner": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 0.85,
+      "informal_pct": 0.55,
+      "local_capability": "Developing",
+      "trainer_coverage": false,
+      "status": "transfer_in_progress"
+    },
+    {
+      "id": "area-compliance",
+      "name": "Water Quality Compliance",
+      "href": "/operating-model/areas/area-compliance",
+      "local_owner": {
+        "id": "p-fuentes",
+        "name": "Camila Fuentes",
+        "initials": "CF",
+        "title": "Control Room Operator",
+        "kind": "counterpart",
+        "href": "/people/p-fuentes"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 1.0,
+      "informal_pct": 0.8,
+      "local_capability": "Strong",
+      "trainer_coverage": true,
+      "status": "sustainable"
+    },
+    {
+      "id": "area-scada",
+      "name": "SCADA & Alarm Management",
+      "href": "/operating-model/areas/area-scada",
+      "local_owner": {
+        "id": "p-rojas",
+        "name": "Mateo Rojas",
+        "initials": "MR",
+        "title": "Plant Operations Lead",
+        "kind": "counterpart",
+        "href": "/people/p-rojas"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 0.9,
+      "informal_pct": 0.65,
+      "local_capability": "Developing",
+      "trainer_coverage": false,
+      "status": "transfer_in_progress"
+    },
+    {
+      "id": "area-contractors",
+      "name": "Contractor & Supplier Management",
+      "href": "/operating-model/areas/area-contractors",
+      "local_owner": {
+        "id": "p-ibarra",
+        "name": "Diego Ibarra",
+        "initials": "DI",
+        "title": "Maintenance Planner",
+        "kind": "counterpart",
+        "href": "/people/p-ibarra"
+      },
+      "owner_confirmed": true,
+      "formal_pct": 0.8,
+      "informal_pct": 0.4,
+      "local_capability": "Limited",
+      "trainer_coverage": false,
+      "status": "at_risk"
+    },
+    {
+      "id": "area-incident",
+      "name": "Incident Response",
+      "href": "/operating-model/areas/area-incident",
+      "local_owner": null,
+      "owner_confirmed": false,
+      "formal_pct": 0.75,
+      "informal_pct": 0.2,
+      "local_capability": "None",
+      "trainer_coverage": false,
+      "status": "critical"
+    }
+  ]
+}

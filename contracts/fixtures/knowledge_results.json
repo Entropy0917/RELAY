@@ -1,0 +1,188 @@
+{
+  "items": [
+    {
+      "id": "k-heur-divers",
+      "title": "Book Intake Diver Slots by Swell Forecast",
+      "type": "heuristic",
+      "capability": {
+        "id": "cap-contractor",
+        "name": "Contractor Coordination",
+        "critical": true
+      },
+      "area": {
+        "id": "area-contractors",
+        "name": "Contractor & Supplier Management",
+        "href": "/operating-model/areas/area-contractors"
+      },
+      "situation": "Scheduling the diving contractor for intake screen inspection and cleaning.",
+      "observed_signals": [
+        "Significant wave height forecast",
+        "Contractor mobilization notice 5 days"
+      ],
+      "expert_reasoning": "Divers stand down above 1.4 m swell. Calendar bookings lose ~40% of slots in autumn.",
+      "recommended_response": "Book 3 provisional slots per job against the 7-day swell forecast; release unused slots 48 h out.",
+      "why_it_matters": "Screen cleaning slipped 3 times in 2025, contributing to the October intake restriction.",
+      "source": null,
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "people_exposed": [
+        {
+          "id": "p-ibarra",
+          "name": "Diego Ibarra",
+          "initials": "DI",
+          "title": "Maintenance Planner",
+          "kind": "counterpart",
+          "href": "/people/p-ibarra"
+        }
+      ],
+      "captured_on": "2026-07-15",
+      "is_new": false
+    },
+    {
+      "id": "k-dose-temp",
+      "title": "Antiscalant Dose Follows Feed Temperature, Not the Vendor Curve",
+      "type": "heuristic",
+      "capability": {
+        "id": "cap-dosing",
+        "name": "Antiscalant Dosing Adjustment",
+        "critical": true
+      },
+      "area": {
+        "id": "area-dosing",
+        "name": "Chemical Dosing",
+        "href": "/operating-model/areas/area-dosing"
+      },
+      "situation": "Setting antiscalant dose through the summer when feed temperature swings 6 °C between tide cycles.",
+      "observed_signals": [
+        "Feed temperature above 27 °C",
+        "LSI of concentrate above +1.6",
+        "Recovery held at 44%"
+      ],
+      "expert_reasoning": "The vendor projection assumes 25 °C. Calcium carbonate scaling risk climbs faster than the curve above 27 °C at this recovery.",
+      "recommended_response": "Add 0.3 mg/L to the projected dose per 2 °C above 27 °C, cap at 3.6 mg/L. Re-run the projection weekly with actual feed chemistry.",
+      "why_it_matters": "Last-stage scaling on Train 4 in August 2025 took three elements out of service.",
+      "source": {
+        "label": "Antiscalant projection, May 2026",
+        "href": "/knowledge?doc=AS-PROJ-2605"
+      },
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "people_exposed": [
+        {
+          "id": "p-fuentes",
+          "name": "Camila Fuentes",
+          "initials": "CF",
+          "title": "Control Room Operator",
+          "kind": "counterpart",
+          "href": "/people/p-fuentes"
+        },
+        {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      ],
+      "captured_on": "2026-05-07",
+      "is_new": false
+    },
+    {
+      "id": "k-sdi-before-dp",
+      "title": "SDI Moves Before Differential Pressure",
+      "type": "heuristic",
+      "capability": {
+        "id": "cap-fouling",
+        "name": "Membrane Fouling Diagnosis",
+        "critical": true
+      },
+      "area": {
+        "id": "area-ro",
+        "name": "Reverse Osmosis Operations",
+        "href": "/operating-model/areas/area-ro"
+      },
+      "situation": "Deciding whether first-stage fouling is starting before the ΔP alarm tells you.",
+      "observed_signals": [
+        "SDI15 at cartridge outlet creeping 0.2–0.3 per day",
+        "First-stage ΔP still inside 1.8 bar limit",
+        "Normalized permeate flow down 3–4% over a week"
+      ],
+      "expert_reasoning": "Colloidal load shows up in SDI 5–7 days before first-stage ΔP rises. By the time ΔP alarms, the lead elements are already caked.",
+      "recommended_response": "Trend SDI daily, not weekly. Two consecutive days above 3.5 → inspect cartridges and book a CIP slot for the affected train.",
+      "why_it_matters": "Avoids an unplanned CIP on a lead-element foul. Each unplanned CIP costs ~14 h of train downtime.",
+      "source": null,
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "validation_status": "validated",
+      "validated_by": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "people_exposed": [
+        {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        },
+        {
+          "id": "p-fuentes",
+          "name": "Camila Fuentes",
+          "initials": "CF",
+          "title": "Control Room Operator",
+          "kind": "counterpart",
+          "href": "/people/p-fuentes"
+        }
+      ],
+      "captured_on": "2026-03-19",
+      "is_new": false
+    }
+  ],
+  "total": 3,
+  "active": {
+    "type": "heuristic"
+  }
+}

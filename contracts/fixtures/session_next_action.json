@@ -1,0 +1,277 @@
+{
+  "shell": {
+    "engagement": {
+      "id": "eng-cwa",
+      "name": "Desalination Operations Localization",
+      "organization": "Coastal Water Authority",
+      "sector": "Water utilities",
+      "region": "Northern coastal region"
+    },
+    "engagements": [
+      {
+        "id": "eng-cwa",
+        "name": "Desalination Operations Localization",
+        "organization": "Coastal Water Authority",
+        "sector": "Water utilities",
+        "region": "Northern coastal region"
+      },
+      {
+        "id": "eng-nmr",
+        "name": "Rolling Mill Maintenance Transfer",
+        "organization": "Norvale Metals",
+        "sector": "Manufacturing",
+        "region": "Midlands"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona-expert",
+        "role": "expert",
+        "person": {
+          "id": "p-voss",
+          "name": "Dr. Helena Voss",
+          "initials": "HV",
+          "title": "Senior Desalination Process Engineer",
+          "kind": "expert",
+          "href": "/people/p-voss"
+        }
+      },
+      {
+        "id": "persona-learner",
+        "role": "learner",
+        "person": {
+          "id": "p-rojas",
+          "name": "Mateo Rojas",
+          "initials": "MR",
+          "title": "Plant Operations Lead",
+          "kind": "counterpart",
+          "href": "/people/p-rojas"
+        }
+      },
+      {
+        "id": "persona-pm",
+        "role": "program_manager",
+        "person": {
+          "id": "p-navarro",
+          "name": "Lucía Navarro",
+          "initials": "LN",
+          "title": "Program Manager",
+          "kind": "manager",
+          "href": "/people/p-navarro"
+        }
+      }
+    ],
+    "current_persona": {
+      "id": "persona-expert",
+      "role": "expert",
+      "person": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      }
+    },
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/overview"
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model"
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint"
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people"
+      },
+      {
+        "key": "sessions",
+        "label": "Sessions",
+        "href": "/sessions",
+        "badge": "1"
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge"
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness"
+      }
+    ],
+    "active": "sessions",
+    "departure": {
+      "expert": {
+        "id": "p-voss",
+        "name": "Dr. Helena Voss",
+        "initials": "HV",
+        "title": "Senior Desalination Process Engineer",
+        "kind": "expert",
+        "href": "/people/p-voss"
+      },
+      "departure_date": "2026-11-06",
+      "days_remaining": 41
+    },
+    "engagement_switch_href": "/engagement",
+    "persona_switch_href": "/persona"
+  },
+  "session": {
+    "id": "sess-l2",
+    "title": "Line 2 intake turbidity event",
+    "held_on": "2026-09-26",
+    "context": "Turbidity at Line 2 intake rose from 4 to 19 NTU over six hours after an offshore storm",
+    "expert": {
+      "id": "p-voss",
+      "name": "Dr. Helena Voss",
+      "initials": "HV",
+      "title": "Senior Desalination Process Engineer",
+      "kind": "expert",
+      "href": "/people/p-voss"
+    },
+    "learner": {
+      "id": "p-rojas",
+      "name": "Mateo Rojas",
+      "initials": "MR",
+      "title": "Plant Operations Lead",
+      "kind": "counterpart",
+      "href": "/people/p-rojas"
+    },
+    "focus": {
+      "id": "cap-turbidity",
+      "name": "Intake Turbidity Response",
+      "critical": true
+    },
+    "stage": "next-action",
+    "steps": [
+      {
+        "stage": "prepare",
+        "state": "done",
+        "href": "/sessions/sess-l2/prepare"
+      },
+      {
+        "stage": "capture",
+        "state": "done",
+        "href": "/sessions/sess-l2/capture"
+      },
+      {
+        "stage": "expert-debrief",
+        "state": "done",
+        "href": "/sessions/sess-l2/expert-debrief"
+      },
+      {
+        "stage": "learner-debrief",
+        "state": "done",
+        "href": "/sessions/sess-l2/learner-debrief"
+      },
+      {
+        "stage": "synthesis",
+        "state": "done",
+        "href": "/sessions/sess-l2/synthesis"
+      },
+      {
+        "stage": "validation",
+        "state": "done",
+        "href": "/sessions/sess-l2/validation"
+      },
+      {
+        "stage": "next-action",
+        "state": "current",
+        "href": "/sessions/sess-l2/next-action"
+      }
+    ]
+  },
+  "changes": [
+    {
+      "surface": "passport",
+      "label": "Mateo Rojas · Intake Turbidity Response",
+      "before": "3 · Performed with Supervision",
+      "after": "4 · Performed Independently",
+      "href": "/people/p-rojas"
+    },
+    {
+      "surface": "knowledge",
+      "label": "Knowledge Library · heuristics",
+      "before": "11 records",
+      "after": "12 records · + Watch the Rate of Rise, Not the Threshold",
+      "href": "/knowledge?capability=cap-turbidity"
+    },
+    {
+      "surface": "blueprint",
+      "label": "Intake & Pretreatment · informal knowledge",
+      "before": "70% · rate-of-rise response uncaptured",
+      "after": "78% · captured and validated",
+      "href": "/blueprint?area=area-intake"
+    },
+    {
+      "surface": "readiness",
+      "label": "Operating model readiness",
+      "before": "64% · localization 6 / 10",
+      "after": "67% · localization 7 / 10",
+      "href": "/readiness"
+    },
+    {
+      "surface": "brief",
+      "label": "Next session objective",
+      "before": "Intake Turbidity Response",
+      "after": "Emergency Plant Shutdown · tabletop, then supervised drill",
+      "href": "/sessions/sess-l2/next-action#next-brief"
+    }
+  ],
+  "next_brief": {
+    "heading": "TODAY WITH MATEO",
+    "primary_target": {
+      "id": "cap-shutdown",
+      "name": "Emergency Plant Shutdown",
+      "critical": true
+    },
+    "current_level": 1,
+    "todays_objective": "Move Emergency Plant Shutdown from Observed toward Assisted. Mateo runs a two-line shutdown as a tabletop, start to restart, with you in the room.",
+    "your_role": "Do not open with the sequence. Set the scenario, then stay quiet. Intervene only on a step that would damage membranes or cut supply.",
+    "let_learner_lead": "Mateo calls the shutdown, sequences train isolation, and makes every external notification himself.",
+    "expose_if_possible": {
+      "id": "cap-rca",
+      "name": "Root Cause Analysis of Plant Trips",
+      "critical": true
+    },
+    "ask_before_explaining": [
+      "Both intakes are rising and 2B SDI is 5.3. What do you do first, and why that first?",
+      "When do you call the grid operator, and what do you tell them?",
+      "How long does permeate storage last at current network demand?"
+    ],
+    "watch_for": [
+      "Isolates RO trains in the right order and confirms each",
+      "Notifies the grid operator before the high-pressure pump load drop",
+      "Sets a storage drawdown limit and tells the network team",
+      "Drafts the regulator notification inside the permit window",
+      "Restart plan includes flush and SDI confirmation before feed",
+      "Hands over cleanly to the incoming shift"
+    ],
+    "knowledge_gap_to_explore": "Ask: \"What would make you restart one line early instead of holding the whole plant down?\" Your restart criteria after a storm shutdown are not in SOP-EM-01.",
+    "coaching_suggestion": "Let Mateo reach the grid call on his own, even if he is late to it. Debrief the timing afterwards rather than prompting.",
+    "rationale": {
+      "why": "Validated gap from the Line 2 turbidity session: Mateo understands the shutdown triggers but has not demonstrated the sequence. It is the only critical capability with no local holder above Observed.",
+      "evidence": [
+        "Remaining gap finding approved by Dr. Voss, 26 Sep 2026",
+        "Learner debrief: \"I'm less sure of the order after that.\"",
+        "Incident Response: no local owner, informal knowledge 20%, status critical",
+        "41 days until Dr. Voss departs"
+      ],
+      "om_component": "Incident Response",
+      "if_not_transferred": "After 6 Nov a storm shutdown depends on one observed event and a written SOP that omits restart criteria."
+    }
+  },
+  "ai_error": null,
+  "schedule_href": "/sessions/sess-l2/schedule-next"
+}
