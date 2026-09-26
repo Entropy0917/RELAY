@@ -1,0 +1,4766 @@
+﻿You are my lead product engineer. Build a working hackathon prototype called RELAY.
+
+
+Do not just give me a plan or describe what should be built.
+
+
+Inspect the repository, make reasonable technical decisions, create the application, install dependencies, write the code, run it, test it, debug it, and continue iterating until we have a polished working prototype.
+
+
+Optimize for an impressive and reliable weekend hackathon demo rather than production-scale infrastructure.
+
+
+==================================================
+PRODUCT VISION
+==================================================
+
+
+RELAY is an AI-powered knowledge-transfer and workforce-localization platform.
+
+
+Organizations around the world routinely bring experts into environments where specialized capabilities need to be developed.
+
+
+Examples include:
+
+
+- Peace Corps-style technical assistance;
+- international development programs;
+- expert secondments;
+- multinational workforce localization;
+- Saudization and national workforce-development initiatives;
+- retiring employees transferring knowledge to successors;
+- healthcare capacity building;
+- manufacturing and industrial workforce development;
+- infrastructure and energy projects;
+- government capability-building;
+- NGOs and humanitarian organizations.
+
+
+The underlying problem is universal:
+
+
+Organizations know how to move experts.
+
+
+They are much less effective at systematically moving expertise.
+
+
+An expert practitioner is not necessarily an expert:
+
+
+- trainer;
+- instructional designer;
+- consultant;
+- change manager;
+- knowledge-management professional.
+
+
+As a result:
+
+
+- experts often perform work instead of transferring capability;
+- teaching opportunities are missed;
+- apprentices receive inconsistent exposure;
+- tacit knowledge stays in the expert's head;
+- knowledge is documented inconsistently;
+- organizations track training rather than demonstrated capability;
+- informal relationships and workarounds disappear;
+- management cannot determine whether the organization can operate without the expert;
+- valuable expertise may leave when the expert leaves.
+
+
+RELAY provides the structure around the human expert.
+
+
+RELAY DOES NOT REPLACE THE TRAINER.
+
+
+It makes human-to-human knowledge transfer:
+
+
+STRUCTURED
+MEASURABLE
+ACTIVE
+PERSISTENT
+SCALABLE
+
+
+Core philosophy:
+
+
+"The world already knows how to move experts.
+RELAY helps us move expertise."
+
+
+The ultimate question RELAY answers is:
+
+
+"Can the organization operate without the expert?"
+
+
+==================================================
+THE RELAY MODEL
+==================================================
+
+
+RELAY structures knowledge transfer through five connected layers:
+
+
+1. OPERATING MODEL
+2. TRANSFER BLUEPRINT
+3. TRANSFER PLAN / TRANSFER RAILS
+4. KNOWLEDGE & EVIDENCE CAPTURE
+5. READINESS
+
+
+The product should visually reinforce this progression.
+
+
+OPERATING MODEL
+      ↓
+TRANSFER BLUEPRINT
+      ↓
+TRANSFER PLAN
+      ↓
+REAL WORK + TRANSFER SESSIONS
+      ↓
+KNOWLEDGE & EVIDENCE
+      ↓
+READINESS
+
+
+==================================================
+1. OPERATING MODEL
+==================================================
+
+
+Knowledge transfer cannot begin with generic training.
+
+
+The organization first needs to define:
+
+
+"What needs to continue working after the expert leaves?"
+
+
+RELAY helps the expert and host organization construct a lightweight TARGET OPERATING MODEL.
+
+
+Use the following operating-model dimensions:
+
+
+PROCESSES
+
+
+What work must be performed?
+
+
+PEOPLE & ROLES
+
+
+Who performs the work?
+Who owns each activity?
+
+
+GOVERNANCE
+
+
+What meetings, approvals, escalations, and management routines exist?
+
+
+TOOLS & SYSTEMS
+
+
+What systems, spreadsheets, applications, forms, and tools support the work?
+
+
+DATA & METRICS
+
+
+What information is required?
+What KPIs are monitored?
+
+
+DECISION RIGHTS
+
+
+Who makes which decisions?
+Which decisions currently depend on the expert?
+
+
+EXTERNAL RELATIONSHIPS
+
+
+Which suppliers, government entities, clinics, partners, vendors, or other external relationships matter?
+
+
+CAPABILITIES
+
+
+What must people actually know how to do?
+
+
+==================================================
+AI-GUIDED OPERATING MODEL BUILDER
+==================================================
+
+
+Create an AI-guided Operating Model Builder.
+
+
+The AI should help the expert/program manager build the operating model through structured conversation.
+
+
+For example:
+
+
+"Walk me through how medicine moves from forecast to clinic."
+
+
+Based on the answer, the AI should ask targeted follow-ups such as:
+
+
+"Who approves an emergency order?"
+
+
+"What happens when reported inventory appears incorrect?"
+
+
+"Which decisions currently depend specifically on you?"
+
+
+"Who do you contact when the standard process fails?"
+
+
+"What tools or spreadsheets are required?"
+
+
+"How do you know whether the process is working?"
+
+
+The AI should convert answers into structured operating-model components.
+
+
+Users must be able to:
+
+
+APPROVE
+EDIT
+DELETE
+ADD MANUALLY
+
+
+The result should be a visual Operating Model.
+
+
+==================================================
+2. TRANSFER BLUEPRINT
+==================================================
+
+
+Once the Operating Model exists, RELAY determines:
+
+
+"What must transfer for this operating model to function without the expert?"
+
+
+For EACH important operating-model component, create a TRANSFER BLUEPRINT.
+
+
+Transfer requirements can include:
+
+
+FORMAL KNOWLEDGE
+
+
+- SOPs
+- policies
+- procedures
+- documented processes
+- forms
+- systems
+- reporting requirements
+
+
+TECHNICAL CAPABILITY
+
+
+What someone must actually be able to perform.
+
+
+DECISION & JUDGMENT
+
+
+How experienced people make decisions when the answer is not explicitly documented.
+
+
+TACIT KNOWLEDGE
+
+
+- heuristics;
+- intuition;
+- exceptions;
+- warning signs;
+- failure modes;
+- shortcuts;
+- contextual knowledge;
+- "watch out for..." knowledge.
+
+
+RELATIONSHIPS
+
+
+Who someone needs to know and when they need to involve them.
+
+
+TOOLS & SYSTEMS
+
+
+Which tools must be understood and how they are actually used.
+
+
+GOVERNANCE
+
+
+Approvals, escalations, routines, meetings, and decision rights.
+
+
+LOCAL OWNERSHIP
+
+
+Who will own this component after the expert leaves?
+
+
+==================================================
+FORMAL VS INFORMAL KNOWLEDGE
+==================================================
+
+
+This distinction is central to RELAY.
+
+
+FORMAL KNOWLEDGE is documented.
+
+
+Examples:
+
+
+SOPs
+policies
+training manuals
+process maps
+forms
+system instructions
+
+
+INFORMAL KNOWLEDGE is experiential.
+
+
+Examples:
+
+
+judgment
+heuristics
+exceptions
+relationships
+workarounds
+failure modes
+context
+warning signs
+"how things actually work"
+
+
+RELAY should actively identify gaps between the two.
+
+
+Example:
+
+
+FORMAL RULE
+
+
+Reorder medication when inventory reaches 14 days.
+
+
+EXPERT PRACTICE
+
+
+The expert begins evaluating replenishment earlier when:
+
+
+- demand is accelerating;
+- rainy season is beginning;
+- inventory data is stale;
+- supplier lead times are increasing.
+
+
+RELAY should flag:
+
+
+POTENTIAL FORMAL / INFORMAL KNOWLEDGE GAP
+
+
+and offer:
+
+
+CAPTURE INSIGHT
+EDIT
+IGNORE
+
+
+==================================================
+3. TRANSFER PLAN
+==================================================
+
+
+Once transfer requirements are identified, RELAY creates a structured plan.
+
+
+Each transfer requirement should answer:
+
+
+WHAT must transfer?
+
+
+WHO currently holds the knowledge?
+
+
+WHO needs to acquire it?
+
+
+HOW should it transfer?
+
+
+BY WHEN?
+
+
+WHAT evidence demonstrates successful transfer?
+
+
+WHAT is the risk if it does not transfer?
+
+
+==================================================
+TRANSFER RAILS
+==================================================
+
+
+RELAY should guide capability development through structured experiential stages.
+
+
+Use:
+
+
+1. KNOW
+
+
+Understand the formal process or concept.
+
+
+2. OBSERVE
+
+
+Watch the expert perform it.
+
+
+3. EXPLAIN
+
+
+Explain why the expert made the decisions they made.
+
+
+4. ASSIST
+
+
+Perform part of the work with the expert.
+
+
+5. LEAD
+
+
+Perform the work while the expert observes.
+
+
+6. VALIDATE
+
+
+Expert confirms independent capability.
+
+
+7. TEACH
+
+
+Local employee successfully teaches another employee.
+
+
+Visually show progression through these rails.
+
+
+Do NOT make this feel like an LMS or online course platform.
+
+
+The emphasis is REAL WORK.
+
+
+==================================================
+CAPABILITY LEVELS
+==================================================
+
+
+Use:
+
+
+0 — Not Exposed
+1 — Observed
+2 — Assisted
+3 — Performed with Supervision
+4 — Performed Independently
+5 — Demonstrated Repeatedly
+6 — Can Teach Others
+
+
+AI may recommend progression.
+
+
+AI NEVER automatically changes validated capability status.
+
+
+Human validation is required.
+
+
+==================================================
+4. TRANSFER SESSION
+==================================================
+
+
+The Transfer Session is the core recurring workflow.
+
+
+Every meaningful knowledge-transfer interaction should follow:
+
+
+PREPARE
+   ↓
+WORK
+   ↓
+EXPERT DEBRIEF
+   ↓
+LEARNER DEBRIEF
+   ↓
+AI SYNTHESIS
+   ↓
+HUMAN VALIDATION
+   ↓
+NEXT ACTION
+
+
+==================================================
+PREPARE
+==================================================
+
+
+Before a work session, RELAY gives the expert a concise SESSION BRIEF.
+
+
+Example:
+
+
+TODAY'S TRANSFER PRIORITIES
+
+
+LET KWAME LEAD
+
+
+Stockout Risk Identification
+
+
+EXPOSE IF POSSIBLE
+
+
+Emergency Stock Redistribution
+
+
+WATCH FOR
+
+
+How you adjust standard inventory thresholds based on contextual conditions.
+
+
+COACHING SUGGESTION
+
+
+Before giving your recommendation, ask Kwame what he would do.
+
+
+The purpose is to actively make the expert a better trainer.
+
+
+==================================================
+CAPTURE
+==================================================
+
+
+For the hackathon, allow:
+
+
+PASTE TRANSCRIPT
+
+
+and
+
+
+ENTER SESSION NOTES
+
+
+Future versions could support:
+
+
+- voice recording;
+- Teams transcripts;
+- Zoom transcripts;
+- field audio;
+- emails;
+- reports;
+- work orders;
+- system activity.
+
+
+Do not prioritize these integrations during the hackathon.
+
+
+==================================================
+EXPERT DEBRIEF
+==================================================
+
+
+After the session, AI asks the expert 1-3 TARGETED questions.
+
+
+Questions should depend on what happened.
+
+
+Do not ask generic surveys.
+
+
+Example:
+
+
+"You decided the standard 14-day reorder threshold was not appropriate in this case. What factors caused you to override the normal rule?"
+
+
+Another:
+
+
+"Was there anything you noticed that Kwame did not?"
+
+
+Another:
+
+
+"What would an inexperienced person most likely get wrong in this situation?"
+
+
+This is how RELAY extracts tacit knowledge.
+
+
+==================================================
+LEARNER DEBRIEF
+==================================================
+
+
+RELAY separately asks the learner 1-3 questions.
+
+
+The purpose is to determine whether the learner actually understood the expert's reasoning.
+
+
+Example:
+
+
+"Why was 18 days of inventory concerning even though the reorder threshold is 14 days?"
+
+
+Follow-up:
+
+
+"What would you do if redistribution from another clinic were not possible?"
+
+
+This provides direct evidence of knowledge transfer.
+
+
+Do NOT assume that exposure means understanding.
+
+
+==================================================
+AI SYNTHESIS
+==================================================
+
+
+Combine:
+
+
+SESSION
++
+EXPERT DEBRIEF
++
+LEARNER DEBRIEF
++
+OPERATING MODEL
++
+TRANSFER BLUEPRINT
++
+FORMAL DOCUMENTATION
++
+PREVIOUS CAPABILITY EVIDENCE
+
+
+Analyze for:
+
+
+KNOWLEDGE INSIGHTS
+
+
+CAPABILITY EVIDENCE
+
+
+FORMAL / INFORMAL KNOWLEDGE GAPS
+
+
+TEACHING OPPORTUNITIES
+
+
+MISUNDERSTANDINGS
+
+
+REMAINING KNOWLEDGE GAPS
+
+
+RECOMMENDED NEXT EXPERIENCES
+
+
+==================================================
+HUMAN VALIDATION
+==================================================
+
+
+Present AI findings to the expert.
+
+
+Every material finding must support:
+
+
+APPROVE
+EDIT
+REJECT
+
+
+Example:
+
+
+CAPABILITY EVIDENCE DETECTED
+
+
+Kwame Mensah
+
+
+Stockout Risk Identification
+
+
+Evidence:
+
+
+Kwame independently identified that accelerating consumption and seasonal demand made the standard threshold unreliable.
+
+
+Current:
+Performed with Supervision
+
+
+Suggested:
+Performed Independently
+
+
+[APPROVE]
+[EDIT]
+[NOT YET]
+
+
+==================================================
+NEXT ACTION
+==================================================
+
+
+Every session should feed the next session.
+
+
+Example:
+
+
+NEXT TRANSFER OBJECTIVE
+
+
+Kwame understands how to identify stockout risk but has not independently demonstrated Emergency Stock Redistribution.
+
+
+Recommended:
+
+
+Have Kwame lead the evaluation of potential transfers from nearby clinics while Dr. Mitchell observes.
+
+
+This recommendation should become part of the next Session Brief.
+
+
+This creates the RELAY learning loop:
+
+
+PLAN
+→ WORK
+→ REFLECT
+→ CAPTURE
+→ VALIDATE
+→ PRACTICE
+→ REASSESS
+
+
+==================================================
+5. KNOWLEDGE
+==================================================
+
+
+Create a structured Knowledge Library.
+
+
+Categories:
+
+
+FORMAL DOCUMENTS
+
+
+EXPERT INSIGHTS
+
+
+CASES
+
+
+HEURISTICS
+
+
+EXCEPTIONS
+
+
+LESSONS LEARNED
+
+
+RELATIONSHIPS
+
+
+Each knowledge item should connect back to:
+
+
+- operating-model area;
+- capability;
+- expert;
+- source session;
+- people exposed;
+- validation status.
+
+
+==================================================
+STANDARD EXPERT INSIGHT
+==================================================
+
+
+Use a standardized format:
+
+
+TITLE
+
+
+CAPABILITY
+
+
+OPERATING MODEL AREA
+
+
+SITUATION
+
+
+OBSERVED SIGNALS
+
+
+EXPERT REASONING
+
+
+RECOMMENDED RESPONSE
+
+
+WHY IT MATTERS
+
+
+SOURCE
+
+
+EXPERT
+
+
+VALIDATION STATUS
+
+
+PEOPLE EXPOSED
+
+
+This allows institutional knowledge to accumulate gradually as a by-product of work.
+
+
+==================================================
+6. TRAIN THE TRAINER
+==================================================
+
+
+RELAY should deliberately create knowledge multiplication.
+
+
+The desired progression is:
+
+
+EXPERT
+   ↓
+LOCAL TRAINER
+   ↓
+LOCAL WORKFORCE
+
+
+When a local counterpart has demonstrated sufficient capability, RELAY should recommend:
+
+
+TRAIN-THE-TRAINER OPPORTUNITY
+
+
+Example:
+
+
+Kwame has repeatedly demonstrated Stockout Risk Identification.
+
+
+Recommended:
+
+
+Have Kwame lead Ama through the next inventory-risk review while Dr. Mitchell observes.
+
+
+Visually show knowledge propagation.
+
+
+==================================================
+7. READINESS
+==================================================
+
+
+Readiness should answer:
+
+
+"Can the organization operate without the expert?"
+
+
+Create an OPERATING MODEL READINESS dashboard.
+
+
+Example:
+
+
+AREA                         FORMAL     INFORMAL     LOCAL OWNER     STATUS
+
+
+Inventory Monitoring         100%        90%          Kwame          GREEN
+
+
+Demand Forecasting            90%        65%          Kwame          YELLOW
+
+
+Emergency Redistribution      75%        30%          None           RED
+
+
+Supplier Management           85%        45%          Kojo           YELLOW
+
+
+Reporting & Governance       100%        80%          Ama            GREEN
+
+
+==================================================
+EXECUTIVE METRICS
+==================================================
+
+
+Prominently display:
+
+
+CAPABILITY LOCALIZATION
+
+
+OPERATING MODEL READINESS
+
+
+LOCALLY TEACHABLE CAPABILITIES
+
+
+EXPERT-DEPENDENT CAPABILITIES
+
+
+KNOWLEDGE AT RISK
+
+
+TIME UNTIL EXPERT DEPARTURE
+
+
+The executive should understand within approximately 10 seconds:
+
+
+"What can the organization sustain without this expert, and what are we still at risk of losing?"
+
+
+==================================================
+KNOWLEDGE AT RISK
+==================================================
+
+
+Compare:
+
+
+TARGET OPERATING MODEL
+
+
+vs.
+
+
+TRANSFER REQUIREMENTS
+
+
+vs.
+
+
+LOCAL CAPABILITY
+
+
+vs.
+
+
+CAPTURED KNOWLEDGE
+
+
+vs.
+
+
+LOCAL OWNERSHIP
+
+
+vs.
+
+
+EXPERT DEPARTURE DATE
+
+
+Flag:
+
+
+- capabilities with no local coverage;
+- undocumented tacit knowledge;
+- processes without local ownership;
+- capabilities only observed but never performed;
+- capabilities with only one local knowledge holder;
+- relationships that remain expert-dependent;
+- critical areas without a local trainer.
+
+
+==================================================
+AI COMPANION
+==================================================
+
+
+The AI Companion should operate throughout the application.
+
+
+It is not merely a chatbot.
+
+
+It acts like an AI KNOWLEDGE-TRANSFER / CHANGE-MANAGEMENT ADVISOR.
+
+
+Examples:
+
+
+OPERATING MODEL
+
+
+"You identified emergency procurement as a process, but no post-departure decision owner has been identified."
+
+
+TRANSFER BLUEPRINT
+
+
+"The SOP explains how redistribution occurs but not how someone determines when redistribution is preferable to emergency procurement. Add this as a judgment-based transfer requirement?"
+
+
+SESSION PREPARATION
+
+
+"Kwame has observed this process three times. Let him lead today's case while you observe."
+
+
+DEBRIEF
+
+
+"You deviated from the documented procedure. What did you notice that caused you to do that?"
+
+
+KNOWLEDGE CAPTURE
+
+
+"This appears to be an undocumented heuristic. Capture it?"
+
+
+READINESS
+
+
+"Three critical operating-model components remain dependent on Dr. Mitchell, who leaves in 28 days."
+
+
+==================================================
+DEMO SCENARIO
+==================================================
+
+
+The product itself MUST remain industry- and geography-agnostic.
+
+
+The seeded hackathon demo uses a fictional international technical-assistance assignment inspired by Peace Corps / Peace Corps Response.
+
+
+Do NOT imply that the fictional organization, assignment, or people are actual Peace Corps programs or participants.
+
+
+==================================================
+DEMO ORGANIZATION
+==================================================
+
+
+Create a fictional community health organization operating rural clinics in Ghana.
+
+
+The organization is strengthening its medical supply chain and reducing shortages of essential medicines.
+
+
+It has brought in an experienced public-health supply-chain specialist for a nine-month technical-assistance assignment.
+
+
+The objective is not simply for the expert to improve operations while present.
+
+
+The objective is for the local organization to operate independently after she leaves.
+
+
+==================================================
+DEMO PEOPLE
+==================================================
+
+
+EXPERT
+
+
+Dr. Sarah Mitchell
+Public Health Supply Chain Specialist
+18 years experience
+Departure: 28 days
+
+
+LOCAL COUNTERPARTS
+
+
+Kwame Mensah
+Regional Supply Coordinator
+
+
+Ama Boateng
+Clinic Operations Officer
+
+
+Kojo Asare
+Health Logistics Officer
+
+
+==================================================
+DEMO OPERATING MODEL
+==================================================
+
+
+Create a realistic lightweight operating model containing areas such as:
+
+
+DEMAND FORECASTING
+
+
+INVENTORY MONITORING
+
+
+REPLENISHMENT
+
+
+EMERGENCY STOCK REDISTRIBUTION
+
+
+SUPPLIER MANAGEMENT
+
+
+CLINIC REPORTING
+
+
+DATA QUALITY
+
+
+STOCKOUT ESCALATION
+
+
+GOVERNANCE & PERFORMANCE REVIEW
+
+
+For each, populate:
+
+
+- process;
+- owner;
+- roles;
+- decision rights;
+- systems/tools;
+- metrics;
+- formal knowledge;
+- informal knowledge;
+- required capabilities;
+- transfer status.
+
+
+==================================================
+DEMO CAPABILITIES
+==================================================
+
+
+Seed:
+
+
+Routine Inventory Monitoring
+
+
+Stockout Risk Identification
+
+
+Demand Forecasting
+
+
+Emergency Stock Redistribution
+
+
+Supplier Lead-Time Assessment
+
+
+Inventory Data Quality Assessment
+
+
+Clinic Consumption Analysis
+
+
+Seasonal Demand Planning
+
+
+Supply Disruption Response
+
+
+Root Cause Analysis of Stockouts
+
+
+==================================================
+FLAGSHIP DEMO SESSION
+==================================================
+
+
+Situation:
+
+
+A rural clinic appears to have approximately 18 days of antimalarial medication remaining.
+
+
+The standard reorder threshold is 14 days.
+
+
+The spreadsheet therefore suggests no immediate intervention.
+
+
+However:
+
+
+- consumption increased during the previous two weeks;
+- rainy season has begun;
+- malaria cases historically increase during this period;
+- the most recent physical inventory count is several days old;
+- supplier lead times have recently increased.
+
+
+Kwame notices the consumption trend and says the team should not rely mechanically on the 14-day threshold.
+
+
+Dr. Mitchell agrees.
+
+
+She explains that experienced supply-chain managers combine static inventory thresholds with contextual indicators.
+Before placing an emergency order, she would also determine whether nearby clinics have excess inventory that can safely be redistributed.
+==================================================
+DEMO FLOW
+==================================================
+STEP 1 — SESSION BRIEF
+Before the session, RELAY tells Dr. Mitchell:
+TODAY'S PRIORITY
+Stockout Risk Identification
+LET KWAME LEAD
+Ask Kwame to assess whether intervention is required.
+WATCH FOR
+Whether Kwame considers demand trends rather than only static inventory.
+==================================================
+STEP 2 — SESSION
+Include a realistic transcript.
+==================================================
+STEP 3 — EXPERT DEBRIEF
+RELAY asks Dr. Mitchell:
+"You agreed that the normal 14-day threshold was misleading in this situation. What factors made you treat this clinic differently?"
+She explains:
+seasonality;
+accelerating consumption;
+stale inventory;
+supplier lead time.
+==================================================
+STEP 4 — LEARNER DEBRIEF
+RELAY asks Kwame:
+"Why was 18 days of stock concerning even though the standard reorder threshold is 14 days?"
+Kwame explains the reasoning.
+Then:
+"What would you do if another clinic could not safely redistribute inventory?"
+==================================================
+STEP 5 — AI SYNTHESIS
+
+
+RELAY combines:
+
+
+- the session transcript;
+- Dr. Mitchell's expert debrief;
+- Kwame's learner debrief;
+- the existing operating model;
+- the transfer blueprint;
+- formal SOPs and documentation;
+- Kwame's previous capability evidence.
+
+
+RELAY identifies several findings.
+
+
+--------------------------------------------------
+FINDING 1 — CAPABILITY EVIDENCE
+--------------------------------------------------
+
+
+Employee:
+
+
+Kwame Mensah
+
+
+Capability:
+
+
+Stockout Risk Identification
+
+
+Evidence:
+
+
+Kwame independently recognized that the standard 14-day reorder threshold was insufficient for this situation.
+
+
+He correctly incorporated:
+
+
+- increasing consumption;
+- seasonal demand;
+- supplier lead-time changes.
+
+
+Current Level:
+
+
+Performed with Supervision
+
+
+Suggested Level:
+
+
+Performed Independently
+
+
+Confidence:
+
+
+High
+
+
+Evidence Sources:
+
+
+- Session transcript
+- Learner debrief
+- Expert observation
+
+
+Status:
+
+
+PENDING EXPERT VALIDATION
+
+
+Actions:
+
+
+[APPROVE]
+[EDIT]
+[NOT YET]
+
+
+==================================================
+FINDING 2 — TACIT KNOWLEDGE
+==================================================
+
+
+RELAY identifies a difference between formal documentation and expert practice.
+
+
+FORMAL KNOWLEDGE
+
+
+Standard procedure:
+
+
+Initiate replenishment when inventory approaches the 14-day reorder threshold.
+
+
+EXPERT PRACTICE
+
+
+Dr. Mitchell does not treat the threshold as absolute.
+
+
+She considers:
+
+
+- recent consumption trajectory;
+- seasonal disease patterns;
+- freshness of inventory data;
+- supplier lead-time changes.
+
+
+RELAY displays:
+
+
+FORMAL / INFORMAL KNOWLEDGE GAP DETECTED
+
+
+Suggested Knowledge Record:
+
+
+TITLE
+
+
+Look Beyond Static Reorder Thresholds
+
+
+OPERATING MODEL AREA
+
+
+Inventory Monitoring / Replenishment
+
+
+CAPABILITY
+
+
+Stockout Risk Identification
+
+
+SITUATION
+
+
+Inventory remains above the standard reorder threshold, but contextual conditions suggest that demand or replenishment risk is changing.
+
+
+OBSERVED SIGNALS
+
+
+- accelerating consumption;
+- seasonal demand;
+- stale inventory counts;
+- increasing supplier lead times.
+
+
+EXPERT REASONING
+
+
+Static inventory thresholds should be interpreted alongside expected demand and replenishment conditions.
+
+
+RECOMMENDED RESPONSE
+
+
+Validate current inventory, reassess expected consumption and supplier lead time, and determine whether earlier intervention is appropriate.
+
+
+WHY IT MATTERS
+
+
+Waiting for the standard threshold may create avoidable stockout risk when demand or replenishment conditions are changing.
+
+
+SOURCE
+
+
+Clinic 14 Transfer Session
+
+
+EXPERT
+
+
+Dr. Sarah Mitchell
+
+
+STATUS
+
+
+Pending Expert Validation
+
+
+Actions:
+
+
+[APPROVE & ADD TO KNOWLEDGE]
+[EDIT]
+[REJECT]
+
+
+==================================================
+FINDING 3 — REMAINING KNOWLEDGE GAP
+==================================================
+
+
+RELAY identifies that Kwame understands how to recognize stockout risk but has not demonstrated the next capability:
+
+
+Emergency Stock Redistribution
+
+
+Evidence suggests that Kwame understands WHY redistribution may be considered.
+
+
+There is insufficient evidence that he can independently determine:
+
+
+- whether another clinic has true excess inventory;
+- whether transferring inventory creates risk for the sending clinic;
+- whether product expiry creates a concern;
+- whether transportation conditions are appropriate;
+- what approvals are required;
+- how the transfer should be documented.
+
+
+RELAY should distinguish:
+
+
+UNDERSTANDING
+
+
+from
+
+
+DEMONSTRATED CAPABILITY
+
+
+Do not advance Kwame's Emergency Stock Redistribution capability.
+
+
+==================================================
+FINDING 4 — NEXT TRANSFER ACTIVITY
+==================================================
+
+
+RELAY recommends:
+
+
+NEXT TRANSFER OBJECTIVE
+
+
+Emergency Stock Redistribution
+
+
+RECOMMENDED EXPERIENCE
+
+
+Have Kwame lead the evaluation of whether medication can safely be transferred from a nearby clinic.
+
+
+Dr. Mitchell should observe rather than lead.
+
+
+Kwame should be responsible for:
+
+
+1. identifying potential sending clinics;
+2. determining available surplus;
+3. evaluating sending-clinic demand;
+4. checking expiry considerations;
+5. considering transportation constraints;
+6. identifying required approvals;
+7. making a recommendation.
+
+
+Dr. Mitchell should intervene only if necessary.
+
+
+This recommendation should automatically become available when preparing the next relevant Transfer Session.
+
+
+==================================================
+STEP 6 — HUMAN VALIDATION
+==================================================
+
+
+Dr. Mitchell reviews the AI findings.
+
+
+She can:
+
+
+APPROVE
+EDIT
+REJECT
+
+
+for each finding independently.
+
+
+If she approves Kwame's capability evidence:
+
+
+Update Kwame:
+
+
+Stockout Risk Identification
+
+
+FROM:
+
+
+Performed with Supervision
+
+
+TO:
+
+
+Performed Independently
+
+
+Store the underlying evidence.
+
+
+DO NOT simply overwrite the historical capability level.
+
+
+Create an auditable evidence record.
+
+
+==================================================
+STEP 7 — KNOWLEDGE LIBRARY UPDATE
+==================================================
+
+
+If Dr. Mitchell approves the captured expert insight:
+
+
+Add:
+
+
+"Look Beyond Static Reorder Thresholds"
+
+
+to the institutional Knowledge Library.
+
+
+Connect it to:
+
+
+Operating Model Area:
+Inventory Monitoring / Replenishment
+
+
+Capability:
+Stockout Risk Identification
+
+
+Expert:
+Dr. Mitchell
+
+
+Source:
+Clinic 14 Session
+
+
+Learner:
+Kwame
+
+
+Knowledge Type:
+Expert Heuristic / Tacit Knowledge
+
+
+The Knowledge Library should visually show that the organization's knowledge base is growing through real work.
+
+
+==================================================
+STEP 8 — TRANSFER PLAN UPDATE
+==================================================
+
+
+Update the Transfer Blueprint automatically.
+
+
+STOCKOUT RISK IDENTIFICATION
+
+
+Formal Knowledge:
+COMPLETE
+
+
+Informal Knowledge:
+CAPTURED
+
+
+Local Capability:
+KWAME — INDEPENDENT
+
+
+Local Trainer:
+NOT YET
+
+
+Overall Transfer Status:
+ON TRACK
+
+
+--------------------------------------------------
+
+
+EMERGENCY STOCK REDISTRIBUTION
+
+
+Formal Knowledge:
+PARTIALLY TRANSFERRED
+
+
+Informal Knowledge:
+PARTIALLY CAPTURED
+
+
+Local Capability:
+KWAME — OBSERVED
+
+
+Local Trainer:
+NONE
+
+
+Overall Transfer Status:
+AT RISK
+
+
+Recommended Action:
+
+
+Give Kwame responsibility for leading the next redistribution assessment.
+
+
+==================================================
+STEP 9 — NEXT SESSION BRIEF
+==================================================
+
+
+When Dr. Mitchell prepares for the next relevant session, RELAY should use the previous findings.
+
+
+Example:
+
+
+NEXT SESSION BRIEF
+
+
+PRIMARY TRANSFER OBJECTIVE
+
+
+Emergency Stock Redistribution
+
+
+LEARNER
+
+
+Kwame Mensah
+
+
+CURRENT STATUS
+
+
+Observed
+
+
+TODAY'S GOAL
+
+
+Move from observation toward supervised performance.
+
+
+YOUR ROLE AS EXPERT
+
+
+Do not begin by recommending a solution.
+
+
+Ask Kwame to:
+
+
+1. assess whether redistribution is appropriate;
+2. identify potential sending clinics;
+3. explain the risks;
+4. recommend a course of action.
+
+
+WATCH FOR
+
+
+- consideration of sending-clinic demand;
+- expiry risk;
+- transportation constraints;
+- required approvals.
+
+
+KNOWLEDGE TO PROBE
+
+
+Ask:
+
+
+"What would make you decide NOT to redistribute stock?"
+
+
+This demonstrates that RELAY learns from one transfer session and actively shapes the next.
+
+
+==================================================
+TRAIN-THE-TRAINER FLOW
+==================================================
+
+
+RELAY should also monitor when local employees are ready to become trainers.
+
+
+Example:
+
+
+Kwame has:
+
+
+- repeatedly demonstrated Routine Inventory Monitoring;
+- independently demonstrated Stockout Risk Identification;
+- successfully explained the reasoning to another employee.
+
+
+RELAY identifies:
+
+
+TRAIN-THE-TRAINER OPPORTUNITY
+
+
+Capability:
+
+
+Routine Inventory Monitoring
+
+
+Current Expert:
+
+
+Dr. Sarah Mitchell
+
+
+Candidate Local Trainer:
+
+
+Kwame Mensah
+
+
+Recommended Activity:
+
+
+Have Kwame lead Ama through the next weekly inventory review.
+
+
+Dr. Mitchell should observe and provide feedback afterward.
+
+
+If successful, RELAY may recommend:
+
+
+Kwame:
+
+
+Routine Inventory Monitoring
+
+
+FROM:
+
+
+Demonstrated Repeatedly
+
+
+TO:
+
+
+Can Teach Others
+
+
+Human validation remains required.
+
+
+==================================================
+DEMO OPERATING MODEL DASHBOARD
+==================================================
+
+
+Create an Operating Model view that shows whether each part of the organization is becoming locally sustainable.
+
+
+Example:
+
+
+COMMUNITY HEALTH SUPPLY CHAIN OPERATING MODEL
+
+
+--------------------------------------------------
+
+
+INVENTORY MONITORING
+
+
+Local Owner:
+Kwame
+
+
+Formal Knowledge:
+100%
+
+
+Informal Knowledge:
+90%
+
+
+Local Capability:
+Strong
+
+
+Trainer Coverage:
+Yes
+
+
+STATUS:
+SUSTAINABLE
+
+
+--------------------------------------------------
+
+
+DEMAND FORECASTING
+
+
+Local Owner:
+Kwame
+
+
+Formal Knowledge:
+90%
+
+
+Informal Knowledge:
+65%
+
+
+Local Capability:
+Developing
+
+
+Trainer Coverage:
+No
+
+
+STATUS:
+TRANSFER IN PROGRESS
+
+
+--------------------------------------------------
+
+
+EMERGENCY STOCK REDISTRIBUTION
+
+
+Local Owner:
+Not Confirmed
+
+
+Formal Knowledge:
+75%
+
+
+Informal Knowledge:
+30%
+
+
+Local Capability:
+Limited
+
+
+Trainer Coverage:
+None
+
+
+STATUS:
+AT RISK
+
+
+--------------------------------------------------
+
+
+SUPPLIER MANAGEMENT
+
+
+Local Owner:
+Kojo
+
+
+Formal Knowledge:
+85%
+
+
+Informal Knowledge:
+45%
+
+
+Local Capability:
+Developing
+
+
+Trainer Coverage:
+No
+
+
+STATUS:
+TRANSFER IN PROGRESS
+
+
+--------------------------------------------------
+
+
+REPORTING & GOVERNANCE
+
+
+Local Owner:
+Ama
+
+
+Formal Knowledge:
+100%
+
+
+Informal Knowledge:
+80%
+
+
+Local Capability:
+Strong
+
+
+Trainer Coverage:
+Yes
+
+
+STATUS:
+SUSTAINABLE
+
+
+==================================================
+EXECUTIVE DASHBOARD
+==================================================
+
+
+Create a polished executive dashboard.
+
+
+The executive dashboard should NOT primarily look like an employee training dashboard.
+
+
+It should look like an organizational readiness / capability-transfer dashboard.
+
+
+TOP METRICS:
+
+
+68%
+OPERATING MODEL READINESS
+
+
+70%
+CAPABILITY LOCALIZATION
+
+
+4
+LOCALLY TEACHABLE CAPABILITIES
+
+
+3
+EXPERT-DEPENDENT CAPABILITIES
+
+
+28 DAYS
+UNTIL EXPERT DEPARTURE
+
+
+==================================================
+CRITICAL KNOWLEDGE RISKS
+==================================================
+
+
+Show:
+
+
+KNOWLEDGE AT RISK BEFORE EXPERT DEPARTURE
+
+
+--------------------------------------------------
+
+
+CRITICAL
+
+
+Emergency Stock Redistribution
+
+
+Problem:
+
+
+No local employee has independently demonstrated this capability.
+
+
+Local Trainer:
+
+
+None
+
+
+Recommended Action:
+
+
+Have Kwame lead the next redistribution assessment.
+
+
+--------------------------------------------------
+
+
+HIGH
+
+
+Seasonal Demand Planning
+
+
+Problem:
+
+
+Dr. Mitchell's seasonal forecasting judgment is only partially documented.
+
+
+Local Capability:
+
+
+Kwame — Performed with Supervision
+
+
+Recommended Action:
+
+
+Conduct one scenario-based planning session and have Kwame independently produce the next seasonal forecast.
+
+
+--------------------------------------------------
+
+
+MEDIUM
+
+
+Supplier Escalation
+
+
+Problem:
+
+
+Several important supplier relationships still depend primarily on Dr. Mitchell.
+
+
+Recommended Action:
+
+
+Introduce Kojo as the primary local contact and have him lead the next supplier escalation.
+
+
+==================================================
+DEPARTURE READINESS
+==================================================
+
+
+Create a dedicated Departure Readiness view.
+
+
+Header:
+
+
+DR. SARAH MITCHELL
+
+
+Departure in 28 days
+
+
+Then show:
+
+
+OPERATING MODEL AREAS
+
+
+7 / 9 locally owned
+
+
+CRITICAL CAPABILITIES
+
+
+7 / 10 independently available locally
+
+
+LOCAL TRAINERS
+
+
+2 identified
+
+
+VALIDATED EXPERT INSIGHTS
+
+
+18 captured
+
+
+UNRESOLVED KNOWLEDGE RISKS
+
+
+3
+
+
+Then:
+
+
+BEFORE DEPARTURE
+
+
+AI-generated prioritized actions.
+
+
+Example:
+
+
+1. Validate Kwame on Emergency Stock Redistribution.
+
+
+2. Have Kwame train Ama on Routine Inventory Monitoring.
+
+
+3. Transfer supplier escalation ownership to Kojo.
+
+
+4. Capture Dr. Mitchell's remaining seasonal forecasting heuristics.
+
+
+5. Confirm local ownership of the monthly supply review.
+
+
+==================================================
+KNOWLEDGE PROPAGATION VISUALIZATION
+==================================================
+
+
+Create a simple visual showing how expertise is spreading.
+
+
+Example:
+
+
+              Dr. Mitchell
+                   │
+          ┌────────┴────────┐
+          ↓                 ↓
+       Kwame              Kojo
+      /     \                │
+     ↓       ↓               ↓
+   Ama    Clinic Leads    Logistics Team
+
+
+Allow capability filtering.
+
+
+Example:
+
+
+Capability:
+Stockout Risk Identification
+
+
+Show who originally held the capability and how it has propagated.
+
+
+The visualization does not need sophisticated graph technology.
+
+
+A clean diagram is sufficient.
+
+
+==================================================
+APPLICATION NAVIGATION
+==================================================
+
+
+Update the primary navigation to reflect the actual RELAY workflow.
+
+
+Use:
+
+
+OVERVIEW
+
+
+OPERATING MODEL
+
+
+TRANSFER BLUEPRINT
+
+
+PEOPLE
+
+
+SESSIONS
+
+
+KNOWLEDGE
+
+
+READINESS
+
+
+AI COMPANION
+
+
+The sequence should make conceptual sense:
+
+
+DEFINE THE ORGANIZATION
+        ↓
+DEFINE WHAT MUST TRANSFER
+        ↓
+TRANSFER THROUGH REAL WORK
+        ↓
+CAPTURE KNOWLEDGE & EVIDENCE
+        ↓
+MEASURE SUSTAINABILITY
+
+
+==================================================
+OVERVIEW
+==================================================
+
+
+Executive summary.
+
+
+Show:
+
+
+Operating Model Readiness
+
+
+Capability Localization
+
+
+Expert Dependency
+
+
+Knowledge at Risk
+
+
+Upcoming Expert Departures
+
+
+Priority Transfer Actions
+
+
+Recent Knowledge Captured
+
+
+Train-the-Trainer Progress
+
+
+==================================================
+OPERATING MODEL
+==================================================
+
+
+Allow users to:
+
+
+CREATE OPERATING MODEL
+
+
+USE AI-GUIDED BUILDER
+
+
+ADD COMPONENT
+
+
+EDIT COMPONENT
+
+
+MAP OWNER
+
+
+MAP DECISION RIGHTS
+
+
+MAP TOOLS
+
+
+MAP METRICS
+
+
+MAP CAPABILITIES
+
+
+Each operating-model component should display its transfer readiness.
+
+
+==================================================
+TRANSFER BLUEPRINT
+==================================================
+
+
+For each operating-model component show:
+
+
+WHAT MUST TRANSFER
+
+
+FORMAL KNOWLEDGE
+
+
+INFORMAL KNOWLEDGE
+
+
+CAPABILITIES
+
+
+DECISION & JUDGMENT
+
+
+RELATIONSHIPS
+
+
+TOOLS
+
+
+GOVERNANCE
+
+
+LOCAL OWNER
+
+
+TRANSFER RISK
+
+
+CURRENT STATUS
+
+
+AI should help identify missing transfer requirements.
+
+
+==================================================
+PEOPLE
+==================================================
+
+
+Create profiles for:
+
+
+EXPERTS
+
+
+LOCAL COUNTERPARTS
+
+
+LOCAL TRAINERS
+
+
+For local counterparts create a CAPABILITY PASSPORT.
+
+
+Show:
+
+
+capability;
+current level;
+evidence;
+number of exposures;
+last demonstrated;
+next recommended experience;
+trainer readiness.
+
+
+==================================================
+SESSIONS
+==================================================
+
+
+Sessions should support the full RELAY loop:
+
+
+PREPARE
+
+
+CAPTURE
+
+
+EXPERT DEBRIEF
+
+
+LEARNER DEBRIEF
+
+
+AI SYNTHESIS
+
+
+VALIDATE
+
+
+NEXT ACTION
+
+
+Users should be able to see previous sessions and their resulting:
+
+
+knowledge captured;
+capability evidence;
+teaching opportunities;
+follow-up activities.
+
+
+==================================================
+KNOWLEDGE
+==================================================
+
+
+Create categories:
+
+
+FORMAL DOCUMENTS
+
+
+EXPERT INSIGHTS
+
+
+CASES
+
+
+HEURISTICS
+
+
+EXCEPTIONS
+
+
+LESSONS LEARNED
+
+
+RELATIONSHIPS
+
+
+Allow filtering by:
+
+
+operating-model area;
+capability;
+expert;
+person;
+knowledge type;
+validation status.
+
+
+==================================================
+READINESS
+==================================================
+
+
+Show:
+
+
+OPERATING MODEL READINESS
+
+
+CAPABILITY LOCALIZATION
+
+
+LOCAL OWNERSHIP
+
+
+TRAINER COVERAGE
+
+
+FORMAL KNOWLEDGE TRANSFER
+
+
+INFORMAL KNOWLEDGE TRANSFER
+
+
+EXPERT DEPENDENCY
+
+
+DEPARTURE READINESS
+
+
+KNOWLEDGE AT RISK
+
+
+==================================================
+AI COMPANION
+==================================================
+
+
+The AI Companion should be contextual.
+
+
+It should understand what page the user is on.
+
+
+Examples:
+
+
+ON OPERATING MODEL PAGE
+
+
+"Help me map this function."
+
+
+ON TRANSFER BLUEPRINT
+
+
+"What knowledge are we missing?"
+
+
+ON PEOPLE
+
+
+"What should Kwame do next?"
+
+
+ON SESSION
+
+
+"What should I focus on today?"
+
+
+ON KNOWLEDGE
+
+
+"What tacit knowledge haven't we captured?"
+
+
+ON READINESS
+
+
+"What is most at risk before Sarah leaves?"
+
+
+Do not make the AI Companion the center of the interface.
+
+
+The workflow and structured data are the product.
+
+
+AI enhances the workflow.
+
+
+==================================================
+DATA MODEL
+==================================================
+
+
+Design a practical relational model supporting at least:
+
+
+organizations
+
+
+engagements
+
+
+people
+
+
+engagement_people
+
+
+operating_model_areas
+
+
+processes
+
+
+roles
+
+
+decision_rights
+
+
+tools
+
+
+metrics
+
+
+external_relationships
+
+
+capabilities
+
+
+transfer_requirements
+
+
+person_capabilities
+
+
+transfer_plans
+
+
+sessions
+
+
+session_participants
+
+
+expert_debriefs
+
+
+learner_debriefs
+
+
+knowledge_items
+
+
+capability_evidence
+
+
+recommendations
+
+
+documents
+
+
+validations
+
+
+Do not overengineer the schema if a simpler implementation supports the demo.
+
+
+==================================================
+AI FUNCTIONS
+==================================================
+
+
+Create modular functions such as:
+
+
+buildOperatingModel()
+
+
+identifyTransferRequirements()
+
+
+identifyFormalInformalGaps()
+
+
+generateTransferPlan()
+
+
+prepareSession()
+
+
+generateExpertDebrief()
+
+
+generateLearnerDebrief()
+
+
+analyzeSession()
+
+
+extractTacitKnowledge()
+
+
+assessCapabilityEvidence()
+
+
+recommendNextExperience()
+
+
+identifyTrainerCandidates()
+
+
+analyzeReadiness()
+
+
+generateDeparturePlan()
+
+
+Use structured JSON outputs.
+
+
+Validate outputs against schemas.
+
+
+==================================================
+TECHNICAL STACK
+==================================================
+
+
+Preferred:
+
+
+Next.js
+
+
+TypeScript
+
+
+Tailwind CSS
+
+
+shadcn/ui
+
+
+Supabase
+
+
+Grok API
+
+
+Recharts
+
+
+Vercel-compatible deployment
+
+
+If another implementation substantially improves development speed or reliability, use reasonable judgment.
+
+
+==================================================
+HACKATHON PRIORITIES
+==================================================
+
+
+DO NOT attempt to build every possible enterprise feature.
+
+
+Priority 1:
+
+
+A polished Operating Model.
+
+
+Priority 2:
+
+
+A convincing Transfer Blueprint.
+
+
+Priority 3:
+
+
+One exceptional end-to-end Transfer Session.
+
+
+Priority 4:
+
+
+Knowledge capture.
+
+
+Priority 5:
+
+
+Capability progression.
+
+
+Priority 6:
+
+
+Readiness dashboard.
+
+
+Priority 7:
+
+
+AI Companion.
+
+
+If time becomes constrained, prioritize DEPTH of the primary workflow over breadth.
+
+
+==================================================
+DO NOT PRIORITIZE
+==================================================
+
+
+Do not spend significant hackathon time building:
+
+
+Teams integration
+
+
+Zoom integration
+
+
+live speech transcription
+
+
+complex RAG
+
+
+vector databases
+
+
+SSO
+
+
+mobile applications
+
+
+enterprise HR integrations
+
+
+ERP integrations
+
+
+complex permissions
+
+
+production infrastructure
+
+
+These can be represented as future integrations.
+
+
+==================================================
+DESIGN DIRECTION
+==================================================
+
+
+Make RELAY look like premium enterprise software.
+
+
+Design characteristics:
+
+
+clean;
+restrained;
+high information density;
+excellent typography;
+strong information hierarchy;
+professional dashboards;
+subtle interactions;
+consistent components.
+
+
+Avoid:
+
+
+cartoonish design;
+excessive gradients;
+emoji-heavy interfaces;
+generic chatbot aesthetics;
+huge marketing headings inside the product;
+obvious hackathon placeholders.
+
+
+Use visual status indicators consistently for:
+
+
+SUSTAINABLE
+
+
+ON TRACK
+
+
+TRANSFER IN PROGRESS
+
+
+AT RISK
+
+
+CRITICAL
+
+
+==================================================
+DEMO DATA
+==================================================
+
+
+The application must launch with realistic seeded data.
+
+
+Do not make the demo presenter manually build everything.
+
+
+Seed:
+
+
+Dr. Mitchell
+
+
+Kwame
+
+
+Ama
+
+
+Kojo
+
+
+the Ghana community-health supply-chain engagement
+
+
+the operating model
+
+
+transfer requirements
+
+
+capability histories
+
+
+knowledge records
+
+
+previous sessions
+
+
+AI recommendations
+
+
+readiness metrics
+
+
+Then include the flagship Clinic 14 session as the live interaction that changes the system during the demo.
+
+
+==================================================
+DEMO SUCCESS FLOW
+==================================================
+
+
+The presenter should be able to demonstrate:
+
+
+1.
+
+
+Open RELAY.
+
+
+Executive dashboard shows that Dr. Mitchell leaves in 28 days and several areas remain dependent on her.
+
+
+2.
+
+
+Open OPERATING MODEL.
+
+
+Show how the organization's actual operating model has been mapped.
+
+
+3.
+
+
+Open TRANSFER BLUEPRINT.
+
+
+Show that RELAY distinguishes formal documentation from tacit knowledge, judgment, relationships, and capabilities.
+
+
+4.
+
+
+Open TODAY'S SESSION.
+
+
+RELAY tells Dr. Mitchell what she should focus on transferring to Kwame.
+
+
+5.
+
+
+Run the Clinic 14 session.
+
+
+6.
+
+
+Complete Dr. Mitchell's AI-generated expert debrief.
+
+
+7.
+
+
+Complete Kwame's separate learner debrief.
+
+
+8.
+
+
+RELAY synthesizes the evidence.
+
+
+9.
+
+
+Show:
+
+
+NEW TACIT KNOWLEDGE DETECTED
+
+
+CAPABILITY EVIDENCE DETECTED
+
+
+REMAINING KNOWLEDGE GAP
+
+
+NEXT RECOMMENDED EXPERIENCE
+
+
+10.
+
+
+Dr. Mitchell validates the findings.
+
+
+11.
+
+
+Return to Kwame's Capability Passport.
+
+
+His validated progression is visible.
+
+
+12.
+
+
+Open Knowledge Library.
+
+
+The newly captured expert heuristic is visible.
+
+
+13.
+
+
+Open Transfer Blueprint.
+
+
+Stockout Risk Identification has improved while Emergency Stock Redistribution remains at risk.
+
+
+14.
+
+
+Open Readiness.
+
+
+Overall readiness has changed.
+
+
+15.
+
+
+Show the next Session Brief.
+
+
+RELAY has automatically changed what Dr. Mitchell should focus on next.
+
+
+The audience should see the closed loop:
+
+
+OPERATING MODEL
+      ↓
+WHAT MUST TRANSFER
+      ↓
+GUIDED REAL-WORLD EXPERIENCE
+      ↓
+EXPERT + LEARNER REFLECTION
+      ↓
+KNOWLEDGE CAPTURE
+      ↓
+CAPABILITY EVIDENCE
+      ↓
+NEXT EXPERIENCE
+      ↓
+ORGANIZATIONAL READINESS
+
+
+==================================================
+CORE PRODUCT PRINCIPLES
+==================================================
+
+
+Keep these principles visible throughout development.
+
+
+1.
+
+
+RELAY does not replace experts.
+
+
+It helps experts transfer what they know.
+
+
+2.
+
+
+RELAY does not assume that training equals capability.
+
+
+It looks for evidence that the receiving employee can actually perform the work.
+
+
+3.
+
+
+RELAY does not assume that documentation equals knowledge transfer.
+
+
+Formal documentation is only one component.
+
+
+Tacit knowledge, judgment, relationships, exceptions, and real-world experience matter.
+
+
+4.
+
+
+RELAY does not treat knowledge transfer as an end-of-assignment activity.
+
+
+Knowledge transfer should happen continuously while real work is being performed.
+
+
+5.
+
+
+RELAY does not make autonomous competency decisions.
+
+
+AI identifies evidence and makes recommendations.
+
+
+Humans validate.
+
+
+6.
+
+
+RELAY does not optimize primarily for course completion.
+
+
+It optimizes for organizational independence.
+
+
+The ultimate question is:
+
+
+"Can this organization operate effectively after the expert leaves?"
+
+
+7.
+
+
+RELAY should create local trainers, not permanent dependence on RELAY or the original expert.
+
+
+The desired outcome is:
+
+
+EXTERNAL EXPERT
+      ↓
+LOCAL EXPERT
+      ↓
+LOCAL TRAINER
+      ↓
+LOCAL WORKFORCE
+
+
+8.
+
+
+Every important AI recommendation should be explainable.
+
+
+The user should be able to understand:
+
+
+WHY did RELAY recommend this?
+
+
+WHAT evidence supports it?
+
+
+WHAT operating-model component does it affect?
+
+
+WHAT happens if the knowledge does not transfer?
+
+
+==================================================
+PRODUCT TERMINOLOGY
+==================================================
+
+
+Use consistent terminology throughout the product.
+
+
+ENGAGEMENT
+
+
+A defined knowledge-transfer initiative.
+
+
+OPERATING MODEL
+
+
+The structure required for the organization or function to operate successfully.
+
+
+OPERATING MODEL AREA
+
+
+A component of the operating model such as Inventory Monitoring or Supplier Management.
+
+
+TRANSFER REQUIREMENT
+
+
+Something that must transfer for an operating-model component to become sustainable.
+
+
+TRANSFER BLUEPRINT
+
+
+The complete map of what needs to transfer.
+
+
+TRANSFER RAILS
+
+
+The experiential pathway through which knowledge/capability transfers.
+
+
+TRANSFER SESSION
+
+
+A real-world interaction where knowledge transfer can occur.
+
+
+EXPERT
+
+
+The person currently possessing important knowledge or capability.
+
+
+LOCAL COUNTERPART
+
+
+The person receiving and developing that capability.
+
+
+LOCAL TRAINER
+
+
+A local counterpart who has demonstrated sufficient capability to transfer it to others.
+
+
+EXPERT INSIGHT
+
+
+Validated tacit knowledge captured from the expert.
+
+
+CAPABILITY EVIDENCE
+
+
+Evidence from real work supporting a person's progression.
+
+
+CAPABILITY LOCALIZATION
+
+
+The percentage of required capabilities that can be performed independently within the receiving organization.
+
+
+OPERATING MODEL READINESS
+
+
+The extent to which the target operating model can function without dependency on the departing expert.
+
+
+KNOWLEDGE AT RISK
+
+
+Knowledge or capability that may disappear or become inaccessible when the expert leaves.
+
+
+==================================================
+OPERATING MODEL BUILDER — DETAILED UX
+==================================================
+
+
+Create a guided wizard for creating an Operating Model.
+
+
+STEP 1
+
+
+DEFINE THE MISSION
+
+
+Ask:
+
+
+"What function or capability is this engagement intended to make sustainable?"
+
+
+Example answer:
+
+
+"Maintain reliable availability of essential medicines across participating rural clinics."
+
+
+STEP 2
+
+
+IDENTIFY CORE PROCESSES
+
+
+AI asks the user to describe how the function operates.
+
+
+Example:
+
+
+"Walk me through how medicines are forecast, ordered, received, monitored, and redistributed."
+
+
+AI extracts proposed processes.
+
+
+Example:
+
+
+Demand Forecasting
+Replenishment Planning
+Inventory Monitoring
+Emergency Redistribution
+Supplier Management
+Clinic Reporting
+Stockout Escalation
+
+
+Present:
+
+
+"We identified these core processes."
+
+
+Allow:
+
+
+APPROVE
+EDIT
+ADD
+REMOVE
+
+
+STEP 3
+
+
+MAP PEOPLE & ROLES
+
+
+For each process ask:
+
+
+Who owns this today?
+
+
+Who performs the work?
+
+
+Who makes the important decisions?
+
+
+Who needs to own this after the expert leaves?
+
+
+Identify situations where:
+
+
+CURRENT OWNER = EXPERT
+
+
+FUTURE LOCAL OWNER = UNKNOWN
+
+
+Flag these as transfer risks.
+
+
+STEP 4
+
+
+MAP DECISION RIGHTS
+
+
+Ask:
+
+
+"What decisions require judgment rather than simply following a procedure?"
+
+
+Examples:
+
+
+When should emergency procurement begin?
+
+
+When should stock be redistributed?
+
+
+When should a reported inventory number be questioned?
+
+
+When should a supplier issue be escalated?
+
+
+These decision points should become important Transfer Requirements.
+
+
+STEP 5
+
+
+MAP TOOLS & DATA
+
+
+Identify:
+
+
+systems;
+spreadsheets;
+reports;
+forms;
+datasets;
+dashboards;
+KPIs.
+
+
+STEP 6
+
+
+MAP GOVERNANCE
+
+
+Identify:
+
+
+meetings;
+approvals;
+escalations;
+performance reviews;
+reporting routines.
+
+
+STEP 7
+
+
+MAP RELATIONSHIPS
+
+
+Identify important external or internal relationships.
+
+
+Ask:
+
+
+"Who does the expert rely on to make this function work?"
+
+
+Examples:
+
+
+supplier contacts;
+regional officials;
+clinic managers;
+logistics partners.
+
+
+Relationships should be treated as transferable organizational assets.
+
+
+STEP 8
+
+
+AI OPERATING MODEL REVIEW
+
+
+After the model is constructed, AI reviews it.
+
+
+Example:
+
+
+OPERATING MODEL REVIEW
+
+
+3 POTENTIAL DEPENDENCIES IDENTIFIED
+
+
+1.
+
+
+Emergency redistribution decisions currently depend primarily on Dr. Mitchell.
+
+
+No future local decision owner has been identified.
+
+
+2.
+
+
+Supplier escalation relies on two relationships held primarily by Dr. Mitchell.
+
+
+3.
+
+
+Seasonal demand planning requires judgment that is not described in current documentation.
+
+
+[CREATE TRANSFER REQUIREMENTS]
+
+
+==================================================
+TRANSFER BLUEPRINT BUILDER — DETAILED UX
+==================================================
+
+
+For every critical Operating Model Area, RELAY should help create Transfer Requirements.
+
+
+Example:
+
+
+OPERATING MODEL AREA
+
+
+Emergency Stock Redistribution
+
+
+RELAY asks:
+
+
+"What formal process exists?"
+
+
+"What must someone be able to DO?"
+
+
+"What decisions require judgment?"
+
+
+"What does an experienced person know that is not written down?"
+
+
+"What tools are required?"
+
+
+"What relationships matter?"
+
+
+"What mistakes are most common?"
+
+
+"Who should own this after the expert leaves?"
+
+
+"What would prove to you that this capability has successfully transferred?"
+
+
+Generate a structured Transfer Blueprint.
+
+
+Example:
+
+
+--------------------------------------------------
+
+
+EMERGENCY STOCK REDISTRIBUTION
+
+
+LOCAL OWNER
+
+
+Target:
+Kwame Mensah
+
+
+FORMAL KNOWLEDGE
+
+
+✓ Redistribution SOP
+✓ Transfer authorization process
+✓ Inventory adjustment procedure
+
+
+INFORMAL KNOWLEDGE
+
+
+△ Determining whether another clinic has true excess inventory
+
+
+△ Assessing risk to the sending clinic
+
+
+○ Recognizing when reported inventory may be unreliable
+
+
+TECHNICAL CAPABILITIES
+
+
+△ Evaluate sending-clinic surplus
+
+
+△ Calculate receiving-clinic need
+
+
+○ Evaluate expiry risk
+
+
+DECISION & JUDGMENT
+
+
+○ Decide whether redistribution is preferable to emergency procurement
+
+
+RELATIONSHIPS
+
+
+△ Regional warehouse coordinator
+
+
+○ Clinic manager escalation contacts
+
+
+TOOLS
+
+
+✓ Inventory report
+
+
+✓ Transfer request form
+
+
+LOCAL CAPABILITY
+
+
+Kwame:
+Observed
+
+
+Ama:
+Not Exposed
+
+
+Kojo:
+Assisted
+
+
+OVERALL STATUS
+
+
+AT RISK
+
+
+--------------------------------------------------
+
+
+Use:
+
+
+✓ transferred / complete
+
+
+△ partially transferred
+
+
+○ not transferred
+
+
+or equivalent professional visual indicators.
+
+
+==================================================
+TRANSFER PLAN BUILDER
+==================================================
+
+
+Allow RELAY to transform Transfer Requirements into an actionable plan.
+
+
+The plan should NOT primarily consist of classroom training.
+
+
+Prioritize:
+
+
+REAL WORK
+
+
+SHADOWING
+
+
+GUIDED PRACTICE
+
+
+SUPERVISED PERFORMANCE
+
+
+SCENARIO EXERCISES
+
+
+DEBRIEFS
+
+
+PEER TEACHING
+
+
+DOCUMENT REVIEW where necessary
+
+
+Example:
+
+
+TRANSFER PLAN
+
+
+Emergency Stock Redistribution
+
+
+CURRENT STATE
+
+
+Kwame has observed two cases.
+
+
+TARGET STATE
+
+
+Kwame independently handles a redistribution decision and subsequently teaches another employee.
+
+
+NEXT EXPERIENCE
+
+
+Kwame leads the next live redistribution assessment while Dr. Mitchell observes.
+
+
+BACKUP EXPERIENCE
+
+
+If no live case occurs within 14 days, run a scenario simulation using a historical case.
+
+
+SUCCESS EVIDENCE
+
+
+Kwame:
+
+
+- identifies potential sending clinics;
+- evaluates surplus correctly;
+- considers sending-clinic risk;
+- considers expiry;
+- identifies required approval;
+- makes a defensible recommendation.
+
+
+TARGET DATE
+
+
+Before Dr. Mitchell's departure.
+
+
+==================================================
+SESSION BRIEF — DETAILED UX
+==================================================
+
+
+The Session Brief should be concise enough that an expert will actually use it.
+
+
+Do not create a long training plan.
+
+
+Think:
+
+
+30-second briefing before work.
+
+
+Example:
+
+
+TODAY WITH KWAME
+
+
+PRIMARY TARGET
+
+
+Emergency Stock Redistribution
+
+
+CURRENT LEVEL
+
+
+Observed
+
+
+TODAY'S OBJECTIVE
+
+
+Let Kwame lead the assessment.
+
+
+YOUR ROLE
+
+
+Observe first.
+Intervene only if necessary.
+
+
+ASK BEFORE EXPLAINING
+
+
+"What would make you decide NOT to redistribute?"
+
+
+WATCH FOR
+
+
+□ Sending-clinic demand
+□ Expiry risk
+□ Transportation constraints
+□ Required approvals
+
+
+KNOWLEDGE GAP TO EXPLORE
+
+
+How Dr. Mitchell judges whether reported surplus is reliable.
+
+
+==================================================
+EXPERT DEBRIEF — DETAILED UX
+==================================================
+
+
+The expert debrief must be extremely lightweight.
+
+
+Experts should not feel like RELAY creates administrative work.
+
+
+Target completion:
+
+
+1-3 minutes.
+
+
+AI should ask no more than approximately 3 questions unless the user chooses to continue.
+
+
+Questions should be dynamically generated from the session.
+
+
+Good questions:
+
+
+"You chose not to trust the inventory report. What made you question it?"
+
+
+"What would someone with less experience have missed here?"
+
+
+"You intervened when Kwame recommended transferring 40 units. What was wrong with his reasoning?"
+
+
+"Was there anything you did today that isn't described in the formal procedure?"
+
+
+Bad questions:
+
+
+"What did you learn today?"
+
+
+"How was the session?"
+
+
+"Rate the training from 1-5."
+
+
+Avoid generic survey behavior.
+
+
+==================================================
+LEARNER DEBRIEF — DETAILED UX
+==================================================
+
+
+The learner debrief should also take approximately 1-3 minutes.
+
+
+The AI should test UNDERSTANDING, not satisfaction.
+
+
+Good:
+
+
+"Why did you decide the clinic was at risk before reaching the normal reorder threshold?"
+
+
+"What information would make you decide against redistribution?"
+
+
+"What would you do differently if supplier lead time returned to normal?"
+
+
+"What part of today's decision would you be least comfortable making alone?"
+
+
+This can identify:
+
+
+UNDERSTANDING
+
+
+MISUNDERSTANDING
+
+
+CONFIDENCE GAP
+
+
+EXPERIENCE GAP
+
+
+==================================================
+KNOWLEDGE CAPTURE ENGINE
+==================================================
+
+
+RELAY should distinguish several types of tacit knowledge.
+
+
+HEURISTIC
+
+
+A practical rule of thumb.
+
+
+Example:
+
+
+"During rainy season, don't interpret the standard reorder threshold without checking recent consumption."
+
+
+EXCEPTION
+
+
+When the normal process should not be followed.
+
+
+Example:
+
+
+"Do not redistribute even apparent surplus when the sending clinic's inventory count is stale."
+
+
+WARNING SIGN
+
+
+Something an experienced person notices.
+
+
+Example:
+
+
+"Repeated identical weekly consumption figures may indicate reporting quality problems."
+
+
+RELATIONSHIP KNOWLEDGE
+
+
+Who helps solve a problem.
+
+
+Example:
+
+
+"For urgent inter-clinic transfers, contact the regional logistics coordinator before escalating to procurement."
+
+
+FAILURE MODE
+
+
+A common way the process goes wrong.
+
+
+Example:
+
+
+"Teams often calculate surplus without considering the sending clinic's upcoming demand."
+
+
+CONTEXT
+
+
+Situational information affecting decisions.
+
+
+Example:
+
+
+"Rainy season materially changes antimalarial consumption."
+
+
+LESSON LEARNED
+
+
+Knowledge derived from a past case.
+
+
+Each should use an appropriate structured template.
+
+
+==================================================
+EVIDENCE MODEL
+==================================================
+
+
+Capability progression should rely on multiple forms of evidence.
+
+
+Possible evidence types:
+
+
+EXPERT OBSERVATION
+
+
+LEARNER EXPLANATION
+
+
+WORK PRODUCT
+
+
+REAL-WORLD OUTCOME
+
+
+SCENARIO PERFORMANCE
+
+
+PEER TEACHING
+
+
+REPEATED PERFORMANCE
+
+
+Each evidence record should contain:
+
+
+person;
+capability;
+evidence type;
+description;
+source session;
+date;
+AI interpretation;
+expert validation;
+resulting recommendation.
+
+
+Example:
+
+
+KWAME MENSAH
+
+
+Capability:
+Stockout Risk Identification
+
+
+Evidence Type:
+Real-World Performance
+
+
+Evidence:
+
+
+Independently recognized elevated stockout risk despite inventory remaining above the standard reorder threshold.
+
+
+Supporting Reasoning:
+
+
+Referenced increased consumption and rainy-season demand.
+
+
+Expert Validation:
+
+
+Approved by Dr. Mitchell
+
+
+Date:
+[demo date]
+
+
+==================================================
+READINESS CALCULATION
+==================================================
+
+
+For the hackathon, do NOT create an opaque machine-learning readiness score.
+
+
+Use understandable deterministic calculations.
+
+
+Example:
+
+
+CAPABILITY LOCALIZATION
+
+
+Percentage of required critical capabilities where at least one local counterpart is:
+
+
+Performed Independently
+or higher.
+
+
+LOCALLY TEACHABLE
+
+
+Number of capabilities where at least one local counterpart is:
+
+
+Can Teach Others.
+
+
+EXPERT DEPENDENT
+
+
+Required capabilities where:
+
+
+expert is capable
+
+
+AND
+
+
+no local counterpart is independently capable.
+
+
+LOCAL OWNERSHIP
+
+
+Percentage of critical operating-model components with an identified and validated local owner.
+
+
+FORMAL KNOWLEDGE TRANSFER
+
+
+Percentage of required formal knowledge items marked transferred/available.
+
+
+INFORMAL KNOWLEDGE TRANSFER
+
+
+Percentage of identified tacit knowledge requirements that have validated local exposure or capture.
+
+
+OPERATING MODEL READINESS
+
+
+For the prototype, calculate this from a transparent weighted combination of:
+
+
+local ownership;
+capability localization;
+formal knowledge transfer;
+informal knowledge transfer;
+trainer coverage.
+
+
+Display how the score is calculated.
+
+
+Do not present an unexplained AI-generated score.
+
+
+==================================================
+AI SAFETY / TRUST MODEL
+==================================================
+
+
+RELAY deals with employee capability and organizational knowledge.
+
+
+Therefore:
+
+
+AI recommendations must be clearly labeled as recommendations.
+
+
+AI must not autonomously:
+
+
+- certify competence;
+- downgrade employees;
+- make employment decisions;
+- assign disciplinary consequences;
+- declare knowledge correct;
+- overwrite expert validation.
+
+
+Humans remain accountable.
+
+
+Where useful, show:
+
+
+AI SUGGESTION
+
+
+and
+
+
+VALIDATED BY
+
+
+as separate concepts.
+
+
+==================================================
+MOCK / LIVE AI MODE
+==================================================
+
+
+The hackathon demo must remain reliable even if the external AI API fails.
+
+
+Create an abstraction layer around the AI provider.
+
+
+Support:
+
+
+LIVE AI MODE
+
+
+Uses Grok API.
+
+
+DEMO MODE
+
+
+Returns deterministic, realistic seeded responses for the flagship demo.
+
+
+Make switching easy through configuration/environment variable.
+
+
+The UI should behave identically in both modes.
+
+
+Do not visibly label the application as fake or mocked during the demo.
+
+
+==================================================
+DEVELOPMENT APPROACH
+==================================================
+
+
+Work incrementally.
+
+
+PHASE 1 — FOUNDATION
+
+
+- initialize app;
+- establish design system;
+- create schema;
+- create seeded data;
+- create navigation.
+
+
+PHASE 2 — OPERATING MODEL
+
+
+- operating-model dashboard;
+- operating-model detail;
+- AI-guided builder;
+- dependency identification.
+
+
+PHASE 3 — TRANSFER BLUEPRINT
+
+
+- transfer requirements;
+- formal/informal knowledge;
+- capability mapping;
+- local ownership;
+- transfer status.
+
+
+PHASE 4 — PEOPLE
+
+
+- expert profiles;
+- local counterpart profiles;
+- capability passports;
+- trainer readiness.
+
+
+PHASE 5 — TRANSFER SESSION
+
+
+Build the complete flagship workflow:
+
+
+Prepare
+→ Capture
+→ Expert Debrief
+→ Learner Debrief
+→ AI Synthesis
+→ Validation
+→ Next Action
+
+
+PHASE 6 — KNOWLEDGE
+
+
+- knowledge library;
+- tacit knowledge records;
+- cases;
+- links to operating model/capabilities.
+
+
+PHASE 7 — READINESS
+
+
+- operating-model readiness;
+- capability localization;
+- knowledge risk;
+- departure readiness;
+- train-the-trainer.
+
+
+PHASE 8 — AI COMPANION
+
+
+Add contextual assistance across the application.
+
+
+PHASE 9 — POLISH
+
+
+Test the entire demo.
+
+
+Improve:
+
+
+- layout;
+- transitions;
+- loading states;
+- empty states;
+- validation;
+- responsiveness;
+- visual consistency;
+- executive presentation quality.
+
+
+==================================================
+AUTONOMOUS DEVELOPMENT INSTRUCTIONS
+==================================================
+
+
+Do not stop after scaffolding.
+
+
+Do not return a large explanation of what you intend to build instead of building it.
+
+
+When implementation decisions are required:
+
+
+make reasonable decisions yourself.
+
+
+When something fails:
+
+
+debug it.
+
+
+When a package creates unnecessary complexity:
+
+
+replace it.
+
+
+When an implementation is taking too long:
+
+
+simplify it while preserving the demo experience.
+
+
+Inspect existing code before modifying it.
+
+
+Reuse working components.
+
+
+Do not unnecessarily rewrite stable functionality.
+
+
+After every major development phase:
+
+
+RUN THE APPLICATION.
+
+
+Check:
+
+
+- build errors;
+- TypeScript errors;
+- broken navigation;
+- missing data;
+- visual problems;
+- state inconsistencies.
+
+
+Fix problems before moving forward.
+
+
+==================================================
+FINAL QA INSTRUCTION
+==================================================
+
+
+When the primary build is complete, do NOT immediately add more features.
+
+
+First perform a complete product review.
+
+
+Pretend you are:
+
+
+1. Dr. Mitchell;
+2. Kwame;
+3. the program manager;
+4. an executive sponsor;
+5. a hackathon judge.
+
+
+Run the entire flagship workflow yourself.
+
+
+Identify anything that is:
+
+
+broken;
+confusing;
+redundant;
+unconvincing;
+visually weak;
+too complicated;
+too generic;
+obviously mocked;
+or inconsistent with the product thesis.
+
+
+Fix those issues.
+
+
+Then test the full demo again.
+
+
+==================================================
+FINAL SUCCESS CRITERIA
+==================================================
+
+
+A hackathon judge should be able to understand the product without a lengthy explanation.
+
+
+They should see:
+
+
+An organization defines how it needs to operate.
+
+
+        ↓
+
+
+RELAY identifies what expertise must transfer.
+
+
+        ↓
+
+
+RELAY structures how that transfer should occur.
+
+
+        ↓
+
+
+The expert receives coaching on HOW to transfer knowledge.
+
+
+        ↓
+
+
+Real work creates opportunities for apprenticeship.
+
+
+        ↓
+
+
+RELAY captures what happened.
+
+
+        ↓
+
+
+The expert explains tacit reasoning.
+
+
+        ↓
+
+
+The learner demonstrates their understanding.
+
+
+        ↓
+
+
+AI identifies knowledge and capability evidence.
+
+
+        ↓
+
+
+Humans validate it.
+
+
+        ↓
+
+
+Institutional knowledge grows.
+
+
+        ↓
+
+
+Local capability grows.
+
+
+        ↓
+
+
+Local employees begin teaching others.
+
+
+        ↓
+
+
+Management can see whether the organization is becoming independent of the expert.
+
+
+The product should leave the audience with one central idea:
+
+
+TRAINING IS NOT THE SAME AS KNOWLEDGE TRANSFER.
+
+
+And one central question:
+
+
+"WHEN THE EXPERT LEAVES, DOES THE EXPERTISE STAY?"
+
+
+Build RELAY to answer that question.
+
+
+Begin building now.

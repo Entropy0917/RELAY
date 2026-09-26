@@ -1,0 +1,21 @@
+# env
+.venv/
+.env
+.env.local
+
+# python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# data — seeded from seed/, never committed
+*.db
+*.db-journal
+*.sqlite3
+
+# editors / os
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
