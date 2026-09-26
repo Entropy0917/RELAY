@@ -147,6 +147,12 @@ operating_model_areas = Table(
     Column("name", String, nullable=False),
     Column("summary", Text, nullable=False),
     Column("local_owner_id", String, ForeignKey("people.id")),
+    # Naming an owner is not the same as demonstrating they can carry the area,
+    # so readiness (section 4 B4) credits local ownership only once the owner
+    # has been validated. Two columns, because they are two different claims.
+    Column("owner_validated", Boolean, nullable=False, default=False),
+    # Ownership and trainer coverage are scored over critical areas only.
+    Column("critical", Boolean, nullable=False, default=True),
     Column("formal_pct", Integer, nullable=False),  # informal is 100 - this
     # The 8 dimensions. Displayed, never queried across -- so JSON, per the
     # collapsing rule in planv0.2.md section 4, B1.
@@ -170,6 +176,12 @@ transfer_requirements = Table(
     Column("label", String, nullable=False),
     Column("description", Text, nullable=False),
     Column("state", String, nullable=False),  # vocabulary.TransferState
+    # Deliberately separate from `state`: section 4 B4 credits a formal
+    # requirement that is merely complete, but credits an informal one only
+    # where the capture was validated. Conflating them inflates the half of the
+    # score that is hardest to earn.
+    Column("validated", Boolean, nullable=False, default=False),
+    Column("capability_id", String, ForeignKey("capabilities.id")),
 )
 
 
