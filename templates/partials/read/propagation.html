@@ -1,0 +1,22 @@
+{#- Knowledge propagation (F3/F5). Context: PropagationVM — capability,
+    capability_options, nodes, edges, href. Rendered inside readiness.html and
+    returned alone by GET /readiness/propagation?capability=<id>, which swaps
+    this whole block (outerHTML) when the capability changes. -#}
+{% import "macros/charts.html" as charts %}
+<div class="stack" id="propagation-view">
+  {# TODO(filter_bar required=True): swap for ui.filter_bar once it can omit the "All" option #}
+  <form class="filter-bar filter-bar--inline" method="get" action="{{ href }}"
+        hx-get="{{ href }}" hx-target="#propagation-view" hx-swap="outerHTML" hx-trigger="change">
+    <label class="filter-bar__field">
+      <span class="t-caps">Capability</span>
+      <select name="capability" class="is-active">
+        {% for o in capability_options %}
+        <option value="{{ o.value }}"{{ ' selected' if o.value == capability.id }}>{{ o.label }}{{ ' (' ~ o.count ~ ')' if o.count is not none }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="filter-bar__foot"><span class="htmx-indicator t-faint t-sm">Loading…</span></div>
+    <noscript><button class="btn btn--secondary" type="submit">Show</button></noscript>
+  </form>
+  {{ charts.propagation_tree(nodes, edges, id='propagation-' ~ capability.id, label='How ' ~ capability.name ~ ' has propagated') }}
+</div>
