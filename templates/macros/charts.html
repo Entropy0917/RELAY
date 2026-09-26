@@ -1,0 +1,179 @@
+{#- macros/charts.html — inline-SVG chart primitives (F5).
+
+    Import:  {% import "macros/charts.html" as charts %}
+
+    Rules:
+    - Macros take primitives or small dicts, never page view models.
+    - Every colour is a token from static/css/tokens.css; no raw values here.
+    - Product vocabulary only (series names, status states). No engagement content.
+-#}
+
+{%- set _SERIES = {'formal': '--series-formal', 'informal': '--series-informal', 'accent': '--accent'} -%}
+{%- set _STATUSES = ['sustainable', 'on-track', 'in-progress', 'at-risk', 'critical'] -%}
+{%- set _STATUS_ALIASES = {'transfer-in-progress': 'in-progress'} -%}
+
+{#- Fraction of max as a 0..100 number string, clamped. Private. -#}
+{% macro _pct(value, max=1) -%}
+  {%- set m = (max or 0)|float -%}
+  {%- set f = ((value or 0)|float / m) if m > 0 else 0 -%}
+  {{- ([[f, 0]|max, 1]|min * 100)|round(2) -}}
+{%- endmacro %}
+
+{#- Resolve a fill token: a valid status wins over series. Private. -#}
+{% macro _fill(series='formal', status=None) -%}
+  {%- set s = (status or '')|string|lower|replace('_', '-')|replace(' ', '-') -%}
+  {%- set s = _STATUS_ALIASES.get(s, s) -%}
+  {%- if s in _STATUSES -%}var(--status-{{ s }})
+  {%- elif series in _SERIES -%}var({{ _SERIES[series] }})
+  {%- else -%}var(--series-formal)
+  {%- endif -%}
+{%- endmacro %}
+
+{#- Bare track + fill. Private. -#}
+{% macro _track(pct, fill, aria) -%}
+<svg viewBox="0 0 100 6" preserveAspectRatio="none" width="100%" height="6" role="img" aria-label="{{ aria }}"
+     style="display:block;border-radius:var(--radius-sm);overflow:hidden">
+  <rect width="100" height="6" style="fill:var(--track)"/>
+  <rect width="{{ pct }}" height="6" style="fill:{{ fill }}"/>
+</svg>
+{%- endmacro %}
+
+{#- Horizontal readiness bar.
+    value: 0..max (clamped) · series: formal | informal | accent
+    status: sustainable | on-track | in-progress | at-risk | critical (overrides series) -#}
+{% macro bar(value, max=1, series='formal', label=None, status=None) -%}
+{%- set pct = _pct(value, max)|float -%}
+<div class="chart-bar" style="display:grid;grid-template-columns:{{ 'minmax(8rem, 14rem) ' if label }}1fr 3.5rem;align-items:center;gap:var(--s-3)">
+  {%- if label %}
+  <span style="color:var(--text-secondary);font-size:var(--fs-sm)">{{ label }}</span>
+  {%- endif %}
+  {{ _track(pct, _fill(series, status), (label ~ ': ' if label else '') ~ (pct|round|int) ~ '%') }}
+  <span class="num" style="text-align:right;font-size:var(--fs-sm);color:var(--text-primary)">{{ pct|round|int }}%</span>
+</div>
+{%- endmacro %}
+
+{#- Formal / informal pair for one operating-model area. Values 0..max. -#}
+{% macro dual_bar(formal, informal, label=None, max=1) -%}
+{%- set f = _pct(formal, max)|float -%}
+{%- set i = _pct(informal, max)|float -%}
+<div class="chart-dual" style="display:grid;grid-template-columns:4.5rem 1fr 3rem;align-items:center;column-gap:var(--s-2);row-gap:var(--s-1)">
+  {%- if label %}
+  <span style="grid-column:1 / -1;color:var(--text-primary);font-size:var(--fs-sm)">{{ label }}</span>
+  {%- endif %}
+  <span style="color:var(--text-tertiary);font-size:var(--fs-xs)">Formal</span>
+  {{ _track(f, _fill('formal'), (label ~ ' ' if label else '') ~ 'formal: ' ~ (f|round|int) ~ '%') }}
+  <span class="num" style="text-align:right;font-size:var(--fs-xs);color:var(--text-secondary)">{{ f|round|int }}%</span>
+  <span style="color:var(--text-tertiary);font-size:var(--fs-xs)">Informal</span>
+  {{ _track(i, _fill('informal'), (label ~ ' ' if label else '') ~ 'informal: ' ~ (i|round|int) ~ '%') }}
+  <span class="num" style="text-align:right;font-size:var(--fs-xs);color:var(--text-secondary)">{{ i|round|int }}%</span>
+</div>
+{%- endmacro %}
+
+{#- Knowledge propagation tree.
+    nodes: [{id, depth (0 = origin), level? 0..6, and either label/role
+            or the PropagationNode shape: group_label?, person {name, title?}}]
+            in DFS preorder
+    edges: [{source, target, state: demonstrated | in_progress | planned, label?}]
+    id:    unique per page; prefixes the SVG marker ids.
+    Layout: leaves take evenly spaced columns in preorder; a parent sits centred
+    over its children. Preorder input guarantees no crossing edges. -#}
+{% macro propagation_tree(nodes, edges, id='propagation', label='Knowledge propagation', legend=True) -%}
+{%- if not nodes -%}
+<p style="color:var(--text-tertiary);font-size:var(--fs-sm)">No propagation recorded for this capability.</p>
+{%- else -%}
+{%- set COL, NODE_W, NODE_H, ROW, PAD = 176, 158, 44, 104, 16 -%}
+{%- set byid, children, x, names, roles = {}, {}, {}, {}, {} -%}
+{%- set g = namespace(slot=0, depth=0, sum=0) -%}
+{%- for n in nodes -%}
+  {%- set _ = byid.update({n.id: n}) -%}
+  {%- set _ = children.update({n.id: []}) -%}
+  {%- set _ = names.update({n.id: n.label if n.label is defined and n.label
+        else n.group_label if n.group_label is defined and n.group_label
+        else n.person.name if n.person is defined and n.person else n.id}) -%}
+  {%- set _ = roles.update({n.id: n.role if n.role is defined and n.role
+        else n.person.title if n.person is defined and n.person and n.person.title is defined and n.person.title
+        else ''}) -%}
+  {%- if (n.depth or 0) > g.depth %}{% set g.depth = n.depth %}{% endif -%}
+{%- endfor -%}
+{%- set kept = [] -%}
+{%- for e in edges if e.source in byid and e.target in byid -%}
+  {%- set _ = children[e.source].append(e.target) -%}
+  {%- set _ = kept.append(e) -%}
+{%- endfor -%}
+{%- for n in nodes if not children[n.id] -%}
+  {%- set _ = x.update({n.id: g.slot}) -%}{% set g.slot = g.slot + 1 -%}
+{%- endfor -%}
+{%- for n in nodes|reverse if children[n.id] -%}
+  {%- set g.sum = 0 -%}
+  {%- for c in children[n.id] %}{% set g.sum = g.sum + x[c] %}{% endfor -%}
+  {%- set _ = x.update({n.id: g.sum / (children[n.id]|length)}) -%}
+{%- endfor -%}
+{%- set W = 2 * PAD + g.slot * COL -%}
+{%- set H = 2 * PAD + g.depth * ROW + NODE_H -%}
+<figure class="chart-propagation" style="margin:0;display:grid;gap:var(--s-3)">
+<svg viewBox="0 0 {{ W }} {{ H }}" role="img" aria-labelledby="{{ id }}-title {{ id }}-desc"
+     style="display:block;width:100%;max-width:{{ W }}px;height:auto;margin-inline:auto;font-family:var(--font-sans)">
+  <title id="{{ id }}-title">{{ label }}</title>
+  <desc id="{{ id }}-desc">
+    {%- for e in kept %}{{ names[e.source] }} to {{ names[e.target] }} ({{ e.state|replace('_', ' ') }}). {% endfor -%}
+  </desc>
+  <defs>
+    <marker id="{{ id }}-arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" style="fill:var(--accent)"/>
+    </marker>
+    <marker id="{{ id }}-arrow-muted" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" style="fill:var(--text-tertiary)"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke-width="1.5">
+  {%- for e in kept %}
+    {%- set p, c = byid[e.source], byid[e.target] -%}
+    {%- set x1 = PAD + (x[p.id] + 0.5) * COL -%}
+    {%- set y1 = PAD + (p.depth or 0) * ROW + NODE_H -%}
+    {%- set x2 = PAD + (x[c.id] + 0.5) * COL -%}
+    {%- set y2 = PAD + (c.depth or 0) * ROW - 2 -%}
+    {%- set ym = (y1 + y2) / 2 -%}
+    {%- if e.state == 'planned' -%}
+      {%- set stroke, dash, arrow = 'var(--text-tertiary)', '2 4', 'muted' -%}
+    {%- elif e.state == 'in_progress' -%}
+      {%- set stroke, dash, arrow = 'var(--accent)', '5 4', 'accent' -%}
+    {%- else -%}
+      {%- set stroke, dash, arrow = 'var(--accent)', 'none', 'accent' -%}
+    {%- endif %}
+    <path{% if e.label is defined and e.label %} aria-label="{{ e.label }}"{% endif %} d="M{{ x1|round(1) }},{{ y1 }} C{{ x1|round(1) }},{{ ym }} {{ x2|round(1) }},{{ ym }} {{ x2|round(1) }},{{ y2 }}"
+          style="stroke:{{ stroke }}" stroke-dasharray="{{ dash }}" marker-end="url(#{{ id }}-arrow-{{ arrow }})"/>
+  {%- endfor %}
+  </g>
+  {%- for n in nodes %}
+    {%- set cx = PAD + (x[n.id] + 0.5) * COL -%}
+    {%- set top = PAD + (n.depth or 0) * ROW %}
+  <g>
+    {%- set name, role = names[n.id], roles[n.id] %}
+    <title>{{ name }}{{ ' · ' ~ role if role }}{{ ' · Level ' ~ n.level if n.level is defined and n.level is not none }}</title>
+    <rect x="{{ (cx - NODE_W / 2)|round(1) }}" y="{{ top }}" width="{{ NODE_W }}" height="{{ NODE_H }}" rx="6"
+          style="fill:var(--elevated);stroke:{{ 'var(--accent)' if (n.depth or 0) == 0 else 'var(--hairline-strong)' }}"/>
+    {%- if n.level is defined and n.level is not none and n.level in range(7) %}
+    <circle cx="{{ (cx + NODE_W / 2 - 10)|round(1) }}" cy="{{ top + 10 }}" r="3.5" style="fill:var(--level-{{ n.level }})"/>
+    {%- endif %}
+    <text x="{{ cx|round(1) }}" y="{{ top + (19 if role else 27) }}" text-anchor="middle"
+          style="fill:var(--text-primary);font-size:var(--fs-sm)">{{ name|truncate(18, true, '…', 0) }}</text>
+    {%- if role %}
+    <text x="{{ cx|round(1) }}" y="{{ top + 35 }}" text-anchor="middle"
+          style="fill:var(--text-tertiary);font-size:var(--fs-xs)">{{ role|truncate(24, true, '…', 0) }}</text>
+    {%- endif %}
+  </g>
+  {%- endfor %}
+</svg>
+{%- if legend and kept %}
+<figcaption style="display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-4);color:var(--text-tertiary);font-size:var(--fs-xs)">
+  {%- for state, stroke, dash in [('Demonstrated', 'var(--accent)', 'none'), ('In progress', 'var(--accent)', '5 4'), ('Planned', 'var(--text-tertiary)', '2 4')] %}
+  <span style="display:inline-flex;align-items:center;gap:var(--s-2)">
+    <svg width="24" height="6" viewBox="0 0 24 6" aria-hidden="true"><line x1="0" y1="3" x2="24" y2="3" stroke-width="1.5" style="stroke:{{ stroke }}" stroke-dasharray="{{ dash }}"/></svg>
+    {{ state }}
+  </span>
+  {%- endfor %}
+</figcaption>
+{%- endif %}
+</figure>
+{%- endif -%}
+{%- endmacro %}
