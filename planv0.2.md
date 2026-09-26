@@ -28,11 +28,16 @@
 ### Why hand-rolled CSS specifically for this stack
 HTMX swaps **server-rendered fragments** into the DOM. With utility classes those fragments become verbose and the frontend/backend diff gets noisy; with semantic classes they stay small and readable. No watcher process to die mid-demo. And Jinja macros give the same reuse guarantee a component library does — one definition, one place to change.
 
-### What carries over from v0.1 unchanged
-- §3 data model (12 tables) — now SQLAlchemy/`sqlite3` instead of Drizzle
-- §4 readiness formula and weights
-- §2 fail-loud AI policy: `cache → live → raise`
-- The risk register, minus the JS-specific rows
+### v0.1 is archived, not a reference
+
+Everything still in force has been **inlined below** — the 12-table data model
+into §4 B1, the readiness formula and weights into §4 B4, the fail-loud AI
+policy into §4 B2, the risk register into §8.
+
+**This document is self-contained. Do not read or cite `planv0.1.md`** — it
+describes a Next.js/Drizzle/Zod stack we are not building, and citing it is how
+someone ends up implementing against the wrong one. It stays in the repo as
+history only.
 
 ---
 
@@ -149,7 +154,28 @@ Nothing parallelizes until this is done. Do it together, at one screen.
 | **B6** | Session loop ⭐ | `app/routes/session.py`, `app/services/session.py` | B1, B2, B3 | ❌ **Keep this yourself** — it's the product |
 
 ### B1 · DB schema + reset — ~1h
-12 tables per v0.1 §3. Three invariants enforced at the data-access layer:
+
+**The data model — 12 tables**, plus `engagements` as the tenant root and
+`ai_cache` owned by B2. Collapsed from the spec's 23 by one rule: *anything
+displayed but never queried across becomes a typed JSON column.*
+
+| Table | Notes |
+|---|---|
+| `engagements` | tenant root; org, sector, location, dates, per-engagement `readiness_weights` |
+| `people` | role: `expert` \| `counterpart` \| `manager`; `departure_date` on experts |
+| `capabilities` | the seeded capabilities; `criticality` feeds readiness weighting |
+| `person_capabilities` | current level 0–6, `last_demonstrated`, `exposure_count` |
+| `capability_evidence` | **append-only.** Never overwrite history (spec §STEP 6) |
+| `operating_model_areas` | JSON cols for all 8 dimensions |
+| `transfer_requirements` | 7 `RequirementKind`s; state `complete`/`partial`/`none` |
+| `sessions` | stage enum drives the loop UI |
+| `debriefs` | discriminated by `role: expert \| learner` |
+| `findings` | AI output; `status: pending \| approved \| edited \| rejected` |
+| `knowledge_items` | the 7 knowledge types; FK to area/capability/session/expert |
+| `recommendations` | feeds the next Session Brief |
+| `validations` | who validated what, when — the audit trail |
+
+Four invariants — **enforced in the database, not by convention**:
 1. AI never writes `person_capabilities.level` — only an approved validation does.
 2. `capability_evidence` is insert-only.
 3. No stored readiness scores; all derived at read time.
@@ -189,7 +215,35 @@ Highest "does this look real?" leverage in the build. Generic seed data is the #
 **Acceptance:** readiness computes to ≈68% / ≈70% localization / 4 teachable / 3 expert-dependent. No lorem, no round-number-everything, dates consistent with a 9-month assignment 28 days from its end. **Fictional org explicitly not implied to be Peace Corps** (spec §DEMO SCENARIO).
 
 ### B4 · Readiness engine — ~1.5h · delegate this
-Pure functions, no AI, per v0.1 §4. Each returns `{value, inputs, formula}` so the UI can render a **"how this is calculated"** popover — the spec is explicit that no score may be unexplained. Weights in one exported const, surfaced verbatim.
+
+Pure functions, no AI, no I/O. Each returns `{value, inputs, formula}` so the UI
+can render a **"how this is calculated"** popover — the spec is explicit that no
+score may be unexplained.
+
+```
+capability_localization  = critical caps with >=1 local counterpart at level >=4 / critical caps
+locally_teachable        = count(caps with >=1 counterpart at level 6)
+expert_dependent         = critical caps where the expert is capable AND no local >=4
+local_ownership          = areas with a validated local owner / critical areas
+formal_transfer          = formal requirements complete / total formal
+informal_transfer        = informal requirements with validated capture / total informal
+trainer_coverage         = areas with >=1 local trainer / critical areas
+
+operating_model_readiness = 0.25*local_ownership + 0.30*capability_localization
+                          + 0.15*formal_transfer + 0.20*informal_transfer
+                          + 0.10*trainer_coverage
+```
+
+Thresholds: level ≥ `LEVEL_INDEPENDENT` (4) is localized; level == `LEVEL_TEACHER`
+(6) is teachable. Both live in `contracts/vocabulary.py`.
+
+Weights sit in one exported const and are surfaced verbatim in the popover. They
+are **per-engagement tunable** (§0.5 puts weights in the database, the formula
+shape in code), so they are a parameter with a documented default — never a
+literal inside a function.
+
+**Seed must be tuned so this yields ≈68% pre-demo and visibly increments after
+validation.** That is a B3 acceptance criterion, not an accident.
 
 ### B5 · Read-surface routes — ~2h · delegate this
 Services + routes producing the frozen view models for Overview, Operating Model, Transfer Blueprint, People, Knowledge. Mechanical once B1/B3 land.
