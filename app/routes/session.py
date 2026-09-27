@@ -243,7 +243,7 @@ def advance(session_id: str, stage: str):
     )
 
 
-@bp.route("/sessions/<session_id>/synthesize", methods=["POST"])
+@bp.route("/sessions/<session_id>/synthesize", methods=["POST"], endpoint="synthesize")
 def synthesize_route(session_id: str):
     """Run AI synthesis.  Returns a partial with findings."""
     as_of = _get_as_of()
@@ -281,6 +281,7 @@ def synthesize_route(session_id: str):
 @bp.route(
     "/sessions/<session_id>/findings/<finding_id>/<action>",
     methods=["POST"],
+    endpoint="validate_finding",
 )
 def validate_finding_route(session_id: str, finding_id: str, action: str):
     """Validate a single finding — approve, edit, or reject."""
