@@ -239,6 +239,72 @@ class TestRiskExplanations:
         assert "nobody" in single[0].problem.lower()
 
 
+class TestNextExperienceOnCapabilityRows:
+    """CapabilityRow.next_experience is in the frozen contract and was always
+    None. It is filled from the recommendation NEXT_ACTION persists."""
+
+    def _plant(self, conn, primary_id, capability_name):
+        from app.db.schema import sessions as s_table
+
+        scope = Scope(conn, primary_id)
+        session = scope.rows(s_table)[0]
+        conn.execute(
+            sa.update(s_table)
+            .where(s_table.c.id == session.id)
+            .values(next_experience={
+                "capability": capability_name,
+                "recommended_experience": "Lead the next review end to end.",
+                "objective": "o", "current_level": 3, "target_level": 4,
+                "rail": "lead", "learner_responsibilities": ["a"],
+                "expert_role": "observe", "rationale": "r",
+                "risk_if_deferred": "d", "urgency": "high",
+            })
+        )
+        return scope, list(session.learner_ids or ())
+
+    def _clear(self, conn, primary_id):
+        from app.db.schema import sessions as s_table
+
+        conn.execute(sa.update(s_table).values(next_experience=None))
+
+    def test_recommendation_reaches_the_learners_row(self, conn, primary_id):
+        from app.db.schema import capabilities
+
+        scope = Scope(conn, primary_id)
+        cap = scope.rows(capabilities)[0]
+        try:
+            scope, learners = self._plant(conn, primary_id, cap.name)
+            assert learners, "seed session should have learners"
+            data = build_passport(scope, learners[0], as_of=ANCHOR)
+            vm = PassportVM(shell=_make_shell(), **data)
+            matched = [r for r in vm.capabilities if r.capability_id == cap.id]
+            if matched:
+                assert matched[0].next_experience == "Lead the next review end to end."
+            for row in vm.capabilities:
+                if row.capability_id != cap.id:
+                    assert row.next_experience is None
+        finally:
+            self._clear(conn, primary_id)
+
+    def test_unmatched_capability_name_is_skipped_not_guessed(self, conn, primary_id):
+        """A name the engagement does not use must attach to no row at all."""
+        try:
+            scope, learners = self._plant(conn, primary_id, "A Capability That Does Not Exist")
+            data = build_passport(scope, learners[0], as_of=ANCHOR)
+            vm = PassportVM(shell=_make_shell(), **data)
+            assert all(r.next_experience is None for r in vm.capabilities)
+        finally:
+            self._clear(conn, primary_id)
+
+    def test_absent_recommendation_leaves_rows_alone(self, conn, primary_id):
+        self._clear(conn, primary_id)
+        scope = Scope(conn, primary_id)
+        person = scope.rows(people)[0]
+        data = build_passport(scope, person.id, as_of=ANCHOR)
+        vm = PassportVM(shell=_make_shell(), **data)
+        assert all(r.next_experience is None for r in vm.capabilities)
+
+
 class TestKnowledgeCardNames:
     """Cards must resolve their own ids, without relying on call order.
 

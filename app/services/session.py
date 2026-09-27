@@ -34,6 +34,7 @@ from app.ai import (
 )
 from app.ai.context import SessionContext
 from app.ai.schemas.debrief import DebriefQuestions
+from app.ai.schemas.next_activity import NextExperience
 from app.ai.schemas.session_brief import SessionBrief
 from app.ai.schemas.synthesis import SessionSynthesis
 from app.db.adapters import session_context
@@ -325,7 +326,10 @@ def advance_stage(
     elif from_stage == SessionStage.SYNTHESIS:
         _guard_synthesis_complete(scope, session_id)
     elif from_stage == SessionStage.VALIDATION:
-        pass  # validation happens per-finding via validate_finding
+        # Validation itself happens per-finding via validate_finding. What is
+        # left on the way out is the recommendation, generated only now so it
+        # sees the levels the validated findings just moved.
+        _on_leave_validation(scope, session, as_of=as_of or date.today())
     elif from_stage == SessionStage.NEXT_ACTION:
         raise StageError("cannot advance past the final stage")
 
@@ -341,6 +345,28 @@ def _on_leave_prepare(scope: Scope, session, *, as_of: date) -> None:
     ctx = session_context(scope, session.id, as_of=as_of)
     brief: SessionBrief = prepare_session(ctx)
     scope.update(sessions, session.id, brief=brief.model_dump())
+
+
+def _on_leave_validation(scope: Scope, session, *, as_of: date) -> None:
+    """Generate the next-experience recommendation (AI) when leaving VALIDATION.
+
+    NEXT_ACTION was the one stage that produced nothing: the function existed,
+    was tested, and was never called. It runs here rather than at synthesis so
+    that it reads the capability levels the validated findings have already
+    moved -- recommending what someone should do next is only honest once the
+    record says where they now stand.
+
+    Stored whole. The view model that carries it to the screen is still under
+    discussion (PROPOSAL-001, item 1), and persisting the full object means
+    that decision costs a passthrough rather than another AI call.
+    """
+    if session.next_experience:
+        return  # already generated, cached
+    ctx = session_context(scope, session.id, as_of=as_of)
+    recommendation: NextExperience = recommend_next_experience(ctx)
+    scope.update(
+        sessions, session.id, next_experience=recommendation.model_dump()
+    )
 
 
 def _on_leave_capture(scope: Scope, session, form_data: dict | None) -> None:

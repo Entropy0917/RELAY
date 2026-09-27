@@ -23,6 +23,7 @@ from app.db.schema import (
     operating_model_areas,
     people,
     person_capabilities,
+    sessions,
     transfer_requirements,
 )
 from app.db.scoped import Scope
@@ -90,8 +91,14 @@ def _metric_tile(m: Metric) -> MetricTile:
     return MetricTile(**m.as_tile())
 
 
-def _cap_row(pc, cap_map: dict, evidence_counts: dict) -> CapabilityRow:
+def _cap_row(
+    pc,
+    cap_map: dict,
+    evidence_counts: dict,
+    recommendations: dict[tuple[str, str], str] | None = None,
+) -> CapabilityRow:
     cap = cap_map.get(pc.capability_id)
+    recommendations = recommendations or {}
     return CapabilityRow(
         capability_id=pc.capability_id,
         capability=cap.name if cap else "",
@@ -99,8 +106,36 @@ def _cap_row(pc, cap_map: dict, evidence_counts: dict) -> CapabilityRow:
         level_label=CAPABILITY_LEVELS[pc.level],
         exposures=pc.exposure_count,
         last_demonstrated=str(pc.last_demonstrated) if pc.last_demonstrated else None,
+        next_experience=recommendations.get((pc.person_id, pc.capability_id)),
         trainer_ready=(pc.level >= 6),
     )
+
+
+def _next_experiences(scope: Scope) -> dict[tuple[str, str], str]:
+    """(person, capability) -> the work RELAY recommends they lead next.
+
+    Sessions store the whole NEXT_ACTION recommendation; this pulls out the one
+    line a capability row has room for. The recommendation names its capability
+    in prose, because the model that wrote it was reasoning about capabilities
+    rather than rows, so it is matched back to an id by name. An unmatched name
+    is skipped rather than guessed -- a row saying nothing is better than a row
+    attributing work to the wrong capability.
+    """
+    by_name = {row.name.casefold(): row.id for row in scope.rows(capabilities)}
+    out: dict[tuple[str, str], str] = {}
+    for session in scope.rows(sessions):
+        recommendation = session.next_experience
+        if not recommendation:
+            continue
+        capability_id = by_name.get(str(recommendation.get("capability", "")).casefold())
+        if capability_id is None:
+            continue
+        work = recommendation.get("recommended_experience")
+        if not work:
+            continue
+        for learner_id in session.learner_ids or ():
+            out[(learner_id, capability_id)] = work
+    return out
 
 
 def _knowledge_card(row, people_map: dict, names: dict[str, str]) -> KnowledgeCard:
@@ -312,12 +347,15 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
     # Trainer progress: counterparts at level >= 5
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
     trainer_progress = []
     for pc in scope.rows(person_capabilities):
         if pc.level >= 5:
             p = people_map.get(pc.person_id)
             if p and Role(p.role) != Role.EXPERT:
-                trainer_progress.append(_cap_row(pc, cap_map, evidence_counts))
+                trainer_progress.append(
+                    _cap_row(pc, cap_map, evidence_counts, recommendations)
+                )
 
     risk_items = [_risk_item(r, _display_names(scope)) for r in risk_register.findings]
 
@@ -383,6 +421,7 @@ def build_area_detail(scope: Scope, area_id: str, *, as_of: date) -> dict:
     cap_rows = scope.rows(capabilities, capabilities.c.area_id == area_id)
     cap_map = {r.id: r for r in cap_rows}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
 
     cap_list = []
     for cap in cap_rows:
@@ -392,7 +431,9 @@ def build_area_detail(scope: Scope, area_id: str, *, as_of: date) -> dict:
             person_capabilities.c.capability_id == cap.id,
         )
         for pc in pcs:
-            cap_list.append(_cap_row(pc, {cap.id: cap}, evidence_counts))
+            cap_list.append(
+                _cap_row(pc, {cap.id: cap}, evidence_counts, recommendations)
+            )
 
     return dict(
         area=card,
@@ -411,6 +452,7 @@ def build_blueprint(scope: Scope, *, as_of: date) -> dict:
     area_rmap = {ar.area_id: ar for ar in all_area_readiness(snapshot)}
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
 
     areas = []
     for area_row in scope.rows(operating_model_areas):
@@ -439,7 +481,9 @@ def build_blueprint(scope: Scope, *, as_of: date) -> dict:
             for pc in pcs:
                 p = scope.by_id(people, pc.person_id)
                 if p and Role(p.role) != Role.EXPERT:
-                    local_caps.append(_cap_row(pc, {cap.id: cap}, evidence_counts))
+                    local_caps.append(
+                        _cap_row(pc, {cap.id: cap}, evidence_counts, recommendations)
+                    )
 
         areas.append(BlueprintAreaVM(
             area=card,
@@ -485,13 +529,16 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
 
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
     people_map = {r.id: r for r in scope.rows(people)}
     names = _display_names(scope)
 
     pcs = scope.rows(
         person_capabilities, person_capabilities.c.person_id == person_id
     )
-    cap_rows = [_cap_row(pc, cap_map, evidence_counts) for pc in pcs]
+    cap_rows = [
+        _cap_row(pc, cap_map, evidence_counts, recommendations) for pc in pcs
+    ]
 
     # Total evidence
     total_evidence = sum(evidence_counts.get(pc.id, 0) for pc in pcs)
@@ -651,6 +698,7 @@ def build_capability_row(scope: Scope, person_id: str, capability_id: str) -> di
         raise ValueError(f"no capability '{capability_id}'")
 
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
     pc = None
     for row in scope.rows(
         person_capabilities,
@@ -664,7 +712,9 @@ def build_capability_row(scope: Scope, person_id: str, capability_id: str) -> di
         raise ValueError(f"no person_capability for {person_id}/{capability_id}")
 
     return dict(
-        row=_cap_row(pc, {capability_id: cap_row}, evidence_counts),
+        row=_cap_row(
+            pc, {capability_id: cap_row}, evidence_counts, _next_experiences(scope)
+        ),
         person=_person_ref(person_row),
     )
 
