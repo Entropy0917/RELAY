@@ -327,3 +327,43 @@ class TestStageView:
         current_steps = [s for s in vm.stages if s["state"] == "current"]
         assert len(current_steps) == 1
         assert current_steps[0]["key"] == "prepare"
+
+
+class TestNextBrief:
+    """Demo step 15: NEXT_ACTION shows a brief built from the stored recommendation."""
+
+    RECOMMENDATION = {
+        "capability": "Capability Under Test",
+        "current_level": 3,
+        "target_level": 4,
+        "rail": "lead",
+        "objective": "Lead the next case end to end.",
+        "recommended_experience": "The next live case.",
+        "learner_responsibilities": ["Assess", "Recommend", "Explain the risk"],
+        "expert_role": "Stay silent until asked.",
+        "rationale": "Validated evidence from this session.",
+        "risk_if_deferred": "Stays expert-dependent.",
+        "urgency": "high",
+    }
+
+    def _finished_session(self, scope):
+        rows = [r for r in scope.rows(sessions) if r.stage == SessionStage.NEXT_ACTION.value]
+        assert rows, "seed must hold a completed session"
+        return rows[0]
+
+    def test_next_brief_from_stored_recommendation(self, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        session = self._finished_session(scope)
+        scope.update(sessions, session.id, next_experience=self.RECOMMENDATION)
+        vm = get_stage_vm(scope, session.id, SessionStage.NEXT_ACTION, _make_shell(), as_of=ANCHOR)
+        assert vm.next_brief is not None
+        assert vm.next_brief.primary_target == "Capability Under Test"
+        assert vm.next_brief.current_level == "Performed with Supervision"
+        assert vm.next_brief.watch_for == ["Assess", "Recommend", "Explain the risk"]
+
+    def test_malformed_recommendation_yields_no_brief(self, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        session = self._finished_session(scope)
+        scope.update(sessions, session.id, next_experience={"capability": "only"})
+        vm = get_stage_vm(scope, session.id, SessionStage.NEXT_ACTION, _make_shell(), as_of=ANCHOR)
+        assert vm.next_brief is None

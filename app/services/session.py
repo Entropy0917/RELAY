@@ -175,6 +175,32 @@ def _build_brief_vm(brief_data: dict | None) -> SessionBriefVM | None:
     return SessionBriefVM(**brief_data)
 
 
+def _next_brief_vm(next_experience: dict | None, learner_name: str | None) -> SessionBriefVM | None:
+    """The NEXT_ACTION brief, from the stored recommendation (demo step 15).
+
+    `_on_leave_validation` stores a whole NextExperience; this reshapes it into
+    the same brief the PREPARE stage shows, so the next session opens with what
+    this one validated. No AI call. A stored shape that no longer validates
+    yields None -- the page shows its empty state rather than a half brief.
+    """
+    if not next_experience:
+        return None
+    try:
+        nx = NextExperience.model_validate(next_experience)
+    except ValueError:
+        return None
+    who = learner_name.split()[0] if learner_name else "the learner"
+    return SessionBriefVM(
+        primary_target=nx.capability,
+        current_level=CAPABILITY_LEVELS[nx.current_level],
+        todays_objective=nx.objective,
+        your_role=nx.expert_role,
+        ask_before_explaining=f"Ask {who} how they would handle: {nx.recommended_experience}",
+        watch_for=nx.learner_responsibilities[:4],
+        knowledge_gap_to_explore=nx.risk_if_deferred,
+    )
+
+
 # findings.status is past tense; FindingVM.validation_action is a ValidationAction.
 _STATUS_ACTION = {"approved": "approve", "edited": "edit", "rejected": "reject"}
 
@@ -289,6 +315,10 @@ def get_stage_vm(
         expert_questions=expert_qs,
         learner_questions=learner_qs,
         findings=finding_vms,
+        next_brief=_next_brief_vm(
+            session.next_experience,
+            ref.learners[0].name if ref.learners else None,
+        ),
         can_act=can_act,
         blocked_reason=blocked_reason,
     )
