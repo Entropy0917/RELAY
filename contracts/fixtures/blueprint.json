@@ -1,0 +1,469 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": true
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": false
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "areas": [
+    {
+      "area": {
+        "id": "a-ops",
+        "name": "Plant Operations",
+        "local_owner": {
+          "id": "p-omar",
+          "name": "Omar Salim",
+          "title": "Shift Supervisor",
+          "role": "counterpart",
+          "initials": "OS"
+        },
+        "formal_pct": 70,
+        "informal_pct": 30,
+        "local_capability": "Strong",
+        "trainer_coverage": true,
+        "status": "on_track",
+        "status_label": "On Track"
+      },
+      "groups": {
+        "formal": [
+          {
+            "id": "a-ops-formal",
+            "kind": "formal",
+            "label": "Formal Knowledge",
+            "description": "Formal Knowledge required to run this area without the expert.",
+            "state": "complete",
+            "glyph": "✓"
+          }
+        ],
+        "technical": [
+          {
+            "id": "a-ops-technical",
+            "kind": "technical",
+            "label": "Technical Capability",
+            "description": "Technical Capability required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ],
+        "judgment": [
+          {
+            "id": "a-ops-judgment",
+            "kind": "judgment",
+            "label": "Decision & Judgment",
+            "description": "Decision & Judgment required to run this area without the expert.",
+            "state": "none",
+            "glyph": "○"
+          }
+        ],
+        "tacit": [
+          {
+            "id": "a-ops-tacit",
+            "kind": "tacit",
+            "label": "Tacit Knowledge",
+            "description": "Tacit Knowledge required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ],
+        "relationship": [
+          {
+            "id": "a-ops-relationship",
+            "kind": "relationship",
+            "label": "Relationships",
+            "description": "Relationships required to run this area without the expert.",
+            "state": "complete",
+            "glyph": "✓"
+          }
+        ],
+        "tool": [
+          {
+            "id": "a-ops-tool",
+            "kind": "tool",
+            "label": "Tools & Systems",
+            "description": "Tools & Systems required to run this area without the expert.",
+            "state": "none",
+            "glyph": "○"
+          }
+        ],
+        "governance": [
+          {
+            "id": "a-ops-governance",
+            "kind": "governance",
+            "label": "Governance",
+            "description": "Governance required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ]
+      },
+      "local_capability": [
+        {
+          "capability_id": "c-brine",
+          "capability": "Brine Discharge Judgment",
+          "level": 3,
+          "level_label": "Performed with Supervision",
+          "exposures": 4,
+          "last_demonstrated": "2026-09-18",
+          "next_experience": "Lead next discharge window",
+          "trainer_ready": false
+        },
+        {
+          "capability_id": "c-membrane",
+          "capability": "Membrane Fouling Diagnosis",
+          "level": 5,
+          "level_label": "Demonstrated Repeatedly",
+          "exposures": 9,
+          "last_demonstrated": "2026-09-22",
+          "next_experience": "Teach-back session",
+          "trainer_ready": false
+        },
+        {
+          "capability_id": "c-chem",
+          "capability": "Chemical Dosing Adjustment",
+          "level": 6,
+          "level_label": "Can Teach Others",
+          "exposures": 12,
+          "last_demonstrated": "2026-09-24",
+          "next_experience": null,
+          "trainer_ready": true
+        }
+      ],
+      "transfer_risk": "on_track"
+    },
+    {
+      "area": {
+        "id": "a-membrane",
+        "name": "Membrane Maintenance",
+        "local_owner": {
+          "id": "p-yusuf",
+          "name": "Yusuf Haddad",
+          "title": "Plant Operations Officer",
+          "role": "counterpart",
+          "initials": "YH"
+        },
+        "formal_pct": 55,
+        "informal_pct": 45,
+        "local_capability": "Developing",
+        "trainer_coverage": true,
+        "status": "in_progress",
+        "status_label": "Transfer in Progress"
+      },
+      "groups": {
+        "formal": [
+          {
+            "id": "a-membrane-formal",
+            "kind": "formal",
+            "label": "Formal Knowledge",
+            "description": "Formal Knowledge required to run this area without the expert.",
+            "state": "complete",
+            "glyph": "✓"
+          }
+        ],
+        "technical": [
+          {
+            "id": "a-membrane-technical",
+            "kind": "technical",
+            "label": "Technical Capability",
+            "description": "Technical Capability required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ],
+        "judgment": [
+          {
+            "id": "a-membrane-judgment",
+            "kind": "judgment",
+            "label": "Decision & Judgment",
+            "description": "Decision & Judgment required to run this area without the expert.",
+            "state": "none",
+            "glyph": "○"
+          }
+        ],
+        "tacit": [
+          {
+            "id": "a-membrane-tacit",
+            "kind": "tacit",
+            "label": "Tacit Knowledge",
+            "description": "Tacit Knowledge required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ],
+        "relationship": [
+          {
+            "id": "a-membrane-relationship",
+            "kind": "relationship",
+            "label": "Relationships",
+            "description": "Relationships required to run this area without the expert.",
+            "state": "complete",
+            "glyph": "✓"
+          }
+        ],
+        "tool": [
+          {
+            "id": "a-membrane-tool",
+            "kind": "tool",
+            "label": "Tools & Systems",
+            "description": "Tools & Systems required to run this area without the expert.",
+            "state": "none",
+            "glyph": "○"
+          }
+        ],
+        "governance": [
+          {
+            "id": "a-membrane-governance",
+            "kind": "governance",
+            "label": "Governance",
+            "description": "Governance required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ]
+      },
+      "local_capability": [
+        {
+          "capability_id": "c-brine",
+          "capability": "Brine Discharge Judgment",
+          "level": 3,
+          "level_label": "Performed with Supervision",
+          "exposures": 4,
+          "last_demonstrated": "2026-09-18",
+          "next_experience": "Lead next discharge window",
+          "trainer_ready": false
+        },
+        {
+          "capability_id": "c-membrane",
+          "capability": "Membrane Fouling Diagnosis",
+          "level": 5,
+          "level_label": "Demonstrated Repeatedly",
+          "exposures": 9,
+          "last_demonstrated": "2026-09-22",
+          "next_experience": "Teach-back session",
+          "trainer_ready": false
+        },
+        {
+          "capability_id": "c-chem",
+          "capability": "Chemical Dosing Adjustment",
+          "level": 6,
+          "level_label": "Can Teach Others",
+          "exposures": 12,
+          "last_demonstrated": "2026-09-24",
+          "next_experience": null,
+          "trainer_ready": true
+        }
+      ],
+      "transfer_risk": "in_progress"
+    },
+    {
+      "area": {
+        "id": "a-quality",
+        "name": "Water Quality Assurance",
+        "local_owner": {
+          "id": "p-nadia",
+          "name": "Nadia Karim",
+          "title": "Water Quality Analyst",
+          "role": "counterpart",
+          "initials": "NK"
+        },
+        "formal_pct": 80,
+        "informal_pct": 20,
+        "local_capability": "Strong",
+        "trainer_coverage": false,
+        "status": "sustainable",
+        "status_label": "Sustainable"
+      },
+      "groups": {
+        "formal": [
+          {
+            "id": "a-quality-formal",
+            "kind": "formal",
+            "label": "Formal Knowledge",
+            "description": "Formal Knowledge required to run this area without the expert.",
+            "state": "complete",
+            "glyph": "✓"
+          }
+        ],
+        "technical": [
+          {
+            "id": "a-quality-technical",
+            "kind": "technical",
+            "label": "Technical Capability",
+            "description": "Technical Capability required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ],
+        "judgment": [
+          {
+            "id": "a-quality-judgment",
+            "kind": "judgment",
+            "label": "Decision & Judgment",
+            "description": "Decision & Judgment required to run this area without the expert.",
+            "state": "none",
+            "glyph": "○"
+          }
+        ],
+        "tacit": [
+          {
+            "id": "a-quality-tacit",
+            "kind": "tacit",
+            "label": "Tacit Knowledge",
+            "description": "Tacit Knowledge required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ],
+        "relationship": [
+          {
+            "id": "a-quality-relationship",
+            "kind": "relationship",
+            "label": "Relationships",
+            "description": "Relationships required to run this area without the expert.",
+            "state": "complete",
+            "glyph": "✓"
+          }
+        ],
+        "tool": [
+          {
+            "id": "a-quality-tool",
+            "kind": "tool",
+            "label": "Tools & Systems",
+            "description": "Tools & Systems required to run this area without the expert.",
+            "state": "none",
+            "glyph": "○"
+          }
+        ],
+        "governance": [
+          {
+            "id": "a-quality-governance",
+            "kind": "governance",
+            "label": "Governance",
+            "description": "Governance required to run this area without the expert.",
+            "state": "partial",
+            "glyph": "△"
+          }
+        ]
+      },
+      "local_capability": [
+        {
+          "capability_id": "c-brine",
+          "capability": "Brine Discharge Judgment",
+          "level": 3,
+          "level_label": "Performed with Supervision",
+          "exposures": 4,
+          "last_demonstrated": "2026-09-18",
+          "next_experience": "Lead next discharge window",
+          "trainer_ready": false
+        },
+        {
+          "capability_id": "c-membrane",
+          "capability": "Membrane Fouling Diagnosis",
+          "level": 5,
+          "level_label": "Demonstrated Repeatedly",
+          "exposures": 9,
+          "last_demonstrated": "2026-09-22",
+          "next_experience": "Teach-back session",
+          "trainer_ready": false
+        },
+        {
+          "capability_id": "c-chem",
+          "capability": "Chemical Dosing Adjustment",
+          "level": 6,
+          "level_label": "Can Teach Others",
+          "exposures": 12,
+          "last_demonstrated": "2026-09-24",
+          "next_experience": null,
+          "trainer_ready": true
+        }
+      ],
+      "transfer_risk": "sustainable"
+    }
+  ]
+}

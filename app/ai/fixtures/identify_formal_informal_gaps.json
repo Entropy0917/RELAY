@@ -1,0 +1,23 @@
+{
+  "area": "Substation Maintenance Planning",
+  "formal_coverage_pct": 70,
+  "informal_coverage_pct": 25,
+  "gaps": [
+    {
+      "topic": "Maintenance interval",
+      "formal_rule": "Service at the published interval for the asset class.",
+      "actual_practice": "Experienced planners bring the window forward when load has been trending up and the last reading is stale.",
+      "why_they_differ": "The interval assumes stable load. The override is the judgment that keeps it safe when load is not stable.",
+      "documented": false,
+      "severity": "at_risk"
+    },
+    {
+      "topic": "Deferral approval",
+      "formal_rule": "(undocumented)",
+      "actual_practice": "The planner calls the regional operator before raising a formal deferral.",
+      "why_they_differ": "The informal call is what makes the formal step succeed.",
+      "documented": false,
+      "severity": "in_progress"
+    }
+  ]
+}

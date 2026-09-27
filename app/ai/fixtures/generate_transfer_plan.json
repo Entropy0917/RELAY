@@ -1,0 +1,43 @@
+{
+  "area": "Substation Maintenance Planning",
+  "steps": [
+    {
+      "sequence": 1,
+      "capability": "Load Trend Interpretation",
+      "rail": "lead",
+      "learner": "M. Dahl",
+      "experience": "Lead the next two weekly condition reviews.",
+      "expert_role": "Observe; question after each decision.",
+      "success_signal": "Flags a trend-driven override before the expert does.",
+      "target_window": "Weeks 1-2 of the remaining period.",
+      "depends_on": []
+    },
+    {
+      "sequence": 2,
+      "capability": "Emergency Load Transfer",
+      "rail": "assist",
+      "learner": "M. Dahl",
+      "experience": "Draft and raise the next load transfer request.",
+      "expert_role": "Review the draft; let it go out unless unsafe.",
+      "success_signal": "Request approved without substantive rework.",
+      "target_window": "Week 3.",
+      "depends_on": [
+        1
+      ]
+    },
+    {
+      "sequence": 3,
+      "capability": "Window Negotiation",
+      "rail": "observe",
+      "learner": "P. Okafor",
+      "experience": "Sit in on the operator call for the next contested window.",
+      "expert_role": "Lead the call; debrief afterwards.",
+      "success_signal": "Can describe what made the operator agree.",
+      "target_window": "Week 3.",
+      "depends_on": []
+    }
+  ],
+  "not_achievable_before_departure": [
+    "Independent window negotiation -- it needs a relationship that takes longer than the time remaining."
+  ]
+}

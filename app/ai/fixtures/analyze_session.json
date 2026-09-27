@@ -1,0 +1,50 @@
+{
+  "capability_evidence": {
+    "kind": "capability_evidence",
+    "person": "M. Dahl",
+    "capability": "Load Trend Interpretation",
+    "evidence": "Identified unprompted that the rising load trend made the standing maintenance interval unreliable, and said so before the expert gave an opinion.",
+    "current_level": 3,
+    "suggested_level": 4,
+    "confidence": "medium",
+    "evidence_sources": [
+      "Session transcript",
+      "Learner debrief"
+    ]
+  },
+  "tacit_knowledge": {
+    "kind": "tacit_knowledge",
+    "title": "When the standing interval stops being a safe guide",
+    "operating_model_area": "Substation Maintenance Planning",
+    "capability": "Load Trend Interpretation",
+    "situation": "Scheduled maintenance on an asset whose load has been climbing for several weeks.",
+    "observed_signals": [
+      "Load trending up over consecutive readings, not one spike.",
+      "The last physical reading is several days old.",
+      "Seasonal demand is beginning."
+    ],
+    "expert_reasoning": "The interval assumes last period's load. Any one signal the expert would ignore; together they mean the margin is smaller than the schedule implies.",
+    "recommended_response": "Confirm the reading is current, then bring the window forward before the trend closes the margin.",
+    "why_it_matters": "Without this, a scheduler follows the interval and the asset goes into the busiest period without a maintenance slot."
+  },
+  "remaining_gap": {
+    "kind": "remaining_gap",
+    "capability": "Emergency Load Transfer",
+    "understands": "That load can be moved to a neighbouring feeder before the window opens.",
+    "not_yet_demonstrated": [
+      "Has not led a transfer request themselves.",
+      "Has not negotiated a window with the regional operator."
+    ]
+  },
+  "next_activity": {
+    "kind": "next_activity",
+    "objective": "M. Dahl leads an emergency load transfer with A. Lindqvist observing only.",
+    "recommended_experience": "The transfer already scheduled for the next maintenance window on the adjacent feeder.",
+    "learner_responsibilities": [
+      "Assess whether the neighbouring feeder has genuine headroom.",
+      "Raise and justify the transfer request.",
+      "Brief the operator on the fallback if the window slips."
+    ],
+    "expert_role": "Observe. Ask why after each decision. Intervene only on a safety risk."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "title": "Three signals that make the standing interval unsafe",
+      "type": "heuristic",
+      "capability": "Load Trend Interpretation",
+      "operating_model_area": "Substation Maintenance Planning",
+      "situation": "Scheduling maintenance on an asset with rising load.",
+      "content": "Rising trend across consecutive readings, a reading more than a few days old, and the season starting. Any one is ignorable; together they mean the margin is smaller than the schedule implies.",
+      "why_it_matters": "It is the judgment that keeps a calendar rule from sending an asset into peak demand unserviced.",
+      "source": "Expert debrief",
+      "people_exposed": [
+        "M. Dahl"
+      ]
+    },
+    {
+      "title": "Check neighbouring headroom before escalating",
+      "type": "expert_insight",
+      "capability": "Emergency Load Transfer",
+      "operating_model_area": "Substation Maintenance Planning",
+      "situation": "A window cannot be taken without moving load.",
+      "content": "Confirm the neighbouring feeder has genuine headroom, not nominal headroom, before raising an escalation.",
+      "why_it_matters": "An escalation raised on nominal figures loses credibility.",
+      "source": "Session transcript",
+      "people_exposed": [
+        "M. Dahl",
+        "P. Okafor"
+      ]
+    }
+  ]
+}

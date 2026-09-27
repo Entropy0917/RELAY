@@ -1,0 +1,45 @@
+{
+  "mission": "Keep regional distribution assets serviceable through the high-demand season without unplanned outages.",
+  "areas": [
+    {
+      "name": "Substation Maintenance Planning",
+      "purpose": "Decide what gets maintained, when, and at what cost to service.",
+      "processes": [
+        "Weekly review of asset condition readings.",
+        "Maintenance window scheduling against the load forecast.",
+        "Deferral approval when a window cannot be taken."
+      ],
+      "roles": [
+        "Maintenance planner owns the schedule.",
+        "Regional operator approves windows that affect supply."
+      ],
+      "governance": [
+        "Deferrals beyond one interval need operator sign-off."
+      ],
+      "tools": [
+        "Asset register",
+        "Load forecast sheet"
+      ],
+      "metrics": [
+        "Windows taken on schedule",
+        "Unplanned outages per quarter"
+      ],
+      "decision_rights": [
+        "The planner may move a window by up to two weeks unilaterally."
+      ],
+      "relationships": [
+        "Regional operator",
+        "Contract maintenance crews"
+      ],
+      "capabilities": [
+        "Load Trend Interpretation",
+        "Emergency Load Transfer",
+        "Window Negotiation"
+      ],
+      "expert_dependency": "Only the departing expert currently judges when the standing interval should be overridden."
+    }
+  ],
+  "open_questions": [
+    "Whether deferral approval is a written rule or local custom."
+  ]
+}

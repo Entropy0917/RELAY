@@ -1,0 +1,52 @@
+{#- Base document (F1). Every page extends this.
+    Context: `shell` (contracts.viewmodels.ShellVM) plus the page's own fields.
+    Blocks:  title · crumbs (topbar breadcrumb, default = active nav label) · header · content · head_extra -#}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{% endblock %}{{ ' · ' if self.title() }}RELAY</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tokens.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<script src="{{ url_for('static', filename='js/htmx.min.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/relay.js') }}" defer></script>
+{% block head_extra %}{% endblock %}
+</head>
+<body>
+<div class="app">
+  {% include "_shell/sidebar.html" %}
+  <div class="main">
+    {#- Top bar lives here (not an include) so pages can override `crumbs`. -#}
+    <header class="topbar">
+      <div class="topbar__crumbs">
+        <span>{{ shell.current_engagement.name }}</span>
+        <span aria-hidden="true">/</span>
+        <strong>{% block crumbs %}{% for item in shell.nav if item.active %}{{ item.label }}{% endfor %}{% endblock %}</strong>
+      </div>
+      <div class="topbar__spacer"></div>
+      <div class="persona-switch" role="group" aria-label="Viewing as">
+        <span class="persona-switch__label t-caps">Viewing as</span>
+        {% for p in shell.personas %}
+        <form method="post" action="{{ href('set_persona', person_id=p.id) }}">
+          <button type="submit" aria-pressed="{{ 'true' if p.id == shell.current_persona.id else 'false' }}" title="{{ p.name }} · {{ p.title }}">
+            <span class="avatar{{ ' avatar--expert' if p.role == 'expert' }}" aria-hidden="true">{{ p.initials }}</span>
+            <span>{{ p.name.split(' ')[-1] }}</span>
+            <span class="persona-switch__role">{{ p.role|title }}</span>
+          </button>
+        </form>
+        {% endfor %}
+      </div>
+    </header>
+    <main class="page{% block page_class %}{% endblock %}" id="page">
+      {% block header %}{% endblock %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+<div class="drawer-host" id="drawer" aria-live="polite"></div>
+<div class="toast-host" id="toasts" aria-live="assertive"></div>
+</body>
+</html>

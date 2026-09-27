@@ -1,0 +1,48 @@
+{#- SessionListVM -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% block title %}Sessions{% endblock %}
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">Transfer through real work</span>
+    <h1>Transfer sessions</h1>
+    <p>Each session turns a piece of real work into a brief, two debriefs, validated evidence and the next experience.</p>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+{% for u in upcoming %}
+<a class="card card--today" href="{{ href('session_stage', session_id=u.id, stage=u.stage) }}">
+  <div class="card__head">
+    <div class="stack stack--sm">
+      <div class="cluster"><span class="tag tag--accent">{{ 'Up next' if loop.first else 'Upcoming' }}</span><span class="t-faint t-sm num">{{ u.date }}</span><span class="t-faint t-sm">Stage · {{ u.stage_label }}</span></div>
+      <span class="card__title card__title--lg">{{ u.title }}</span>
+      <span class="card__meta">{{ u.capability_focus }}</span>
+    </div>
+    <span class="btn btn--primary">{{ 'Prepare session' if u.stage == 'prepare' else 'Continue session' }} →</span>
+  </div>
+  <div class="card__foot">
+    {{ ui.person(u.expert, link=False) }}<span class="t-faint">with</span>{% for l in u.learners %}{{ ui.person(l, link=False) }}{% endfor %}
+  </div>
+</a>
+{% endfor %}
+
+{% call ui.panel('Previous sessions', subtitle='Every session leaves validated evidence behind', flush=True) %}
+{% if past %}
+<div class="table-wrap"><table class="table">
+  <thead><tr><th>Session</th><th>Learner</th><th>Capability</th><th>Stage</th></tr></thead>
+  <tbody>
+  {% for p in past %}
+  <tr>
+    <td><a class="rows__title" href="{{ href('session_stage', session_id=p.id, stage=p.stage) }}">{{ p.title }}</a><div class="rows__meta num">{{ p.date }}</div></td>
+    <td><div class="stack stack--sm">{% for l in p.learners %}{{ ui.person(l) }}{% endfor %}</div></td>
+    <td class="t-md t-muted">{{ p.capability_focus }}</td>
+    <td class="is-min t-sm t-muted">{{ p.stage_label }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% else %}{{ ui.empty('No previous sessions.', 'Completed sessions appear here with their outcomes.') }}{% endif %}
+{% endcall %}
+{% endblock %}

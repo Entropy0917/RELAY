@@ -1,0 +1,33 @@
+{
+  "summary": "Routine scheduling would survive the departure. The judgment calls and every external relationship would not.",
+  "expert_dependent": [
+    "Overriding the standing interval under trend conditions.",
+    "Negotiating a contested window with the regional operator."
+  ],
+  "sustainable": [
+    "Weekly condition review -- led twice without the expert present."
+  ],
+  "risks": [
+    {
+      "severity": "critical",
+      "title": "No local relationship with the regional operator",
+      "problem": "Every window negotiation in the record went through the departing expert.",
+      "evidence": "No other name appears on any operator contact.",
+      "recommended_action": "Introduce a named local contact on the next two calls and hand over the third.",
+      "local_owner": ""
+    },
+    {
+      "severity": "at_risk",
+      "title": "Override judgment rests on one demonstration",
+      "problem": "One unprompted instance is thin evidence for independence.",
+      "evidence": "Single occurrence, expert present.",
+      "recommended_action": "Have them lead the next two reviews unobserved.",
+      "local_owner": "M. Dahl"
+    }
+  ],
+  "before_departure": [
+    "Hand over one operator negotiation end to end.",
+    "Two unobserved condition reviews led locally.",
+    "Write down the override heuristic and have it reviewed."
+  ]
+}

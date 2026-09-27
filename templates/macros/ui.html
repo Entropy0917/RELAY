@@ -1,0 +1,312 @@
+{#- macros/ui.html — RELAY component library (F2).
+
+    Import:  {% import "macros/ui.html" as ui %}
+
+    Rules:
+    - If markup appears twice across pages, it belongs here.
+    - Macros take contract objects (MetricTile, PersonRef, ErrorPartialVM, …) or primitives.
+    - Product vocabulary comes from `vocab` (contracts.vocabulary); never hard-code labels.
+    - URLs come from href(<route key>, **params) (contracts/routes.py); never a literal path.
+    - No engagement content. No raw colors: classes in static/css/components.css.
+-#}
+
+{#- ───────────────────────── status & levels ───────────────────────── -#}
+
+{#- One of the five transfer statuses. `status` is a vocab.Status or its value. -#}
+{% macro status_badge(status, size='md') -%}
+{%- set s = vocab.Status(status) -%}
+<span class="badge badge--{{ size }} status--{{ s.value|replace('_', '-') }}"><span class="badge__dot" aria-hidden="true"></span>{{ vocab.STATUS_LABEL[s] }}</span>
+{%- endmacro %}
+
+{#- Capability level 0–6 as a compact chip: segmented meter + label. -#}
+{% macro capability_chip(level, show_label=True, changed=False) -%}
+{#- level: an int, a label ("Assisted"), or "Level 3 -- …" — stored data uses all three. -#}
+{%- if level is string and level in vocab.CAPABILITY_LEVELS -%}{%- set l = vocab.CAPABILITY_LEVELS.index(level) -%}
+{%- elif level is string and level.startswith('Level ') -%}{%- set l = level[6:7]|int -%}
+{%- else -%}{%- set l = level|int -%}{%- endif -%}
+{%- set label = vocab.CAPABILITY_LEVELS[l] -%}
+<span class="cap-chip level--{{ l }}{{ ' is-changed' if changed }}" title="Level {{ l }} · {{ label }}">
+  <span class="cap-chip__meter" aria-hidden="true">{% for i in range(1, 7) %}<i class="{{ 'on' if i <= l }}"></i>{% endfor %}</span>
+  {%- if show_label %}<span class="cap-chip__label">{{ label }}</span>{% endif %}
+  <span class="sr-only">Level {{ l }} of 6</span>
+</span>
+{%- endmacro %}
+
+{#- Level transition, e.g. Performed with Supervision → Performed Independently. -#}
+{% macro level_change(before, after) -%}
+<span class="level-change">{{ capability_chip(before) }}<span class="level-change__arrow" aria-label="to">→</span>{{ capability_chip(after, changed=True) }}</span>
+{%- endmacro %}
+
+{#- ✓ complete · △ partial · ○ none, optional label. -#}
+{% macro transfer_glyph(state, label=None) -%}
+{%- set s = vocab.TransferState(state) -%}
+<span class="glyph glyph--{{ s.value }}"><span class="glyph__mark" aria-hidden="true">{{ vocab.TRANSFER_GLYPH[s] }}</span>{% if label %}<span class="glyph__label">{{ label }}</span>{% endif %}<span class="sr-only">{{ s.value }}</span></span>
+{%- endmacro %}
+
+{#- The seven Transfer Rails. `current` is a vocab.Rail (or its value) or a 1-based int. -#}
+{% macro rails(current=None, compact=False) -%}
+{%- set cur = (vocab.RAIL_ORDER.index(vocab.Rail(current)) + 1) if current is string else current -%}
+<ol class="rails{{ ' rails--compact' if compact }}" aria-label="Transfer Rails">
+  {%- for r in vocab.RAIL_ORDER %}
+  {%- set n = loop.index %}
+  {%- set state = 'done' if cur and n < cur else 'current' if cur and n == cur else 'upcoming' %}
+  <li class="rails__step rails__step--{{ state }}"{{ ' aria-current="step"'|safe if state == 'current' }}>
+    <span class="rails__n num">{{ n }}</span><span class="rails__label">{{ vocab.RAIL_LABEL[r]|upper }}</span>
+  </li>
+  {%- endfor %}
+</ol>
+{%- endmacro %}
+
+{#- ───────────────────────── people ───────────────────────── -#}
+
+{#- Avatar + name (+ title). `p` is a PersonRef; links to the capability passport. -#}
+{% macro person(p, show_title=False, link=True) -%}
+{%- if p -%}
+<{{ 'a href="' ~ href('passport', person_id=p.id) ~ '"' if link else 'span' }} class="person">
+  <span class="avatar{{ ' avatar--expert' if p.role == 'expert' }}" aria-hidden="true">{{ p.initials }}</span>
+  <span class="person__text"><span class="person__name">{{ p.name }}</span>{% if show_title %}<span class="person__title">{{ p.title }}</span>{% endif %}</span>
+</{{ 'a' if link else 'span' }}>
+{%- else -%}
+<span class="person person--none">Not assigned</span>
+{%- endif -%}
+{%- endmacro %}
+
+{#- ───────────────────────── metrics ───────────────────────── -#}
+
+{#- "How this is calculated" disclosure for a MetricTile. No JS. Renders nothing without a formula. -#}
+{% macro formula_popover(m, align='start') -%}
+{%- if m.formula -%}
+<details class="formula formula--{{ align }}">
+  <summary class="formula__trigger" aria-label="How {{ m.label|lower }} is calculated">
+    <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M8 7.2v4M8 4.8v.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+  </summary>
+  <div class="formula__body" role="note">
+    <div class="t-caps">How this is calculated</div>
+    <p class="formula__expr">{{ m.formula }}</p>
+    <dl class="formula__inputs">
+      {%- for k, v in m.inputs.items() %}
+      <div><dt>{{ k|replace('_', ' ')|capitalize }}</dt><dd class="num">{{ v }}</dd></div>
+      {%- endfor %}
+      <div class="formula__result"><dt>{{ m.label|title }}</dt><dd class="num">{{ m.value }}</dd></div>
+    </dl>
+  </div>
+</details>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Executive metric tile. `m` is a MetricTile. -#}
+{% macro metric_tile(m, emphasis=False) -%}
+<div class="metric{{ ' metric--emphasis' if emphasis }}">
+  <div class="metric__head"><span class="t-caps">{{ m.label }}</span>{{ formula_popover(m, 'end') }}</div>
+  <div class="metric__value num">{{ m.value }}</div>
+  <div class="metric__foot">
+    {%- if m.caption %}<span class="t-sm t-muted">{{ m.caption }}</span>{% endif %}
+    {%- if m.delta %}<span class="metric__delta num{{ ' metric__delta--down' if m.delta.startswith('-') }}">{{ m.delta }}</span>{% endif %}
+  </div>
+</div>
+{%- endmacro %}
+
+{#- Inline metric: label · value · popover, for dense lists. -#}
+{% macro metric_inline(m) -%}
+<div class="metric-inline"><span class="metric-inline__label">{{ m.label|title }}</span><span class="metric-inline__value num">{{ m.value }}</span>{{ formula_popover(m, 'end') }}</div>
+{%- endmacro %}
+
+{#- ───────────────────────── containers ───────────────────────── -#}
+
+{#- Panel with optional caps title, subtitle and header actions.
+    {% call ui.panel('Knowledge at risk', subtitle='Before expert departure') %}…{% endcall %} -#}
+{% macro panel(title=None, subtitle=None, actions=None, flush=False, id=None, tone=None) -%}
+<section class="panel{{ ' panel--flush' if flush }}{{ ' panel--' ~ tone if tone }}"{{ (' id="' ~ id ~ '"')|safe if id }}>
+  {%- if title %}
+  <header class="panel__head">
+    <div class="panel__titles"><h2 class="t-caps">{{ title }}</h2>{% if subtitle %}<p class="panel__sub">{{ subtitle }}</p>{% endif %}</div>
+    {%- if actions %}<div class="panel__actions">{{ actions }}</div>{% endif %}
+  </header>
+  {%- endif %}
+  <div class="panel__body">{{ caller() if caller }}</div>
+</section>
+{%- endmacro %}
+
+{#- Right-side drawer, returned by partials into #drawer. -#}
+{% macro drawer(title, eyebrow=None) -%}
+<div class="drawer" role="dialog" aria-modal="true" aria-label="{{ title }}">
+  <header class="drawer__head">
+    <div>{% if eyebrow %}<div class="t-caps">{{ eyebrow }}</div>{% endif %}<h2 class="drawer__title">{{ title }}</h2></div>
+    <button type="button" class="btn btn--ghost btn--icon" data-drawer-close aria-label="Close">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <div class="drawer__body">{{ caller() }}</div>
+</div>
+{%- endmacro %}
+
+{#- Key/value definition list. rows: [(label, value_html)] -#}
+{% macro facts(rows, cols=1) -%}
+<dl class="facts facts--{{ cols }}">
+  {%- for label, value in rows %}<div><dt class="t-caps">{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}
+</dl>
+{%- endmacro %}
+
+{#- Empty state for lists and panels. -#}
+{% macro empty(text, hint=None) -%}
+<div class="empty"><p>{{ text }}</p>{% if hint %}<p class="t-faint t-sm">{{ hint }}</p>{% endif %}</div>
+{%- endmacro %}
+
+{#- ───────────────────────── AI trust ───────────────────────── -#}
+
+{#- Provenance label: AI SUGGESTION vs VALIDATED BY <person>. Always visually distinct. -#}
+{#- `validated_by` is a name string or a PersonRef. -#}
+{% macro provenance(validated_by=None, ai_label='AI SUGGESTION') -%}
+{%- if validated_by -%}
+<span class="prov prov--validated"><svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>VALIDATED BY {{ (validated_by.name if validated_by.name is defined else validated_by)|upper }}</span>
+{%- else -%}
+<span class="prov prov--ai"><svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 1.5l1.6 4.9 4.9 1.6-4.9 1.6L8 14.5l-1.6-4.9L1.5 8l4.9-1.6z" fill="currentColor"/></svg>{{ ai_label }}</span>
+{%- endif -%}
+{%- endmacro %}
+
+{#- "Why RELAY recommended this" — every AI recommendation carries one. -#}
+{% macro rationale(why, evidence=None, om_component=None, if_not_transferred=None, open=False) -%}
+{%- if why -%}
+<details class="rationale"{{ ' open' if open }}>
+  <summary>Why RELAY recommended this</summary>
+  <div class="rationale__body">
+    <p>{{ why }}</p>
+    {%- if evidence %}
+    <div class="t-caps">Evidence</div>
+    <ul class="bullets">{% for e in evidence %}<li>{{ e }}</li>{% endfor %}</ul>
+    {%- endif %}
+    {%- if om_component or if_not_transferred %}
+    <dl class="facts facts--2">
+      {%- if om_component %}<div><dt class="t-caps">Operating model component</dt><dd>{{ om_component }}</dd></div>{% endif %}
+      {%- if if_not_transferred %}<div><dt class="t-caps">If this doesn't transfer</dt><dd>{{ if_not_transferred }}</dd></div>{% endif %}
+    </dl>
+    {%- endif %}
+  </div>
+</details>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Designed fail-loud error state. `e` is an ErrorPartialVM (title, detail, retry_href, kind). -#}
+{% macro error_state(e) -%}
+<div class="error-state" role="alert">
+  <div class="error-state__icon" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1.8l6.5 11.6H1.5z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 6.2v3.4M8 11.5v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="error-state__text">
+    <h3>{{ e.title }}</h3>
+    <p>{{ e.detail }}</p>
+    <p class="t-faint t-sm">Validated records are unchanged. <span class="t-mono">{{ e.kind }}</span></p>
+  </div>
+  {%- if e.retry_href %}
+  <button class="btn btn--secondary" hx-post="{{ e.retry_href }}" hx-target="#findings" hx-select="#findings" hx-swap="outerHTML" hx-disabled-elt="this"><span class="htmx-hide-on-request">Try again</span><span class="htmx-indicator">Retrying…</span></button>
+  {%- endif %}
+</div>
+{%- endmacro %}
+
+{#- ───────────────────────── controls ───────────────────────── -#}
+
+{#- Ranked action list (priority actions, before-departure steps). items: list[str] -#}
+{% macro action_list(items, empty_text='No open actions.') -%}
+{%- if items -%}
+<ol class="rows">
+  {%- for text in items %}
+  <li class="rows__item rows__item--top"><span class="rank">{{ loop.index }}</span><span class="rows__main"><span class="rows__title">{{ text }}</span></span></li>
+  {%- endfor %}
+</ol>
+{%- else -%}
+{{ empty(empty_text) }}
+{%- endif -%}
+{%- endmacro %}
+
+{#- Link styled as a button. kind: primary | secondary | ghost -#}
+{% macro link_button(label, href, kind='secondary') -%}
+<a class="btn btn--{{ kind }}" href="{{ href }}">{{ label }}</a>
+{%- endmacro %}
+
+{#- ───────────────────────── batch 2: filters & tabs ───────────────────────── -#}
+
+{#- HTMX filter bar. filters: list[KnowledgeFilter-like {param, label, options[{value,label,count}]}]
+    active: {param: value}. Changing any select GETs `href` with the whole form and swaps `target`.
+    Plain GET to `page_href` without JS. select=True: the response is a full page; take
+    only `target` out of it and replace it (outerHTML). -#}
+{% macro filter_bar(filters, active, href, target, page_href=None, inline=False, all_label='All', select=True) -%}
+<form class="filter-bar{{ ' filter-bar--inline' if inline }}" method="get" action="{{ page_href or href }}"
+      hx-get="{{ href }}" hx-target="{{ target }}" hx-trigger="change" hx-push-url="{{ 'true' if page_href else 'false' }}"{% if select %} hx-select="{{ target }}" hx-swap="outerHTML"{% endif %}>
+  {%- for f in filters %}
+  {%- set cur = active.get(f.param) %}
+  <label class="filter-bar__field">
+    <span class="t-caps">{{ f.label }}</span>
+    <select name="{{ f.param }}"{{ ' class="is-active"'|safe if cur }}>
+      <option value="">{{ all_label }}</option>
+      {%- for o in f.options %}
+      <option value="{{ o.value }}"{{ ' selected' if o.value == cur }}>{{ o.label }}{{ ' (' ~ o.count ~ ')' if o.count is not none }}</option>
+      {%- endfor %}
+    </select>
+  </label>
+  {%- endfor %}
+  <div class="filter-bar__foot">
+    <span class="htmx-indicator t-faint t-sm">Filtering…</span>
+    {%- if active %}<a class="btn btn--ghost" href="{{ page_href or href }}">Clear filters</a>{% endif %}
+  </div>
+  <noscript><button class="btn btn--secondary" type="submit">Apply</button></noscript>
+</form>
+{%- endmacro %}
+
+{#- Segmented tabs as links (server-side or #anchor). items: [{label, href, count?, current?}] -#}
+{% macro tabs(items, label='Views') -%}
+<nav class="tabs" aria-label="{{ label }}">
+  {%- for t in items %}
+  <a class="tabs__item" href="{{ t.href }}"{{ ' aria-current="true"'|safe if t.current }}>{{ t.label }}{% if t.count is defined and t.count is not none %}<span class="tabs__count">{{ t.count }}</span>{% endif %}</a>
+  {%- endfor %}
+</nav>
+{%- endmacro %}
+
+
+{#- ───────────────────────── passport ───────────────────────── -#}
+
+{#- One Capability Passport row (<tr>). `row` is a CapabilityRow, `person` a PersonRef.
+    Also the body of partials/capability_row.html, so its id is the HTMX swap target. -#}
+{% macro capability_row(row, person, changed=False) -%}
+<tr id="cap-{{ person.id }}-{{ row.capability_id }}"{{ ' class="is-changed"'|safe if changed }}
+    hx-get="{{ href('capability_row', person_id=person.id, capability_id=row.capability_id) }}" hx-trigger="relay:validated from:body" hx-swap="outerHTML">
+  <td class="is-name"><span class="rows__title">{{ row.capability }}</span></td>
+  <td>{{ capability_chip(row.level, changed=changed) }}</td>
+  <td class="is-num">{{ row.exposures }}</td>
+  <td class="is-num t-muted">{{ row.last_demonstrated or '—' }}</td>
+  <td class="t-md t-muted">{{ row.next_experience or '—' }}</td>
+  <td class="is-min">{% if row.trainer_ready %}<span class="tag tag--accent">Trainer ready</span>{% else %}<span class="t-faint t-sm">—</span>{% endif %}</td>
+</tr>
+{%- endmacro %}
+
+{#- Header row matching capability_row's columns. -#}
+{% macro capability_head() -%}
+<tr><th>Capability</th><th>Current level</th><th class="is-num">Exposures</th><th class="is-num">Last demonstrated</th><th>Next recommended experience</th><th>Trainer readiness</th></tr>
+{%- endmacro %}
+
+{#- ───────────────────────── knowledge ───────────────────────── -#}
+
+{#- One Knowledge Library item. `k` is a KnowledgeCard. compact=True for side lists. -#}
+{% macro knowledge_card(k, compact=False) -%}
+<article class="card knowledge-card{{ ' knowledge-card--compact' if compact }}" id="{{ k.id }}">
+  <div class="card__head">
+    <span class="tag">{{ k.type_label }}</span>
+    {% if k.validated %}{{ provenance(k.expert) }}{% else %}<span class="tag tag--accent">Pending validation</span>{% endif %}
+  </div>
+  <div class="card__title">{{ k.title }}</div>
+  {%- if not compact %}<p class="card__meta">{{ k.summary }}</p>{% endif %}
+  {#- KnowledgeCard.detail (Proposal 001): labelled sections in the author's order; body is str or list[str]. -#}
+  {%- if not compact and k.detail is defined and k.detail %}
+  <details class="knowledge-card__detail">
+    <summary class="t-sm t-muted">Full record</summary>
+    <dl class="facts">
+      {%- for d in k.detail %}
+      <div><dt class="t-caps">{{ d.label }}</dt><dd>{% if d.body is string %}{{ d.body }}{% else %}<ul class="t-sm">{% for b in d.body %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}</dd></div>
+      {%- endfor %}
+    </dl>
+  </details>
+  {%- endif %}
+  <div class="card__foot t-sm">
+    <span class="t-muted">{{ k.capability or k.area }}</span>
+    {%- if k.source_session %}<span class="t-faint">·</span><a class="t-muted knowledge-card__src" href="{{ href('session_stage', session_id=k.source_session, stage='next_action') }}">Source session ↗</a>{% endif %}
+    {%- if k.people_exposed %}<span class="knowledge-card__exposed t-faint" title="{{ k.people_exposed|join(', ') }}">{{ k.people_exposed|length }} exposed</span>{% endif %}
+  </div>
+</article>
+{%- endmacro %}

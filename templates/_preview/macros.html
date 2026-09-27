@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% import "macros/charts.html" as charts %}
+{% block title %}Components{% endblock %}
+{% block crumbs %}Component gallery{% endblock %}
+{% block header %}
+<div class="page-header"><div class="page-header__text"><span class="t-caps">Preview</span><h1>Component gallery</h1><p>Every macro in <code class="t-mono">macros/ui.html</code>, rendered from contract fixtures.</p></div></div>
+{% endblock %}
+{% block content %}
+<div class="metric-row">{% for m in overview.metrics %}{{ ui.metric_tile(m, emphasis=loop.first) }}{% endfor %}</div>
+
+{% call ui.panel('Status', subtitle='status_badge') %}
+<div class="cluster">{% for st in vocab.Status %}{{ ui.status_badge(st) }}{% endfor %}{% for st in vocab.Status %}{{ ui.status_badge(st, 'sm') }}{% endfor %}</div>
+{% endcall %}
+
+<div class="grid-2">
+{% call ui.panel('Capability levels', subtitle='capability_chip · level_change') %}
+  {% for l in vocab.CAPABILITY_LEVELS %}<div>{{ ui.capability_chip(loop.index0) }}</div>{% endfor %}
+  <div>{{ ui.level_change(3, 4) }}</div>
+{% endcall %}
+{% call ui.panel('Transfer requirements', subtitle='transfer_glyph · rails') %}
+  {% for kind, rows in blueprint.areas[0].groups.items() %}{% if loop.index <= 2 %}
+    <div class="t-caps">{{ vocab.REQUIREMENT_LABEL[kind] }}</div>
+    {% for r in rows %}<div>{{ ui.transfer_glyph(r.state, r.label) }}</div>{% endfor %}
+  {% endif %}{% endfor %}
+  {{ ui.rails('explain') }}
+  {{ ui.rails(5, compact=True) }}
+{% endcall %}
+</div>
+
+<div class="grid-2">
+{% call ui.panel('People & provenance', subtitle='person · provenance') %}
+  {% for p in shell.personas %}<div>{{ ui.person(p, show_title=True) }}</div>{% endfor %}
+  <div>{{ ui.person(None) }}</div>
+  <div class="cluster">{{ ui.provenance() }}{{ ui.provenance(shell.personas[0].name) }}</div>
+{% endcall %}
+{% call ui.panel('Metrics, inline', subtitle='metric_inline · formula_popover') %}
+  {% for m in readiness.metrics[:5] %}{{ ui.metric_inline(m) }}{% endfor %}
+{% endcall %}
+</div>
+
+{% call ui.panel('Readiness by area', subtitle='.table + charts.dual_bar', flush=True) %}
+<div class="table-wrap"><table class="table">
+  <thead><tr><th>Area</th><th>Formal / informal</th><th>Local owner</th><th>Status</th></tr></thead>
+  <tbody>{% for a in readiness.areas %}<tr><td>{{ a.name }}</td><td style="min-width:14rem">{{ charts.dual_bar(a.formal_pct, a.informal_pct, max=100) }}</td><td>{{ ui.person(a.local_owner) }}</td><td class="is-min">{{ ui.status_badge(a.status, 'sm') }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endcall %}
+
+{{ ui.error_state(partial_error) }}
+{{ ui.rationale('Example rationale text.', ['evidence one', 'evidence two'], 'Area — Decision Rights', 'What happens if it does not transfer.', open=True) }}
+{% call ui.panel('Empty', subtitle='empty') %}{{ ui.empty('No knowledge captured for this filter yet.', 'Captured insights appear here after a validated session.') }}{% endcall %}
+<div class="cluster"><button class="btn btn--primary">Primary</button><button class="btn btn--secondary">Secondary</button><button class="btn btn--ghost">Ghost</button><button class="btn btn--approve">Approve</button><button class="btn btn--secondary" disabled>Disabled</button><span class="tag">Tag</span><span class="tag tag--accent">New</span><span class="rank">1</span></div>
+{% endblock %}

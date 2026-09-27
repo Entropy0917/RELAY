@@ -28,11 +28,16 @@
 ### Why hand-rolled CSS specifically for this stack
 HTMX swaps **server-rendered fragments** into the DOM. With utility classes those fragments become verbose and the frontend/backend diff gets noisy; with semantic classes they stay small and readable. No watcher process to die mid-demo. And Jinja macros give the same reuse guarantee a component library does — one definition, one place to change.
 
-### What carries over from v0.1 unchanged
-- §3 data model (12 tables) — now SQLAlchemy/`sqlite3` instead of Drizzle
-- §4 readiness formula and weights
-- §2 fail-loud AI policy: `cache → live → raise`
-- The risk register, minus the JS-specific rows
+### v0.1 is archived, not a reference
+
+Everything still in force has been **inlined below** — the 12-table data model
+into §4 B1, the readiness formula and weights into §4 B4, the fail-loud AI
+policy into §4 B2, the risk register into §8.
+
+**This document is self-contained. Do not read or cite `planv0.1.md`** — it
+describes a Next.js/Drizzle/Zod stack we are not building, and citing it is how
+someone ends up implementing against the wrong one. It stays in the repo as
+history only.
 
 ---
 
@@ -149,7 +154,28 @@ Nothing parallelizes until this is done. Do it together, at one screen.
 | **B6** | Session loop ⭐ | `app/routes/session.py`, `app/services/session.py` | B1, B2, B3 | ❌ **Keep this yourself** — it's the product |
 
 ### B1 · DB schema + reset — ~1h
-12 tables per v0.1 §3. Three invariants enforced at the data-access layer:
+
+**The data model — 12 tables**, plus `engagements` as the tenant root and
+`ai_cache` owned by B2. Collapsed from the spec's 23 by one rule: *anything
+displayed but never queried across becomes a typed JSON column.*
+
+| Table | Notes |
+|---|---|
+| `engagements` | tenant root; org, sector, location, dates, per-engagement `readiness_weights` |
+| `people` | role: `expert` \| `counterpart` \| `manager`; `departure_date` on experts |
+| `capabilities` | the seeded capabilities; `criticality` feeds readiness weighting |
+| `person_capabilities` | current level 0–6, `last_demonstrated`, `exposure_count` |
+| `capability_evidence` | **append-only.** Never overwrite history (spec §STEP 6) |
+| `operating_model_areas` | JSON cols for all 8 dimensions |
+| `transfer_requirements` | 7 `RequirementKind`s; state `complete`/`partial`/`none` |
+| `sessions` | stage enum drives the loop UI |
+| `debriefs` | discriminated by `role: expert \| learner` |
+| `findings` | AI output; `status: pending \| approved \| edited \| rejected` |
+| `knowledge_items` | the 7 knowledge types; FK to area/capability/session/expert |
+| `recommendations` | feeds the next Session Brief |
+| `validations` | who validated what, when — the audit trail |
+
+Four invariants — **enforced in the database, not by convention**:
 1. AI never writes `person_capabilities.level` — only an approved validation does.
 2. `capability_evidence` is insert-only.
 3. No stored readiness scores; all derived at read time.
@@ -189,7 +215,35 @@ Highest "does this look real?" leverage in the build. Generic seed data is the #
 **Acceptance:** readiness computes to ≈68% / ≈70% localization / 4 teachable / 3 expert-dependent. No lorem, no round-number-everything, dates consistent with a 9-month assignment 28 days from its end. **Fictional org explicitly not implied to be Peace Corps** (spec §DEMO SCENARIO).
 
 ### B4 · Readiness engine — ~1.5h · delegate this
-Pure functions, no AI, per v0.1 §4. Each returns `{value, inputs, formula}` so the UI can render a **"how this is calculated"** popover — the spec is explicit that no score may be unexplained. Weights in one exported const, surfaced verbatim.
+
+Pure functions, no AI, no I/O. Each returns `{value, inputs, formula}` so the UI
+can render a **"how this is calculated"** popover — the spec is explicit that no
+score may be unexplained.
+
+```
+capability_localization  = critical caps with >=1 local counterpart at level >=4 / critical caps
+locally_teachable        = count(caps with >=1 counterpart at level 6)
+expert_dependent         = critical caps where the expert is capable AND no local >=4
+local_ownership          = areas with a validated local owner / critical areas
+formal_transfer          = formal requirements complete / total formal
+informal_transfer        = informal requirements with validated capture / total informal
+trainer_coverage         = areas with >=1 local trainer / critical areas
+
+operating_model_readiness = 0.25*local_ownership + 0.30*capability_localization
+                          + 0.15*formal_transfer + 0.20*informal_transfer
+                          + 0.10*trainer_coverage
+```
+
+Thresholds: level ≥ `LEVEL_INDEPENDENT` (4) is localized; level == `LEVEL_TEACHER`
+(6) is teachable. Both live in `contracts/vocabulary.py`.
+
+Weights sit in one exported const and are surfaced verbatim in the popover. They
+are **per-engagement tunable** (§0.5 puts weights in the database, the formula
+shape in code), so they are a parameter with a documented default — never a
+literal inside a function.
+
+**Seed must be tuned so this yields ≈68% pre-demo and visibly increments after
+validation.** That is a B3 acceptance criterion, not an accident.
 
 ### B5 · Read-surface routes — ~2h · delegate this
 Services + routes producing the frozen view models for Overview, Operating Model, Transfer Blueprint, People, Knowledge. Mechanical once B1/B3 land.
@@ -265,11 +319,58 @@ Single-person serial estimate for the same scope ≈ 20h. **The two-track split 
 
 ## 7. Benchmark results
 
-*Filled during SYNC-1 spike.*
+Measured on `SessionSynthesis` — 4 heterogeneous nested findings, the hardest
+structured output in the product. If this holds, every other schema is easier.
+5 runs each. Scripts: `scripts/spike_structured_output.py` (paths A/B),
+`scripts/spike_diagnose.py` (cause isolation), `scripts/spike_decide.py` (decision).
 
-| Model | Schema | Structured-output path | Runs | Valid | p50 | p95 | Cold start | Decision |
-|---|---|---|---|---|---|---|---|---|
-| `gemma4:31b-cloud` | `SessionSynthesis` | `response_format` vs `format=` | 5 | — | — | — | — | — |
+| Model | Path | Valid | p50 | max |
+|---|---|---|---|---|
+| `gemma4:31b-cloud` | `response_format` json_schema (OpenAI-compat) | **0/5** | 3.7s | — |
+| `gemma4:31b-cloud` | `format=<schema>` (Ollama native) | **0/5** | 3.7s | — |
+| `gemma4:31b-cloud` | unconstrained + schema in the prompt | **5/5** | **3.9s** | 16.1s |
+| `gpt-oss:20b` (local) | `format=<schema>` constrained | **5/5** | 46.1s | 57.7s |
+| `qwen3.5` (local) | `format=<schema>` constrained | **5/5** | 186.9s | 207.6s |
+
+**What the failures actually were.** Not malformed JSON — markdown prose. The
+cloud model never attempted JSON, which is the signature of the constraint
+never reaching the sampler.
+
+**Root cause (confirmed on a two-field schema, so complexity is excluded):**
+Ollama's cloud routing drops constrained decoding. Both `format=<schema>` and
+`format="json"` are no-ops on cloud-routed models; the same calls bind
+correctly on local models. This is a property of the routing, not of gemma.
+
+**Decision — primary path: `gemma4:31b-cloud`, unconstrained, schema in the prompt.**
+12× faster than the nearest constrained alternative and 5/5 valid on the
+hardest schema we have. The reasoning quality is also visibly better, which
+matters because the synthesis output *is* the demo.
+
+**What we give up, and what covers it.** Prompt-obedience is not a guarantee
+the way grammar-constrained sampling is. Three things make that acceptable:
+
+1. Every response is validated against the Pydantic model on our side. An
+   unvalidated model response never reaches the database or a template.
+2. One bounded retry on schema violation, same provider, appending the
+   validation error to the prompt. This is a retry of the *same* path — not a
+   provider substitution, so it does not violate the fail-loud policy.
+3. Second failure → `ErrorPartialVM`, HTTP 502, nothing saved. Designed error
+   state, not a stack trace, and never placeholder analysis.
+
+**Offline path: `gpt-oss:20b`, constrained, selected by `RELAY_MODEL`.** If the
+venue has no network, this is one env var and it is genuinely constrained — a
+worse demo but a working one. 46s is too slow for live synthesis on stage, so
+it runs behind the `ai_cache` (§4 B2) if we need it.
+
+> ⚠️ **Not automatic.** Nothing falls back on its own. If the cloud provider is
+> unreachable, RELAY errors. Switching to the local path is a deliberate act by
+> a human with an env var.
+
+**Also settled:** the OpenAI-compatible endpoint (`/v1/chat/completions`) works
+against Ollama, so `openai` SDK + `base_url` remains the single code path for
+ollama / xAI / OpenAI. The `response_format` *field* is what the cloud route
+ignores — the endpoint itself is fine. We put the schema in the prompt and
+validate ourselves, which is provider-portable anyway.
 
 ---
 

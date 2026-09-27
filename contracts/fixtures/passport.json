@@ -1,0 +1,188 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": true
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "person": {
+    "id": "p-yusuf",
+    "name": "Yusuf Haddad",
+    "title": "Plant Operations Officer",
+    "role": "counterpart",
+    "initials": "YH"
+  },
+  "capabilities": [
+    {
+      "capability_id": "c-brine",
+      "capability": "Brine Discharge Judgment",
+      "level": 3,
+      "level_label": "Performed with Supervision",
+      "exposures": 4,
+      "last_demonstrated": "2026-09-18",
+      "next_experience": "Lead next discharge window",
+      "trainer_ready": false
+    },
+    {
+      "capability_id": "c-membrane",
+      "capability": "Membrane Fouling Diagnosis",
+      "level": 5,
+      "level_label": "Demonstrated Repeatedly",
+      "exposures": 9,
+      "last_demonstrated": "2026-09-22",
+      "next_experience": "Teach-back session",
+      "trainer_ready": false
+    },
+    {
+      "capability_id": "c-chem",
+      "capability": "Chemical Dosing Adjustment",
+      "level": 6,
+      "level_label": "Can Teach Others",
+      "exposures": 12,
+      "last_demonstrated": "2026-09-24",
+      "next_experience": null,
+      "trainer_ready": true
+    },
+    {
+      "capability_id": "c-outage",
+      "capability": "Unplanned Outage Response",
+      "level": 1,
+      "level_label": "Observed",
+      "exposures": 1,
+      "last_demonstrated": "2026-08-30",
+      "next_experience": "Shadow next drill",
+      "trainer_ready": false
+    },
+    {
+      "capability_id": "c-report",
+      "capability": "Regulatory Submission",
+      "level": 4,
+      "level_label": "Performed Independently",
+      "exposures": 6,
+      "last_demonstrated": "2026-09-11",
+      "next_experience": null,
+      "trainer_ready": false
+    }
+  ],
+  "evidence_count": 18,
+  "knowledge_exposed": [
+    {
+      "id": "k-1",
+      "title": "Why a static cover threshold fails in rising demand",
+      "type": "heuristic",
+      "type_label": "Heuristics",
+      "area": "Chemical Supply Chain",
+      "capability": "Brine Discharge Judgment",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-1",
+      "validated": true,
+      "people_exposed": [
+        "Yusuf Haddad",
+        "Omar Salim"
+      ],
+      "summary": "Static cover thresholds assume a flat consumption rate. When consumption is climbing, nominal cover overstates real cover."
+    },
+    {
+      "id": "k-2",
+      "title": "Membrane differential-pressure signature before fouling",
+      "type": "expert_insight",
+      "type_label": "Expert Insights",
+      "area": "Membrane Maintenance",
+      "capability": "Membrane Fouling Diagnosis",
+      "expert": "Dr. Elena Vasquez",
+      "source_session": "s-2",
+      "validated": true,
+      "people_exposed": [
+        "Yusuf Haddad"
+      ],
+      "summary": "Pressure differential rises before flux drops. The gap between the two indicates the fouling mechanism."
+    }
+  ]
+}

@@ -1,21 +1,82 @@
-# env
-.venv/
+# ── secrets ── never commit credentials; copy .env.example → .env locally
 .env
-.env.local
+.env.*
+!.env.example
+*.env
+.envrc
+.secrets
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+credentials*.json
+service-account*.json
+client_secret*.json
+*.token
+.netrc
+.pypirc
 
-# python
+# ── python / uv ── recreated per machine by `uv sync`; never share across OSes
+.venv/
+venv/
+env/
 __pycache__/
 *.py[cod]
+*.egg-info/
+build/
+dist/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+instance/
 
-# data — seeded from seed/, never committed
+# ── data ── seeded from seed/, never committed (includes the AI cache)
 *.db
 *.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
 *.sqlite3
 
-# editors / os
+# ── logs / temp ──
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# ── editors ──
 .vscode/
 .idea/
+*.sublime-workspace
+
+# ── macOS ──
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# ── Windows ──
 Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ── Linux ──
+.directory
+.Trash-*
+.nfs*

@@ -1,0 +1,78 @@
+{#- Readiness (F3). Context: ReadinessVM — shell, metrics, areas, risks,
+    before_departure, propagation, propagation_capability. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% import "macros/charts.html" as charts %}
+{% block title %}Readiness{% endblock %}
+
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">Operating model readiness</span>
+    <h1>Can the organization operate without the expert?</h1>
+    <p>Formal and informal transfer, local ownership and what must happen before departure.</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stack stack--lg">
+<div class="metric-row">
+  {% for m in metrics %}{{ ui.metric_tile(m, emphasis=loop.first) }}{% endfor %}
+</div>
+
+{% call ui.panel('Readiness by area', subtitle='Formal knowledge is documented; informal knowledge is experiential', flush=True) %}
+  {% if areas %}
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr><th>Area</th><th>Formal</th><th>Informal</th><th>Local owner</th><th class="is-min">Status</th></tr>
+      </thead>
+      <tbody>
+        {% for a in areas %}
+        <tr>
+          <td><a class="rows__title" href="{{ href('area_detail', area_id=a.id) }}">{{ a.name }}</a></td>
+          <td>{{ charts.bar(a.formal_pct, max=100, series='formal') }}</td>
+          <td>{{ charts.bar(a.informal_pct, max=100, series='informal') }}</td>
+          <td>{{ ui.person(a.local_owner) }}</td>
+          <td class="is-min">{{ ui.status_badge(a.status, 'sm') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  {{ ui.empty('No operating-model areas assessed yet.') }}
+  {% endif %}
+{% endcall %}
+
+<div class="grid-2">
+  {% call ui.panel('Before departure', subtitle='What must happen for the organization to stand alone') %}
+    {{ ui.action_list(before_departure, empty_text='Nothing outstanding before departure.') }}
+  {% endcall %}
+
+  {% call ui.panel('Knowledge at risk', tone='risk') %}
+    {% if risks %}
+    <ul class="rows">
+      {% for r in risks %}
+      <li class="rows__item rows__item--top">
+        <div class="rows__main">
+          <span class="rows__title">{{ r.title }}</span>
+          <span class="rows__meta">{{ r.problem }}</span>
+          <span class="rows__meta">Recommended: {{ r.recommended_action }}</span>
+        </div>
+        {{ ui.status_badge(r.severity, 'sm') }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {{ ui.empty('No capabilities are currently at risk.') }}
+    {% endif %}
+  {% endcall %}
+</div>
+
+{% call ui.panel('Knowledge propagation', subtitle=('How ' ~ propagation_capability ~ ' has spread from the original holder') if propagation_capability else 'How expertise is spreading from the original holder', id='propagation') %}
+  {{ charts.propagation_from_children(propagation, label='Knowledge propagation' ~ (': ' ~ propagation_capability if propagation_capability else '')) }}
+{% endcall %}
+</div>
+{% endblock %}

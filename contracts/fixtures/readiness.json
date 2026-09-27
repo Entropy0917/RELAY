@@ -1,0 +1,313 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": false
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": true
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "metrics": [
+    {
+      "label": "Transfer Readiness",
+      "value": "64%",
+      "caption": "6 areas assessed",
+      "delta": "+7",
+      "formula": "mean(area_readiness) weighted by area criticality",
+      "inputs": {
+        "areas_assessed": "6",
+        "critical_areas": "1",
+        "weighted_sum": "3.84"
+      }
+    },
+    {
+      "label": "Days Until Departure",
+      "value": "31 days",
+      "caption": "Handover window",
+      "delta": null,
+      "formula": "departure_date - today",
+      "inputs": {
+        "departure_date": "2026-10-27"
+      }
+    },
+    {
+      "label": "Capabilities Localized",
+      "value": "2 of 5",
+      "caption": "Level 4 or above",
+      "delta": "+1",
+      "formula": "count(level >= LEVEL_INDEPENDENT) / count(capabilities)",
+      "inputs": {
+        "threshold": "4",
+        "at_or_above": "2",
+        "total": "5"
+      }
+    },
+    {
+      "label": "Locally Teachable",
+      "value": "1 of 5",
+      "caption": "Level 6",
+      "delta": null,
+      "formula": "count(level == LEVEL_TEACHER)",
+      "inputs": {
+        "at_level_6": "1"
+      }
+    }
+  ],
+  "areas": [
+    {
+      "id": "a-ops",
+      "name": "Plant Operations",
+      "local_owner": {
+        "id": "p-omar",
+        "name": "Omar Salim",
+        "title": "Shift Supervisor",
+        "role": "counterpart",
+        "initials": "OS"
+      },
+      "formal_pct": 70,
+      "informal_pct": 30,
+      "local_capability": "Strong",
+      "trainer_coverage": true,
+      "status": "on_track",
+      "status_label": "On Track"
+    },
+    {
+      "id": "a-membrane",
+      "name": "Membrane Maintenance",
+      "local_owner": {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      "formal_pct": 55,
+      "informal_pct": 45,
+      "local_capability": "Developing",
+      "trainer_coverage": true,
+      "status": "in_progress",
+      "status_label": "Transfer in Progress"
+    },
+    {
+      "id": "a-quality",
+      "name": "Water Quality Assurance",
+      "local_owner": {
+        "id": "p-nadia",
+        "name": "Nadia Karim",
+        "title": "Water Quality Analyst",
+        "role": "counterpart",
+        "initials": "NK"
+      },
+      "formal_pct": 80,
+      "informal_pct": 20,
+      "local_capability": "Strong",
+      "trainer_coverage": false,
+      "status": "sustainable",
+      "status_label": "Sustainable"
+    },
+    {
+      "id": "a-supply",
+      "name": "Chemical Supply Chain",
+      "local_owner": null,
+      "formal_pct": 40,
+      "informal_pct": 60,
+      "local_capability": "Limited",
+      "trainer_coverage": false,
+      "status": "at_risk",
+      "status_label": "At Risk"
+    },
+    {
+      "id": "a-reg",
+      "name": "Regulatory Reporting",
+      "local_owner": {
+        "id": "p-nadia",
+        "name": "Nadia Karim",
+        "title": "Water Quality Analyst",
+        "role": "counterpart",
+        "initials": "NK"
+      },
+      "formal_pct": 85,
+      "informal_pct": 15,
+      "local_capability": "Developing",
+      "trainer_coverage": false,
+      "status": "in_progress",
+      "status_label": "Transfer in Progress"
+    },
+    {
+      "id": "a-emergency",
+      "name": "Emergency Response",
+      "local_owner": null,
+      "formal_pct": 30,
+      "informal_pct": 70,
+      "local_capability": "Limited",
+      "trainer_coverage": false,
+      "status": "critical",
+      "status_label": "Critical"
+    }
+  ],
+  "risks": [
+    {
+      "severity": "critical",
+      "title": "Emergency Response has no local owner",
+      "problem": "Outage response judgment sits entirely with the departing expert; the highest local level is 1 (Observed).",
+      "local_trainer": null,
+      "recommended_action": "Schedule two supervised drills before departure."
+    },
+    {
+      "severity": "at_risk",
+      "title": "Supplier relationships are undocumented",
+      "problem": "Chemical procurement runs on personal relationships with two regional suppliers. Nothing is written down.",
+      "local_trainer": null,
+      "recommended_action": "Run a relationship-transfer session with joint supplier calls."
+    },
+    {
+      "severity": "in_progress",
+      "title": "Brine discharge judgment not yet independent",
+      "problem": "Learner explains the reasoning but has not led a discharge decision.",
+      "local_trainer": "Omar Salim",
+      "recommended_action": "Assign lead role on the next discharge window."
+    }
+  ],
+  "before_departure": [
+    "Two supervised outage drills",
+    "Joint supplier calls with both regional vendors",
+    "One teach-back on membrane fouling led by Yusuf Haddad"
+  ],
+  "propagation": [
+    {
+      "person": {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      "taught_by": null,
+      "children": [
+        "p-yusuf",
+        "p-omar"
+      ]
+    },
+    {
+      "person": {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      "taught_by": "p-expert",
+      "children": [
+        "p-nadia"
+      ]
+    },
+    {
+      "person": {
+        "id": "p-omar",
+        "name": "Omar Salim",
+        "title": "Shift Supervisor",
+        "role": "counterpart",
+        "initials": "OS"
+      },
+      "taught_by": "p-expert",
+      "children": []
+    },
+    {
+      "person": {
+        "id": "p-nadia",
+        "name": "Nadia Karim",
+        "title": "Water Quality Analyst",
+        "role": "counterpart",
+        "initials": "NK"
+      },
+      "taught_by": "p-yusuf",
+      "children": []
+    }
+  ],
+  "propagation_capability": "Membrane Fouling Diagnosis"
+}

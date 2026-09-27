@@ -1,0 +1,305 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": false
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": true
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": false
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "session": {
+    "id": "s-1",
+    "title": "Brine Discharge Window -- North Basin",
+    "date": "2026-09-25",
+    "stage": "synthesis",
+    "stage_label": "AI Synthesis",
+    "expert": {
+      "id": "p-expert",
+      "name": "Dr. Elena Vasquez",
+      "title": "Lead Process Engineer",
+      "role": "expert",
+      "initials": "EV"
+    },
+    "learners": [
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-omar",
+        "name": "Omar Salim",
+        "title": "Shift Supervisor",
+        "role": "counterpart",
+        "initials": "OS"
+      }
+    ],
+    "capability_focus": "Brine Discharge Judgment"
+  },
+  "stage": "synthesis",
+  "stages": [
+    {
+      "key": "prepare",
+      "label": "Prepare",
+      "state": "done"
+    },
+    {
+      "key": "capture",
+      "label": "Capture",
+      "state": "done"
+    },
+    {
+      "key": "expert_debrief",
+      "label": "Expert Debrief",
+      "state": "done"
+    },
+    {
+      "key": "learner_debrief",
+      "label": "Learner Debrief",
+      "state": "done"
+    },
+    {
+      "key": "synthesis",
+      "label": "AI Synthesis",
+      "state": "current"
+    },
+    {
+      "key": "validation",
+      "label": "Validation",
+      "state": "todo"
+    },
+    {
+      "key": "next_action",
+      "label": "Next Action",
+      "state": "todo"
+    }
+  ],
+  "brief": {
+    "primary_target": "Yusuf Haddad",
+    "current_level": "Level 3 -- Performed with Supervision",
+    "todays_objective": "Move toward independent judgment on discharge timing.",
+    "your_role": "Let him reach the decision first. Intervene only on safety.",
+    "ask_before_explaining": "What would you do if the tide window closed early?",
+    "watch_for": [
+      "Whether he checks the salinity trend, not just the instantaneous reading",
+      "Whether he considers permit exposure unprompted"
+    ],
+    "knowledge_gap_to_explore": "How you decide between delaying discharge and reducing production rate."
+  },
+  "transcript": "Expert and learner reviewed the discharge window for the north basin. The permitted salinity ceiling is 55 g/L...",
+  "notes": "The learner raised the tide-window conflict unprompted.",
+  "expert_questions": [
+    {
+      "id": "eq-1",
+      "question": "What made you treat this window differently from the standard rule?",
+      "answer": "Four things together -- salinity trend, tide window, a stale sample, and the permit renewal date."
+    }
+  ],
+  "learner_questions": [
+    {
+      "id": "lq-1",
+      "question": "Why was nominal cover concerning when it exceeded the threshold?",
+      "answer": "Because the threshold assumes last month's rate."
+    },
+    {
+      "id": "lq-2",
+      "question": "What if redistribution were not possible?",
+      "answer": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "kind": "capability_evidence",
+      "title": "Evidence for Brine Discharge Judgment",
+      "body": {
+        "person": "Yusuf Haddad",
+        "capability": "Brine Discharge Judgment",
+        "evidence": "Identified that nominal cover overstated real cover because consumption was climbing, and named four converging signals.",
+        "current_level": 3,
+        "suggested_level": 4
+      },
+      "confidence": "high",
+      "evidence_sources": [
+        "Transcript 04:12-06:40",
+        "Learner debrief Q2"
+      ],
+      "rationale": "The reasoning was volunteered before the expert explained it, which distinguishes independent judgment from recall.",
+      "impact": "Plant Operations -- Decision Rights",
+      "risk_if_untransferred": "Discharge timing decisions would escalate to the regional office, adding days to each cycle.",
+      "validated_by": null,
+      "validation_action": null
+    },
+    {
+      "id": "f-2",
+      "kind": "tacit_knowledge",
+      "title": "Check neighbouring capacity before emergency procurement",
+      "body": {
+        "situation": "Cover appears adequate but the trend is adverse.",
+        "observed_signals": [
+          "Consumption rose sharply over two weeks",
+          "Last physical count several days stale",
+          "Supplier lead times lengthening"
+        ],
+        "expert_reasoning": "Any one signal alone is noise. Together they mean the static threshold is measuring the wrong thing.",
+        "recommended_response": "Check genuine surplus at nearby sites before initiating emergency procurement."
+      },
+      "confidence": "medium",
+      "evidence_sources": [
+        "Expert debrief Q1"
+      ],
+      "rationale": "The expert stated a rule she applies but which appears in no written procedure.",
+      "impact": "Chemical Supply Chain -- Processes",
+      "risk_if_untransferred": "Emergency procurement would be triggered unnecessarily, at roughly three times unit cost.",
+      "validated_by": null,
+      "validation_action": null
+    },
+    {
+      "id": "f-3",
+      "kind": "remaining_gap",
+      "title": "Escalation path not yet demonstrated",
+      "body": {
+        "capability": "Brine Discharge Judgment",
+        "understands": "Can explain when escalation is warranted.",
+        "not_yet_demonstrated": [
+          "Has never initiated an emergency procurement request",
+          "Has not negotiated a lead-time exception with a supplier"
+        ]
+      },
+      "confidence": "high",
+      "evidence_sources": [
+        "Learner debrief Q3"
+      ],
+      "rationale": "The learner said so directly.",
+      "impact": "Chemical Supply Chain -- Decision Rights",
+      "risk_if_untransferred": "The first real escalation after departure would be attempted without precedent.",
+      "validated_by": null,
+      "validation_action": null
+    },
+    {
+      "id": "f-4",
+      "kind": "next_activity",
+      "title": "Next: lead a supervised escalation",
+      "body": {
+        "objective": "Move Brine Discharge Judgment from level 4 to level 5.",
+        "recommended_experience": "Learner leads the next discharge window end to end, including any escalation.",
+        "learner_responsibilities": [
+          "Make the go/no-go call and state the reasoning first",
+          "Draft the escalation request unaided"
+        ],
+        "expert_role": "Observe. Intervene only on permit or safety exposure."
+      },
+      "confidence": "medium",
+      "evidence_sources": [
+        "Finding f-1",
+        "Finding f-3"
+      ],
+      "rationale": "Targets the specific gap the session surfaced.",
+      "impact": "Plant Operations -- Capabilities",
+      "risk_if_untransferred": "The capability plateaus at supervised performance.",
+      "validated_by": null,
+      "validation_action": null
+    }
+  ],
+  "next_brief": {
+    "primary_target": "Yusuf Haddad",
+    "current_level": "Level 3 -- Performed with Supervision",
+    "todays_objective": "Move toward independent judgment on discharge timing.",
+    "your_role": "Let him reach the decision first. Intervene only on safety.",
+    "ask_before_explaining": "What would you do if the tide window closed early?",
+    "watch_for": [
+      "Whether he checks the salinity trend, not just the instantaneous reading",
+      "Whether he considers permit exposure unprompted"
+    ],
+    "knowledge_gap_to_explore": "How you decide between delaying discharge and reducing production rate."
+  },
+  "can_act": true,
+  "blocked_reason": null
+}

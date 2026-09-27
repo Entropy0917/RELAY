@@ -1,0 +1,39 @@
+{#- Operating Model (F3). Context: OperatingModelVM — shell, mission, areas.
+    Each area card opens area_detail in #drawer; the href is the no-JS fallback. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% import "macros/charts.html" as charts %}
+{% block title %}Operating Model{% endblock %}
+
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">{{ shell.current_engagement.org }} · Operating model</span>
+    <h1>{{ shell.current_engagement.name }}</h1>
+    <p>{{ mission }}</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if areas %}
+<div class="grid-auto">
+  {% for a in areas %}
+  <a class="card" href="{{ href('area_detail', area_id=a.id) }}" hx-get="{{ href('area_detail', area_id=a.id) }}" hx-target="#drawer">
+    <div class="card__head">
+      <h2 class="card__title">{{ a.name }}</h2>
+      {{ ui.status_badge(a.status, 'sm') }}
+    </div>
+    {{ charts.dual_bar(a.formal_pct, a.informal_pct, max=100) }}
+    <div class="card__foot">
+      {{ ui.person(a.local_owner, link=False) }}
+      <span class="tag">{{ a.local_capability }} capability</span>
+      <span class="tag">{{ 'Trainer coverage' if a.trainer_coverage else 'No trainer' }}</span>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+{{ ui.empty('No operating-model areas defined yet.') }}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,188 @@
+{
+  "shell": {
+    "nav": [
+      {
+        "key": "overview",
+        "label": "Overview",
+        "href": "/",
+        "active": false
+      },
+      {
+        "key": "operating_model",
+        "label": "Operating Model",
+        "href": "/operating-model",
+        "active": true
+      },
+      {
+        "key": "blueprint",
+        "label": "Transfer Blueprint",
+        "href": "/blueprint",
+        "active": false
+      },
+      {
+        "key": "session_list",
+        "label": "Sessions",
+        "href": "/sessions",
+        "active": false
+      },
+      {
+        "key": "knowledge",
+        "label": "Knowledge",
+        "href": "/knowledge",
+        "active": false
+      },
+      {
+        "key": "people",
+        "label": "People",
+        "href": "/people",
+        "active": false
+      },
+      {
+        "key": "readiness",
+        "label": "Readiness",
+        "href": "/readiness",
+        "active": false
+      }
+    ],
+    "engagements": [
+      {
+        "id": "eng-desal",
+        "name": "Coastal Desalination Handover",
+        "org": "Al-Rima Water Authority"
+      },
+      {
+        "id": "eng-grid",
+        "name": "Grid Reliability Transfer",
+        "org": "Northern Power Company"
+      }
+    ],
+    "current_engagement": {
+      "id": "eng-desal",
+      "name": "Coastal Desalination Handover",
+      "org": "Al-Rima Water Authority"
+    },
+    "personas": [
+      {
+        "id": "p-expert",
+        "name": "Dr. Elena Vasquez",
+        "title": "Lead Process Engineer",
+        "role": "expert",
+        "initials": "EV"
+      },
+      {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      {
+        "id": "p-lina",
+        "name": "Lina Farouk",
+        "title": "Programme Director",
+        "role": "manager",
+        "initials": "LF"
+      }
+    ],
+    "current_persona": {
+      "id": "p-lina",
+      "name": "Lina Farouk",
+      "title": "Programme Director",
+      "role": "manager",
+      "initials": "LF"
+    }
+  },
+  "mission": "Deliver potable water to the coastal district at permitted quality and cost, operated entirely by the local authority.",
+  "areas": [
+    {
+      "id": "a-ops",
+      "name": "Plant Operations",
+      "local_owner": {
+        "id": "p-omar",
+        "name": "Omar Salim",
+        "title": "Shift Supervisor",
+        "role": "counterpart",
+        "initials": "OS"
+      },
+      "formal_pct": 70,
+      "informal_pct": 30,
+      "local_capability": "Strong",
+      "trainer_coverage": true,
+      "status": "on_track",
+      "status_label": "On Track"
+    },
+    {
+      "id": "a-membrane",
+      "name": "Membrane Maintenance",
+      "local_owner": {
+        "id": "p-yusuf",
+        "name": "Yusuf Haddad",
+        "title": "Plant Operations Officer",
+        "role": "counterpart",
+        "initials": "YH"
+      },
+      "formal_pct": 55,
+      "informal_pct": 45,
+      "local_capability": "Developing",
+      "trainer_coverage": true,
+      "status": "in_progress",
+      "status_label": "Transfer in Progress"
+    },
+    {
+      "id": "a-quality",
+      "name": "Water Quality Assurance",
+      "local_owner": {
+        "id": "p-nadia",
+        "name": "Nadia Karim",
+        "title": "Water Quality Analyst",
+        "role": "counterpart",
+        "initials": "NK"
+      },
+      "formal_pct": 80,
+      "informal_pct": 20,
+      "local_capability": "Strong",
+      "trainer_coverage": false,
+      "status": "sustainable",
+      "status_label": "Sustainable"
+    },
+    {
+      "id": "a-supply",
+      "name": "Chemical Supply Chain",
+      "local_owner": null,
+      "formal_pct": 40,
+      "informal_pct": 60,
+      "local_capability": "Limited",
+      "trainer_coverage": false,
+      "status": "at_risk",
+      "status_label": "At Risk"
+    },
+    {
+      "id": "a-reg",
+      "name": "Regulatory Reporting",
+      "local_owner": {
+        "id": "p-nadia",
+        "name": "Nadia Karim",
+        "title": "Water Quality Analyst",
+        "role": "counterpart",
+        "initials": "NK"
+      },
+      "formal_pct": 85,
+      "informal_pct": 15,
+      "local_capability": "Developing",
+      "trainer_coverage": false,
+      "status": "in_progress",
+      "status_label": "Transfer in Progress"
+    },
+    {
+      "id": "a-emergency",
+      "name": "Emergency Response",
+      "local_owner": null,
+      "formal_pct": 30,
+      "informal_pct": 70,
+      "local_capability": "Limited",
+      "trainer_coverage": false,
+      "status": "critical",
+      "status_label": "Critical"
+    }
+  ]
+}

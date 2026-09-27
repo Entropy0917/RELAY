@@ -1,0 +1,55 @@
+{
+  "days_remaining": 28,
+  "summary": "Four weeks. Spend them on the two things that do not transfer by documentation: the override judgment and the operator relationship.",
+  "actions": [
+    {
+      "week": 1,
+      "action": "Learner leads both condition reviews; expert observes only.",
+      "owner": "M. Dahl",
+      "capability": "Load Trend Interpretation",
+      "why_now": "Independence needs more than one demonstration to be credible."
+    },
+    {
+      "week": 2,
+      "action": "Introduce the local contact on the operator call.",
+      "owner": "A. Lindqvist",
+      "capability": "Window Negotiation",
+      "why_now": "A relationship needs two contacts before it holds on its own."
+    },
+    {
+      "week": 3,
+      "action": "Learner raises the load transfer request unaided.",
+      "owner": "M. Dahl",
+      "capability": "Emergency Load Transfer",
+      "why_now": "Last window before departure where a transfer is actually due."
+    },
+    {
+      "week": 4,
+      "action": "Document the override heuristic and review it with the team.",
+      "owner": "A. Lindqvist",
+      "capability": "Load Trend Interpretation",
+      "why_now": "The only artefact that outlives the handover."
+    }
+  ],
+  "risks": [
+    {
+      "title": "Operator relationship does not transfer",
+      "severity": "critical",
+      "what_stops_working": "Contested windows stop being negotiable locally.",
+      "who_absorbs_it": "",
+      "mitigation": "Two joint calls, then one handed over entirely.",
+      "days_needed": 10
+    },
+    {
+      "title": "Override judgment stays thinly evidenced",
+      "severity": "at_risk",
+      "what_stops_working": "Scheduling reverts to the calendar rule under pressure.",
+      "who_absorbs_it": "M. Dahl",
+      "mitigation": "Two unobserved reviews plus a written heuristic.",
+      "days_needed": 6
+    }
+  ],
+  "still_expert_dependent_at_departure": [
+    "Independent window negotiation with the regional operator."
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "primary_target": "Load Trend Interpretation",
+  "current_level": "Performed with Supervision",
+  "todays_objective": "M. Dahl leads the maintenance-window decision end to end and states the reasoning before A. Lindqvist gives an opinion.",
+  "your_role": "Observe and question. Hand over the decision, and only correct if the choice would cause an unplanned outage.",
+  "ask_before_explaining": "Ask what they would schedule and why, before you say what you would do.",
+  "watch_for": [
+    "Whether they check the load trend rather than the static threshold.",
+    "Whether they ask about the age of the last reading.",
+    "Whether they name the fallback if the window slips."
+  ],
+  "knowledge_gap_to_explore": "Emergency Load Transfer -- they have observed it twice but never led it."
+}

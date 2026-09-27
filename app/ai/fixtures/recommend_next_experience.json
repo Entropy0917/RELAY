@@ -1,0 +1,16 @@
+{
+  "capability": "Emergency Load Transfer",
+  "current_level": 1,
+  "target_level": 2,
+  "rail": "assist",
+  "objective": "M. Dahl assists a live load transfer and drafts the request themselves.",
+  "recommended_experience": "The transfer planned for the adjacent feeder during the next maintenance window.",
+  "learner_responsibilities": [
+    "Draft the transfer request and justify the headroom assessment.",
+    "Identify the fallback if the window slips."
+  ],
+  "expert_role": "Review the draft, then let it go out as written unless it is unsafe.",
+  "rationale": "They can now read the load trend that triggers a transfer, but have only observed the transfer itself.",
+  "risk_if_deferred": "Load transfers stay expert-dependent, which is the decision most likely to be needed in the first month after departure.",
+  "urgency": "high"
+}

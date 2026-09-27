@@ -1,0 +1,3 @@
+{#- ErrorPartialVM — the fail-loud AI error (502). relay.js swaps it into the nearest error slot. -#}
+{% import "macros/ui.html" as ui %}
+{{ ui.error_state({'title': title, 'detail': detail, 'retry_href': retry_href, 'kind': kind}) }}

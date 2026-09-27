@@ -1,0 +1,19 @@
+{
+  "candidates": [
+    {
+      "person": "M. Dahl",
+      "capability": "Load Trend Interpretation",
+      "current_level": 4,
+      "readiness_to_teach": "Can already walk someone through reading the trend. Has not yet explained the override judgment to a third person.",
+      "evidence": [
+        "Two independent demonstrations in the last month.",
+        "Explained the reasoning unprompted in debrief."
+      ],
+      "next_step": "Have them brief P. Okafor on the next review, unaided."
+    }
+  ],
+  "capabilities_with_no_candidate": [
+    "Emergency Load Transfer",
+    "Window Negotiation"
+  ]
+}
