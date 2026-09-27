@@ -369,27 +369,26 @@ class TestNextBrief:
         assert vm.next_brief is None
 
 
-class _Rollback(Exception):
-    """Raised to undo a test's writes to the module-scoped database."""
-
-
 class TestDebriefGeneration:
     """Demo steps 3-4: leaving CAPTURE asks the expert, leaving EXPERT_DEBRIEF asks the learner."""
 
-    def test_questions_generated_from_unsaved_input(self, seeded, primary_id, prepare_session_id):
+    def test_questions_generated_from_unsaved_input(self, conn, primary_id, prepare_session_id):
         from app.ai.schemas.debrief import DebriefQuestion as AIQ, DebriefQuestions
 
-        def fake(label):
-            return lambda ctx: DebriefQuestions(questions=[AIQ(question=f"{label}?", grounded_in="x", looking_for="y")])
-
         seen = {}
-        with pytest.raises(_Rollback), connect(seeded) as conn:
-            scope = Scope(conn, primary_id)
-            scope.update(sessions, prepare_session_id, stage="capture")
-            with patch("app.services.session.generate_expert_debrief",
-                       side_effect=lambda ctx: seen.setdefault("expert", ctx) and fake("E")(ctx)), \
-                 patch("app.services.session.generate_learner_debrief",
-                       side_effect=lambda ctx: seen.setdefault("learner", ctx) and fake("L")(ctx)):
+
+        def fake(role, label):
+            def call(ctx):
+                seen[role] = ctx
+                return DebriefQuestions(questions=[AIQ(question=f"{label}?", grounded_in="x", looking_for="y")])
+            return call
+
+        scope = Scope(conn, primary_id)
+        original = scope.by_id(sessions, prepare_session_id)
+        scope.update(sessions, prepare_session_id, stage="capture")
+        try:
+            with patch("app.services.session.generate_expert_debrief", side_effect=fake("expert", "E")), \
+                 patch("app.services.session.generate_learner_debrief", side_effect=fake("learner", "L")):
                 advance_stage(scope, prepare_session_id, SessionStage.CAPTURE,
                               form_data={"transcript": "NEW TRANSCRIPT"}, as_of=ANCHOR)
                 assert seen["expert"].transcript == "NEW TRANSCRIPT"
@@ -398,12 +397,15 @@ class TestDebriefGeneration:
                 assert [q.question for q in vm.expert_questions] == ["E?"]
 
                 qid = vm.expert_questions[0].id
-                session = scope.by_id(sessions, prepare_session_id)
                 advance_stage(scope, prepare_session_id, SessionStage.EXPERT_DEBRIEF,
                               form_data={f"answer_{qid}": "EXPERT ANSWER"},
-                              persona_id=session.expert_id, as_of=ANCHOR)
+                              persona_id=original.expert_id, as_of=ANCHOR)
                 assert seen["learner"].expert_debrief[0].answer == "EXPERT ANSWER"
                 vm = get_stage_vm(scope, prepare_session_id, SessionStage.LEARNER_DEBRIEF,
                                   _make_shell(), as_of=ANCHOR)
                 assert [q.question for q in vm.learner_questions] == ["L?"]
-            raise _Rollback
+        finally:
+            for row in scope.rows(debriefs, debriefs.c.session_id == prepare_session_id):
+                scope.delete(debriefs, row.id)
+            scope.update(sessions, prepare_session_id, stage=original.stage,
+                         transcript=original.transcript)
