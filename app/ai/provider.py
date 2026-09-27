@@ -36,6 +36,7 @@ DEFAULT_MODEL = "gemma4:31b-cloud"
 DEFAULT_TIMEOUT = 180.0
 
 OLLAMA_HOST = "http://localhost:11434"
+OLLAMA_CLOUD_HOST = "https://ollama.com"
 XAI_BASE_URL = "https://api.x.ai/v1"
 ANTHROPIC_BASE_URL = "https://api.anthropic.com/v1"
 ANTHROPIC_VERSION = "2023-06-01"
@@ -95,6 +96,18 @@ def get_client(provider: str | None = None, model: str | None = None) -> Client:
     if provider == "mock":
         return MockClient(model=model)
     if provider == "ollama":
+        cloud_key = os.environ.get("OLLAMA_API_KEY")
+        if cloud_key:
+            # Direct Ollama cloud API: no local daemon. Model names there are
+            # bare -- the `-cloud` suffix only tells a local daemon to proxy.
+            host = os.environ.get("RELAY_AI_BASE_URL", OLLAMA_CLOUD_HOST).rstrip("/")
+            bare = model[: -len(CLOUD_SUFFIX)] if is_cloud_model(model) else model
+            return OpenAICompatClient(
+                provider="ollama",
+                model=bare,
+                base_url=f"{host}/v1",
+                api_key=cloud_key,
+            )
         host = os.environ.get("RELAY_AI_BASE_URL", OLLAMA_HOST).rstrip("/")
         if is_cloud_model(model):
             # Cloud routing ignores the constraint, so do not pretend otherwise.
