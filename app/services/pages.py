@@ -162,7 +162,10 @@ def _knowledge_card(row, people_map: dict, names: dict[str, str]) -> KnowledgeCa
         expert=expert.name if expert else "",
         source_session=row.session_id if hasattr(row, "session_id") else None,
         validated=bool(row.validated),
-        people_exposed=list(row.people_exposed or []),
+        people_exposed=[
+            people_map[pid].name if pid in people_map else pid
+            for pid in (row.people_exposed or [])
+        ],
         summary=row.summary,
     )
 
@@ -325,6 +328,24 @@ def _requirement_row(row) -> RequirementRow:
 # Overview
 # ---------------------------------------------------------------------------
 
+def _priority_actions(risk_items: list[RiskItem], *, limit: int) -> list[str]:
+    """One line per risk, naming what it is about.
+
+    `recommended_action` is written per risk kind, so three risks of one kind
+    read as the same sentence three times. The subject comes from the title
+    ("<subject> has no ..."), which every register title follows.
+    """
+    out: list[str] = []
+    for r in risk_items:
+        subject = r.title.split(" has ", 1)[0] if " has " in r.title else r.title
+        line = f"{subject}: {r.recommended_action}"
+        if line not in out:
+            out.append(line)
+        if len(out) == limit:
+            break
+    return out
+
+
 def build_overview(scope: Scope, *, as_of: date) -> dict:
     snapshot = readiness_snapshot(scope, as_of=as_of)
     metrics = headline_metrics(snapshot)
@@ -364,7 +385,7 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
         departing_expert=dep_ref,
         days_until_departure=days_rem,
         risks=risk_items[:5],
-        priority_actions=[r.recommended_action for r in risk_items[:3]],
+        priority_actions=_priority_actions(risk_items, limit=3),
         recent_knowledge=recent_knowledge,
         trainer_progress=trainer_progress,
     )
@@ -564,6 +585,7 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
 
 def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
     people_map = {r.id: r for r in scope.rows(people)}
+    names = _display_names(scope)
 
     ki_rows = scope.rows(knowledge_items)
 
@@ -574,16 +596,25 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
             ki_rows = [r for r in ki_rows if r.type == filters["type"]]
             active_filters["type"] = filters["type"]
         if "area" in filters and filters["area"]:
-            ki_rows = [r for r in ki_rows if r.area_id == filters["area"]]
-            active_filters["area"] = filters["area"]
-        if "person" in filters and filters["person"]:
+            # Accept the area id or its display name (the page links by name).
             ki_rows = [
                 r for r in ki_rows
-                if filters["person"] in (r.people_exposed or [])
+                if filters["area"] in (r.area_id, names.get(r.area_id or "", ""))
+            ]
+            active_filters["area"] = filters["area"]
+        if "person" in filters and filters["person"]:
+            # Accept the person id or their display name.
+            wanted = {
+                pid for pid, p in people_map.items()
+                if filters["person"] in (pid, p.name)
+            } or {filters["person"]}
+            ki_rows = [
+                r for r in ki_rows
+                if wanted & set(r.people_exposed or [])
             ]
             active_filters["person"] = filters["person"]
 
-    items = [_knowledge_card(r, people_map, _display_names(scope)) for r in ki_rows]
+    items = [_knowledge_card(r, people_map, names) for r in ki_rows]
 
     # Counts by type (over unfiltered data)
     all_ki = scope.rows(knowledge_items)
@@ -630,7 +661,7 @@ def build_readiness(
         metrics=[_metric_tile(m) for m in metrics.values()],
         areas=areas,
         risks=risk_items,
-        before_departure=[r.recommended_action for r in risk_items[:3]],
+        before_departure=_priority_actions(risk_items, limit=3),
         propagation=propagation,
         propagation_capability=propagation_capability,
     )

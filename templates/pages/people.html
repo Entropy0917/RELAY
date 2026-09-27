@@ -1,0 +1,45 @@
+{#- PeopleVM — experts, local counterparts, local trainers. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% block title %}People{% endblock %}
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">Who holds the capability</span>
+    <h1>People</h1>
+    <p>Every local counterpart has a Capability Passport: demonstrated levels backed by evidence, not courses completed.</p>
+  </div>
+  <div class="page-header__actions">
+    {{ ui.tabs([{'label': 'Experts', 'href': '#experts', 'count': experts|length}, {'label': 'Local counterparts', 'href': '#counterparts', 'count': counterparts|length}, {'label': 'Local trainers', 'href': '#trainers', 'count': trainers|length}], label='Groups') }}
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+{% set trainer_ids = trainers|map(attribute='id')|list %}
+{% for key, title, people, hint in [
+  ('experts', 'Experts', experts, 'Transferring capability before they leave'),
+  ('counterparts', 'Local counterparts', counterparts, 'Building demonstrated capability through real work'),
+  ('trainers', 'Local trainers', trainers, 'Locals who can now teach others'),
+] %}
+<section class="stack stack--sm" id="{{ key }}">
+  <div class="cluster"><h2 class="t-caps">{{ title }}</h2><span class="t-faint t-sm">{{ hint }}</span></div>
+  {% if people %}
+  <div class="grid-auto">
+    {% for p in people %}
+    <a class="card person-card" href="{{ href('passport', person_id=p.id) }}">
+      <div class="card__head">
+        <span class="person"><span class="avatar avatar--lg{{ ' avatar--expert' if p.role == 'expert' }}" aria-hidden="true">{{ p.initials }}</span>
+          <span class="person__text"><span class="card__title">{{ p.name }}</span><span class="person__title">{{ p.title }}</span></span></span>
+      </div>
+      <div class="card__foot">
+        <span class="tag">{{ p.role }}</span>
+        {% if p.id in trainer_ids %}<span class="tag tag--accent">Local trainer</span>{% endif %}
+        <span class="t-faint t-sm person-card__cta">{{ 'Profile' if p.role == 'expert' else 'Capability Passport' }} →</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}{{ ui.empty('No ' ~ title|lower ~ ' yet.') }}{% endif %}
+</section>
+{% endfor %}
+{% endblock %}

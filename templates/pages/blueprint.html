@@ -1,0 +1,51 @@
+{#- BlueprintVM — what must transfer, per operating-model area. -#}
+{% extends "base.html" %}
+{% import "macros/ui.html" as ui %}
+{% import "macros/charts.html" as charts %}
+{% block title %}Transfer Blueprint{% endblock %}
+{% block header %}
+<div class="page-header">
+  <div class="page-header__text">
+    <span class="t-caps">Define what must transfer</span>
+    <h1>Transfer Blueprint</h1>
+    <p>Formal documentation is only part of it. Each area also needs judgment, tacit knowledge, relationships and demonstrated local capability.</p>
+  </div>
+</div>
+<nav class="cluster" aria-label="Areas">{% for b in areas %}<a class="tag" href="#{{ b.area.id }}">{{ b.area.name }}</a>{% endfor %}</nav>
+{% endblock %}
+{% block content %}
+{% for b in areas %}
+{% set a = b.area %}
+<section class="card blueprint" id="{{ a.id }}" aria-labelledby="{{ a.id }}-h">
+  <header class="card__head">
+    <div class="stack stack--sm">
+      <h2 class="blueprint__title" id="{{ a.id }}-h"><a href="{{ href('area_detail', area_id=a.id) }}">{{ a.name }}</a></h2>
+      <div class="cluster t-sm t-muted"><span>Local owner</span>{{ ui.person(a.local_owner) }}<span class="t-faint">·</span><span>Local capability: {{ a.local_capability }}</span><span class="t-faint">·</span><span>Trainer coverage: {{ 'Yes' if a.trainer_coverage else 'None yet' }}</span></div>
+    </div>
+    <div class="cluster"><span class="t-caps">Transfer risk</span>{{ ui.status_badge(b.transfer_risk) }}</div>
+  </header>
+
+  <div class="blueprint__body">
+    <div class="blueprint__groups">
+      {% for kind, rows in b.groups.items() %}
+      <div class="blueprint__group">
+        <div class="t-caps">{{ vocab.REQUIREMENT_LABEL[kind] }}</div>
+        <ul class="glyph-list">{% for r in rows %}<li title="{{ r.description }}">{{ ui.transfer_glyph(r.state, r.label) }}</li>{% endfor %}</ul>
+      </div>
+      {% endfor %}
+    </div>
+    <aside class="blueprint__aside stack">
+      <div class="stack stack--sm"><div class="t-caps">Knowledge transfer</div>{{ charts.dual_bar(a.formal_pct, a.informal_pct, max=100) }}</div>
+      <div class="stack stack--sm">
+        <div class="t-caps">Local capability</div>
+        {% if b.local_capability %}
+        <ul class="rows rows--stacked">{% for c in b.local_capability %}<li class="rows__item"><span class="rows__title">{{ c.capability }}</span>{{ ui.capability_chip(c.level) }}</li>{% endfor %}</ul>
+        {% else %}<p class="t-faint t-sm">No local person has been exposed yet.</p>{% endif %}
+      </div>
+    </aside>
+  </div>
+</section>
+{% else %}
+{{ ui.empty('No transfer requirements defined yet.', 'They are created from the operating model review.') }}
+{% endfor %}
+{% endblock %}

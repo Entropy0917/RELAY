@@ -417,69 +417,92 @@ class TestCapabilityRow:
         assert vm.row.capability_id == pc.capability_id
 
 
+JSON = {"Accept": "application/json"}
+
+
 class TestRoutes:
 
+
     def test_overview_route(self, client):
-        res = client.get("/")
+        res = client.get("/", headers=JSON)
         assert res.status_code == 200
         assert "metrics" in res.json
         assert "shell" in res.json
 
     def test_operating_model_route(self, client):
-        res = client.get("/operating-model")
+        res = client.get("/operating-model", headers=JSON)
         assert res.status_code == 200
         assert "areas" in res.json
 
     def test_area_detail_route(self, client, conn, primary_id):
         scope = Scope(conn, primary_id)
         areas = scope.rows(operating_model_areas)
-        res = client.get(f"/operating-model/{areas[0].id}")
+        res = client.get(f"/operating-model/{areas[0].id}", headers=JSON)
         assert res.status_code == 200
         assert res.json["area"]["id"] == areas[0].id
 
     def test_area_detail_404(self, client):
-        res = client.get("/operating-model/nonexistent")
+        res = client.get("/operating-model/nonexistent", headers=JSON)
         assert res.status_code == 404
 
     def test_blueprint_route(self, client):
-        res = client.get("/blueprint")
+        res = client.get("/blueprint", headers=JSON)
         assert res.status_code == 200
         assert "areas" in res.json
 
     def test_people_route(self, client):
-        res = client.get("/people")
+        res = client.get("/people", headers=JSON)
         assert res.status_code == 200
         assert "experts" in res.json
 
     def test_passport_route(self, client, conn, primary_id):
         scope = Scope(conn, primary_id)
         p = scope.rows(people)[0]
-        res = client.get(f"/people/{p.id}")
+        res = client.get(f"/people/{p.id}", headers=JSON)
         assert res.status_code == 200
         assert res.json["person"]["id"] == p.id
 
     def test_passport_404(self, client):
-        res = client.get("/people/nonexistent")
+        res = client.get("/people/nonexistent", headers=JSON)
         assert res.status_code == 404
 
     def test_knowledge_route(self, client):
-        res = client.get("/knowledge")
+        res = client.get("/knowledge", headers=JSON)
         assert res.status_code == 200
         assert "items" in res.json
 
     def test_readiness_route(self, client):
-        res = client.get("/readiness")
+        res = client.get("/readiness", headers=JSON)
         assert res.status_code == 200
         assert "metrics" in res.json
 
     def test_capability_row_route(self, client, conn, primary_id):
         scope = Scope(conn, primary_id)
         pc = scope.rows(person_capabilities)[0]
-        res = client.get(f"/people/{pc.person_id}/capability/{pc.capability_id}")
+        res = client.get(f"/people/{pc.person_id}/capability/{pc.capability_id}", headers=JSON)
         assert res.status_code == 200
         assert res.json["row"]["capability_id"] == pc.capability_id
 
     def test_capability_row_404(self, client):
-        res = client.get("/people/nonexistent/capability/nonexistent")
+        res = client.get("/people/nonexistent/capability/nonexistent", headers=JSON)
         assert res.status_code == 404
 
+
+
+class TestRoutesRenderHTML:
+    """SYNC-2: every read route renders its template against the real database."""
+
+    def test_pages_render(self, client, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        area = scope.rows(operating_model_areas)[0]
+        person = scope.rows(people)[0]
+        pc = scope.rows(person_capabilities)[0]
+        for path in ["/", "/operating-model", f"/operating-model/{area.id}", "/blueprint",
+                     "/people", f"/people/{person.id}", "/knowledge", "/readiness", "/sessions",
+                     f"/people/{pc.person_id}/capability/{pc.capability_id}"]:
+            res = client.get(path)
+            assert res.status_code == 200, (path, res.text[:300])
+            assert res.mimetype == "text/html", path
+
+    def test_format_json_still_available(self, client):
+        assert "metrics" in client.get("/?format=json").json

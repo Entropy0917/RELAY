@@ -25,6 +25,7 @@ from flask import (
 
 from app.ai.errors import AIError
 from app.db.connection import connect
+from app.preview import render_vm, wants_json
 from app.db.schema import engagements, people, sessions
 from app.db.scoped import Scope, list_engagements, primary_engagement
 from app.services.session import (
@@ -165,8 +166,7 @@ def index():
         scope = Scope(conn, engagement_id)
         shell = _build_shell(conn, engagement_id, persona_id)
         data = list_sessions(scope)
-        vm = SessionListVM(shell=shell, **data)
-        return vm.model_dump()
+        return render_vm("session_list", SessionListVM(shell=shell, **data))
 
 
 @bp.route("/sessions/<session_id>/<stage>")
@@ -191,7 +191,7 @@ def stage(session_id: str, stage: str):
         except StageError as exc:
             abort(400, str(exc))
 
-        return vm.model_dump()
+        return render_vm("session_stage", vm)
 
 
 @bp.route("/sessions/<session_id>/<stage>/advance", methods=["POST"])
@@ -219,10 +219,23 @@ def advance(session_id: str, stage: str):
         except StageError as exc:
             abort(400, str(exc))
         except AIError as exc:
-            retry_href = url_for(
-                "sessions.advance", session_id=session_id, stage=stage
+            if wants_json():
+                retry_href = url_for(
+                    "sessions.advance", session_id=session_id, stage=stage
+                )
+                return exc.as_error_partial(retry_href=retry_href).model_dump(), 502
+            # A plain form POST: re-render this stage with the designed error and
+            # the user's input kept, so resubmitting the form is the retry.
+            shell = _build_shell(conn, engagement_id, persona_id)
+            vm = get_stage_vm(
+                scope, session_id, stage_enum, shell,
+                persona_id=persona_id, as_of=as_of,
             )
-            return exc.as_error_partial(retry_href=retry_href).model_dump(), 502
+            kept = {k: form_data[k] for k in ("transcript", "notes") if form_data.get(k)}
+            return render_vm(
+                "session_stage", vm.model_copy(update=kept), 502,
+                error=exc.as_error_partial(retry_href=None),
+            )
 
     # Redirect to the new stage
     return redirect(
@@ -247,7 +260,7 @@ def synthesize_route(session_id: str):
             retry_href = url_for(
                 "sessions.synthesize", session_id=session_id
             )
-            return exc.as_error_partial(retry_href=retry_href).model_dump(), 502
+            return render_vm("partial_error", exc.as_error_partial(retry_href=retry_href), 502)
 
         # Rebuild the stage VM to return the full validation view
         shell = _build_shell(conn, engagement_id, persona_id)
@@ -258,9 +271,11 @@ def synthesize_route(session_id: str):
             )
         except StageError:
             # If something went wrong, return just the findings
-            return {"findings": [f.model_dump() for f in finding_vms]}
+            if wants_json():
+                return {"findings": [f.model_dump() for f in finding_vms]}
+            raise
 
-        return vm.model_dump()
+        return render_vm("session_stage", vm)
 
 
 @bp.route(
@@ -298,4 +313,4 @@ def validate_finding_route(session_id: str, finding_id: str, action: str):
         except Exception as exc:
             abort(400, str(exc))
 
-        return FindingPartialVM(finding=vm).model_dump()
+        return render_vm("partial_finding", FindingPartialVM(finding=vm))

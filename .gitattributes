@@ -1,0 +1,23 @@
+# Normalize line endings: LF in the repo and in every checkout (Mac, Linux, Windows),
+# so Python, Jinja, shell scripts and JSON fixtures behave identically everywhere.
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary — never touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.db binary
+*.sqlite3 binary

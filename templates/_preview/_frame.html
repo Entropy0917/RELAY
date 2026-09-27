@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}RELAY preview{% endblock %}</title>
+<style>
+  :root { color-scheme: dark; --bg:#0b0c0e; --fg:#e6e7ea; --muted:#8a8f98; --line:#23252a; --accent:#7c8cff; --code:#111317; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.5 ui-sans-serif, system-ui, sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 32px 16px; }
+  h1 { font-size: 16px; font-weight: 600; letter-spacing: .02em; }
+  a { color: var(--accent); text-decoration: none; }
+  table { width:100%; border-collapse: collapse; }
+  td, th { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  code, pre { font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); }
+  pre { background:var(--code); border:1px solid var(--line); padding:16px; overflow:auto; border-radius:6px; }
+</style>
+</head>
+<body><main>{% block body %}{% endblock %}</main></body>
+</html>

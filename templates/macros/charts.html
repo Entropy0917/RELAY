@@ -1,0 +1,224 @@
+{#- macros/charts.html — inline-SVG chart primitives (F5).
+
+    Import:  {% import "macros/charts.html" as charts %}
+
+    Rules:
+    - Macros take primitives or small dicts, never page view models.
+    - Styling lives in static/css/components.css (.chart-*); only geometry is inline.
+    - Fills use series classes only. Status colour lives in status_badge, never here.
+    - Product vocabulary only. No engagement content.
+-#}
+
+{%- set _SERIES = ['formal', 'informal', 'accent'] -%}
+{%- set _EDGE_STATES = ['demonstrated', 'in_progress', 'planned'] -%}
+
+{#- Fraction of max as a 0..100 number string, clamped. Private. -#}
+{% macro _pct(value, max=1) -%}
+  {%- set m = (max or 0)|float -%}
+  {%- set f = ((value or 0)|float / m) if m > 0 else 0 -%}
+  {{- ([[f, 0]|max, 1]|min * 100)|round(2) -}}
+{%- endmacro %}
+
+{#- Validated series modifier; unknown series fall back to formal. Private. -#}
+{% macro _series(series='formal') -%}
+  {{- series if series in _SERIES else 'formal' -}}
+{%- endmacro %}
+
+{#- Bare track + fill. Private. -#}
+{% macro _track(pct, series, aria) -%}
+<svg class="chart-bar__track" viewBox="0 0 100 6" preserveAspectRatio="none" role="img" aria-label="{{ aria }}">
+  <rect class="chart-bar__bg" width="100" height="6"/>
+  <rect class="chart-bar__fill chart-bar__fill--{{ _series(series) }}" width="{{ pct }}" height="6"/>
+</svg>
+{%- endmacro %}
+
+{#- Horizontal readiness bar.
+    value: 0..max (clamped) · series: formal | informal | accent -#}
+{% macro bar(value, max=1, series='formal', label=None) -%}
+{%- set pct = _pct(value, max)|float -%}
+<div class="chart-bar{{ ' chart-bar--labeled' if label }}">
+  {%- if label %}
+  <span class="chart-bar__label">{{ label }}</span>
+  {%- endif %}
+  {{ _track(pct, series, (label ~ ': ' if label else '') ~ (pct|round|int) ~ '%') }}
+  <span class="chart-bar__value">{{ pct|round|int }}%</span>
+</div>
+{%- endmacro %}
+
+{#- Formal / informal pair for one operating-model area. Values 0..max. -#}
+{% macro dual_bar(formal, informal, label=None, max=1) -%}
+{%- set f = _pct(formal, max)|float -%}
+{%- set i = _pct(informal, max)|float -%}
+<div class="chart-dual">
+  {%- if label %}
+  <span class="chart-dual__title">{{ label }}</span>
+  {%- endif %}
+  <span class="chart-dual__series">Formal</span>
+  {{ _track(f, 'formal', (label ~ ' ' if label else '') ~ 'formal: ' ~ (f|round|int) ~ '%') }}
+  <span class="chart-bar__value">{{ f|round|int }}%</span>
+  <span class="chart-dual__series">Informal</span>
+  {{ _track(i, 'informal', (label ~ ' ' if label else '') ~ 'informal: ' ~ (i|round|int) ~ '%') }}
+  <span class="chart-bar__value">{{ i|round|int }}%</span>
+</div>
+{%- endmacro %}
+
+{#- Knowledge propagation tree.
+    nodes: [{id, depth (0 = origin), level? 0..6, and either label/role
+            or the PropagationNode shape: group_label?, person {name, title?}}]
+            in DFS preorder
+    edges: [{source, target, state: demonstrated | in_progress | planned, label?}]
+    id:    unique per page; prefixes the SVG marker ids.
+    Layout: leaves take evenly spaced columns in preorder; a parent sits centred
+    over its children. Preorder input guarantees no crossing edges. -#}
+{% macro propagation_tree(nodes, edges, id='propagation', label='Knowledge propagation', legend=True) -%}
+{%- if not nodes -%}
+<p class="chart-empty">No propagation recorded for this capability.</p>
+{%- else -%}
+{%- set COL, NODE_W, NODE_H, ROW, PAD = 176, 158, 44, 104, 16 -%}
+{%- set byid, children, x, names, roles = {}, {}, {}, {}, {} -%}
+{%- set g = namespace(slot=0, depth=0, sum=0) -%}
+{%- for n in nodes -%}
+  {%- set _ = byid.update({n.id: n}) -%}
+  {%- set _ = children.update({n.id: []}) -%}
+  {%- set _ = names.update({n.id: n.label if n.label is defined and n.label
+        else n.group_label if n.group_label is defined and n.group_label
+        else n.person.name if n.person is defined and n.person else n.id}) -%}
+  {%- set _ = roles.update({n.id: n.role if n.role is defined and n.role
+        else n.person.title if n.person is defined and n.person and n.person.title is defined and n.person.title
+        else ''}) -%}
+  {%- if (n.depth or 0) > g.depth %}{% set g.depth = n.depth %}{% endif -%}
+{%- endfor -%}
+{%- set kept = [] -%}
+{%- for e in edges if e.source in byid and e.target in byid -%}
+  {%- set _ = children[e.source].append(e.target) -%}
+  {%- set _ = kept.append(e) -%}
+{%- endfor -%}
+{%- for n in nodes if not children[n.id] -%}
+  {%- set _ = x.update({n.id: g.slot}) -%}{% set g.slot = g.slot + 1 -%}
+{%- endfor -%}
+{%- for n in nodes|reverse if children[n.id] -%}
+  {%- set g.sum = 0 -%}
+  {%- for c in children[n.id] %}{% set g.sum = g.sum + x[c] %}{% endfor -%}
+  {%- set _ = x.update({n.id: g.sum / (children[n.id]|length)}) -%}
+{%- endfor -%}
+{%- set W = 2 * PAD + g.slot * COL -%}
+{%- set H = 2 * PAD + g.depth * ROW + NODE_H -%}
+<figure class="chart-tree">
+<svg class="chart-tree__svg" viewBox="0 0 {{ W }} {{ H }}" role="img" aria-labelledby="{{ id }}-title {{ id }}-desc"
+     style="max-width:{{ W }}px">
+  <title id="{{ id }}-title">{{ label }}</title>
+  <desc id="{{ id }}-desc">
+    {%- for e in kept %}{{ names[e.source] }} to {{ names[e.target] }} ({{ e.state|replace('_', ' ') }}). {% endfor -%}
+  </desc>
+  <defs>
+    <marker id="{{ id }}-arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="chart-tree__arrow--accent" d="M0,0 L8,4 L0,8 z"/>
+    </marker>
+    <marker id="{{ id }}-arrow-muted" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="chart-tree__arrow--muted" d="M0,0 L8,4 L0,8 z"/>
+    </marker>
+  </defs>
+  <g>
+  {%- for e in kept %}
+    {%- set p, c = byid[e.source], byid[e.target] -%}
+    {%- set x1 = PAD + (x[p.id] + 0.5) * COL -%}
+    {%- set y1 = PAD + (p.depth or 0) * ROW + NODE_H -%}
+    {%- set x2 = PAD + (x[c.id] + 0.5) * COL -%}
+    {%- set y2 = PAD + (c.depth or 0) * ROW - 2 -%}
+    {%- set ym = (y1 + y2) / 2 -%}
+    {%- set state = e.state if e.state in _EDGE_STATES else 'demonstrated' %}
+    <path class="chart-tree__edge chart-tree__edge--{{ state }}"{% if e.label is defined and e.label %} aria-label="{{ e.label }}"{% endif %} d="M{{ x1|round(1) }},{{ y1 }} C{{ x1|round(1) }},{{ ym }} {{ x2|round(1) }},{{ ym }} {{ x2|round(1) }},{{ y2 }}"
+          marker-end="url(#{{ id }}-arrow-{{ 'muted' if state == 'planned' else 'accent' }})"/>
+  {%- endfor %}
+  </g>
+  {%- for n in nodes %}
+    {%- set cx = PAD + (x[n.id] + 0.5) * COL -%}
+    {%- set top = PAD + (n.depth or 0) * ROW %}
+  <g>
+    {%- set name, role = names[n.id], roles[n.id] %}
+    <title>{{ name }}{{ ' · ' ~ role if role }}{{ ' · Level ' ~ n.level if n.level is defined and n.level is not none }}</title>
+    <rect class="chart-tree__node{{ ' chart-tree__node--origin' if (n.depth or 0) == 0 }}"
+          x="{{ (cx - NODE_W / 2)|round(1) }}" y="{{ top }}" width="{{ NODE_W }}" height="{{ NODE_H }}" rx="6"/>
+    {%- if n.level is defined and n.level is not none and n.level in range(7) %}
+    <circle class="chart-tree__level--{{ n.level|int }}" cx="{{ (cx + NODE_W / 2 - 10)|round(1) }}" cy="{{ top + 10 }}" r="3.5"/>
+    {%- endif %}
+    <text class="chart-tree__name" x="{{ cx|round(1) }}" y="{{ top + (19 if role else 27) }}" text-anchor="middle">{{ name|truncate(18 if n.level is defined and n.level is not none else 22, true, '…', 0) }}</text>
+    {%- if role %}
+    <text class="chart-tree__role" x="{{ cx|round(1) }}" y="{{ top + 35 }}" text-anchor="middle">{{ role|truncate(24, true, '…', 0) }}</text>
+    {%- endif %}
+  </g>
+  {%- endfor %}
+</svg>
+{%- if legend and kept %}
+<figcaption class="chart-legend">
+  {%- for state, text in [('demonstrated', 'Demonstrated'), ('in_progress', 'In progress'), ('planned', 'Planned')] %}
+  <span class="chart-legend__item">
+    <svg width="24" height="6" viewBox="0 0 24 6" aria-hidden="true"><line class="chart-tree__edge chart-tree__edge--{{ state }}" x1="0" y1="3" x2="24" y2="3"/></svg>
+    {{ text }}
+  </span>
+  {%- endfor %}
+</figcaption>
+{%- endif %}
+</figure>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Sparkline for a series over time (e.g. knowledge library growth).
+    values: numbers, oldest first · labels: display strings, same length (optional;
+    first and last are printed under the line) · baseline is 0 unless min is lower. -#}
+{% macro sparkline(values, labels=None, label='Trend', series='accent', height=48) -%}
+{%- set vals = values|map('float')|list -%}
+{%- if vals|length < 2 -%}
+<p class="chart-empty">Not enough history yet.</p>
+{%- else -%}
+{%- set W, H, PAD = 240, height, 4 -%}
+{%- set lo = [vals|min, 0]|min -%}
+{%- set span = (vals|max - lo) or 1 -%}
+{%- set step = (W - 2 * PAD) / (vals|length - 1) -%}
+{%- set pts = [] -%}
+{%- for v in vals -%}
+  {%- set _ = pts.append(((PAD + loop.index0 * step)|round(1)) ~ ',' ~ ((H - PAD - (v - lo) / span * (H - 2 * PAD))|round(1))) -%}
+{%- endfor -%}
+{%- set last = pts[-1].split(',') -%}
+{%- set s = _series(series) %}
+<figure class="chart-spark">
+<svg class="chart-spark__svg" viewBox="0 0 {{ W }} {{ H }}" role="img"
+     aria-label="{{ label }}: {{ vals[0]|round|int }} to {{ vals[-1]|round|int }}{{ ' (' ~ labels[0] ~ ' to ' ~ labels[-1] ~ ')' if labels }}">
+  <polyline class="chart-spark__line chart-spark__line--{{ s }}" points="{{ pts|join(' ') }}"/>
+  <circle class="chart-spark__dot--{{ s }}" cx="{{ last[0] }}" cy="{{ last[1] }}" r="2.5"/>
+</svg>
+{%- if labels %}
+<figcaption class="chart-spark__axis">
+  <span>{{ labels[0] }}</span><span>{{ labels[-1] }}</span>
+</figcaption>
+{%- endif %}
+</figure>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Walk a taught_by/children forest depth-first, appending plain node and edge
+    dicts. Private; used by propagation_from_children. -#}
+{% macro _walk(pid, depth, byid, seen, out_nodes, out_edges) -%}
+  {%- if pid in byid and pid not in seen -%}
+    {%- set n = byid[pid] -%}
+    {%- set _ = seen.append(pid) -%}
+    {%- set _ = out_nodes.append({'id': pid, 'label': n.person.name, 'role': n.person.title, 'depth': depth}) -%}
+    {%- for c in n.children if c in byid and c not in seen -%}
+      {%- set _ = out_edges.append({'source': pid, 'target': c, 'state': 'demonstrated'}) -%}
+      {{- _walk(c, depth + 1, byid, seen, out_nodes, out_edges) -}}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endmacro %}
+
+{#- Propagation tree from the contract's PropagationNode list
+    ({person, taught_by, children}); depth and preorder are derived here.
+    Roots are nodes whose taught_by is unset or unknown. Every edge is drawn
+    as demonstrated: the contract carries no edge state. -#}
+{% macro propagation_from_children(items, id='propagation', label='Knowledge propagation', legend=False) -%}
+{%- set byid, seen, nodes, edges = {}, [], [], [] -%}
+{%- for n in items %}{% set _ = byid.update({n.person.id: n}) %}{% endfor -%}
+{%- for n in items if not n.taught_by or n.taught_by not in byid -%}
+  {%- set _ = _walk(n.person.id, 0, byid, seen, nodes, edges) -%}
+{%- endfor -%}
+{{ propagation_tree(nodes, edges, id=id, label=label, legend=legend) }}
+{%- endmacro %}

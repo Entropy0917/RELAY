@@ -1,0 +1,36 @@
+{#- Sidebar: brand, engagement switcher, nav (contracts/routes.py NAV order), departure. -#}
+<aside class="sidebar" aria-label="Primary">
+  <div class="brand"><span class="brand__mark" aria-hidden="true"></span>RELAY</div>
+
+  <form class="engagement-switch" method="post" data-engagement-switch>
+    <label class="t-caps" for="engagement-select">Engagement</label>
+    <select id="engagement-select" name="engagement_id">
+      {% for e in shell.engagements %}
+      <option value="{{ e.id }}" data-href="{{ href('set_engagement', engagement_id=e.id) }}"{{ ' selected' if e.id == shell.current_engagement.id }}>{{ e.name }}</option>
+      {% endfor %}
+    </select>
+    <div class="engagement-switch__org">{{ shell.current_engagement.org }}</div>
+    <noscript><button class="btn btn--secondary" type="submit">Switch</button></noscript>
+  </form>
+
+  <nav class="nav" aria-label="Sections">
+    <div class="nav__label t-caps">Transfer</div>
+    {% for item in shell.nav %}
+    <a class="nav__item" href="{{ item.href }}"{{ ' aria-current="page"'|safe if item.active }}>
+      <span class="nav__index num">{{ loop.index }}</span>
+      <span>{{ item.label }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+
+  {#- Departure countdown: ShellVM carries it when the contract adds it (A8); until then only the overview page does. -#}
+  {%- set dep_expert = shell.departing_expert if shell.departing_expert is defined else (departing_expert if departing_expert is defined else none) -%}
+  {%- set dep_days = shell.days_until_departure if shell.days_until_departure is defined else (days_until_departure if days_until_departure is defined else none) -%}
+  {% if dep_expert and dep_days is not none %}
+  <a class="departure" href="{{ href('passport', person_id=dep_expert.id) }}">
+    <span class="t-caps">Expert departure</span>
+    <span class="departure__days num">{{ dep_days }}<small>days</small></span>
+    <span class="t-sm t-muted">{{ dep_expert.name }}</span>
+  </a>
+  {% endif %}
+</aside>
