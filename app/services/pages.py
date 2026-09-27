@@ -103,34 +103,33 @@ def _cap_row(pc, cap_map: dict, evidence_counts: dict) -> CapabilityRow:
     )
 
 
-def _knowledge_card(row, people_map: dict) -> KnowledgeCard:
+def _knowledge_card(row, people_map: dict, names: dict[str, str]) -> KnowledgeCard:
+    """One knowledge item as a card.
+
+    `names` resolves every id this card shows. It is passed in rather than
+    looked up from module state: an area name belongs to one engagement, and a
+    resolver that outlives the request can answer with another engagement's
+    names (see `_display_names`).
+
+    `source_session` stays an id on purpose -- the contract fixture holds ids
+    there because the frontend links on it, unlike `area` and `capability`,
+    which are read.
+    """
     expert = people_map.get(row.expert_id)
+    capability_id = getattr(row, "capability_id", None)
     return KnowledgeCard(
         id=row.id,
         title=row.title,
         type=KnowledgeType(row.type),
         type_label=KNOWLEDGE_LABEL.get(KnowledgeType(row.type), row.type),
-        area=_area_name(row.area_id) if hasattr(row, "area_id") else "",
-        capability=None,
+        area=names.get(getattr(row, "area_id", None) or "", ""),
+        capability=names.get(capability_id) if capability_id else None,
         expert=expert.name if expert else "",
         source_session=row.session_id if hasattr(row, "session_id") else None,
         validated=bool(row.validated),
         people_exposed=list(row.people_exposed or []),
         summary=row.summary,
     )
-
-
-# Cache-friendly area name resolver
-_area_cache: dict[str, str] = {}
-
-
-def _area_name(area_id: str | None) -> str:
-    return _area_cache.get(area_id or "", "")
-
-
-def _load_area_cache(scope: Scope) -> None:
-    global _area_cache
-    _area_cache = {row.id: row.name for row in scope.rows(operating_model_areas)}
 
 
 _RECOMMENDED_ACTIONS: dict[RiskKind, str] = {
@@ -298,7 +297,6 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
     dep = departing_expert(snapshot)
     risk_register = knowledge_at_risk(snapshot)
 
-    _load_area_cache(scope)
     people_map = {row.id: row for row in scope.rows(people)}
     dep_ref = _person_ref(people_map[dep.id]) if dep and dep.id in people_map else None
     days_rem = (dep.departure_date - as_of).days if dep and dep.departure_date else None
@@ -306,7 +304,10 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
     # Recent knowledge
     ki_rows = scope.rows(knowledge_items)
     ki_rows_sorted = sorted(ki_rows, key=lambda r: r.captured_on, reverse=True)
-    recent_knowledge = [_knowledge_card(r, people_map) for r in ki_rows_sorted[:5]]
+    recent_knowledge = [
+        _knowledge_card(r, people_map, _display_names(scope))
+        for r in ki_rows_sorted[:5]
+    ]
 
     # Trainer progress: counterparts at level >= 5
     cap_map = {r.id: r for r in scope.rows(capabilities)}
@@ -485,6 +486,7 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
     people_map = {r.id: r for r in scope.rows(people)}
+    names = _display_names(scope)
 
     pcs = scope.rows(
         person_capabilities, person_capabilities.c.person_id == person_id
@@ -497,7 +499,7 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
     # Knowledge this person has been exposed to
     ki_rows = scope.rows(knowledge_items)
     exposed = [
-        _knowledge_card(ki, people_map) for ki in ki_rows
+        _knowledge_card(ki, people_map, names) for ki in ki_rows
         if person_id in (ki.people_exposed or [])
     ]
 
@@ -515,7 +517,6 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
 
 def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
     people_map = {r.id: r for r in scope.rows(people)}
-    _load_area_cache(scope)
 
     ki_rows = scope.rows(knowledge_items)
 
@@ -535,7 +536,7 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
             ]
             active_filters["person"] = filters["person"]
 
-    items = [_knowledge_card(r, people_map) for r in ki_rows]
+    items = [_knowledge_card(r, people_map, _display_names(scope)) for r in ki_rows]
 
     # Counts by type (over unfiltered data)
     all_ki = scope.rows(knowledge_items)

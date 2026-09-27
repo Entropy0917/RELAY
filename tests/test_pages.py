@@ -10,6 +10,7 @@ import os
 from datetime import date
 
 import pytest
+import sqlalchemy as sa
 
 from app.db.connection import connect, get_engine
 from app.db.schema import (
@@ -236,6 +237,64 @@ class TestRiskExplanations:
         single = [r for r in risks if "single knowledge holder" in r.title]
         assert single, "seed should contain a single-holder risk"
         assert "nobody" in single[0].problem.lower()
+
+
+class TestKnowledgeCardNames:
+    """Cards must resolve their own ids, without relying on call order.
+
+    These names used to come from a module-level cache that only some pages
+    populated, so a passport opened first in a fresh process rendered every
+    area as an empty string -- and a passport opened after another
+    engagement's page could render that engagement's names.
+    """
+
+    def test_passport_names_areas_without_priming(self, conn, primary_id):
+        from app.db.schema import knowledge_items
+
+        scope = Scope(conn, primary_id)
+        exposed_ids = {
+            pid
+            for row in scope.rows(knowledge_items)
+            for pid in (row.people_exposed or [])
+        }
+        assert exposed_ids, "seed should expose knowledge to someone"
+        person_id = sorted(exposed_ids)[0]
+
+        data = build_passport(scope, person_id, as_of=ANCHOR)
+        vm = PassportVM(shell=_make_shell(), **data)
+        assert vm.knowledge_exposed
+        for card in vm.knowledge_exposed:
+            assert card.area, f"{card.id} rendered a blank area"
+
+    def test_capability_is_a_name_not_an_id(self, conn, primary_id):
+        from app.db.schema import knowledge_items
+
+        scope = Scope(conn, primary_id)
+        data = build_knowledge(scope)
+        vm = KnowledgeVM(shell=_make_shell(), **data)
+
+        seeded = sum(1 for r in scope.rows(knowledge_items) if r.capability_id)
+        filled = sum(1 for card in vm.items if card.capability)
+        assert filled == seeded, "every seeded capability_id should resolve"
+
+        for card in vm.items:
+            if card.capability:
+                assert not card.capability.startswith("cap-"), card.capability
+
+    def test_names_do_not_cross_engagements(self, conn):
+        """Each engagement resolves only its own area names."""
+        from app.db.schema import engagements, operating_model_areas as oma
+
+        ids = [r.id for r in conn.execute(sa.select(engagements.c.id))]
+        assert len(ids) > 1, "reusability needs a second engagement"
+
+        for eid in ids:
+            scope = Scope(conn, eid)
+            own = {r.name for r in scope.rows(oma)}
+            vm = KnowledgeVM(shell=_make_shell(), **build_knowledge(scope))
+            for card in vm.items:
+                if card.area:
+                    assert card.area in own, f"{card.area} is not in {eid}"
 
 
 class TestPropagationFilter:
