@@ -289,6 +289,17 @@
   </div>
   <div class="card__title">{{ k.title }}</div>
   {%- if not compact %}<p class="card__meta">{{ k.summary }}</p>{% endif %}
+  {#- KnowledgeCard.detail (Proposal 001): labelled sections in the author's order; body is str or list[str]. -#}
+  {%- if not compact and k.detail is defined and k.detail %}
+  <details class="knowledge-card__detail">
+    <summary class="t-sm t-muted">Full record</summary>
+    <dl class="facts">
+      {%- for d in k.detail %}
+      <div><dt class="t-caps">{{ d.label }}</dt><dd>{% if d.body is string %}{{ d.body }}{% else %}<ul class="t-sm">{% for b in d.body %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}</dd></div>
+      {%- endfor %}
+    </dl>
+  </details>
+  {%- endif %}
   <div class="card__foot t-sm">
     <span class="t-muted">{{ k.capability or k.area }}</span>
     {%- if k.source_session %}<span class="t-faint">·</span><a class="t-muted knowledge-card__src" href="{{ href('session_stage', session_id=k.source_session, stage='next_action') }}">Source session ↗</a>{% endif %}

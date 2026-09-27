@@ -34,3 +34,14 @@ def test_session_stage_renders_every_stage(client, stage):
     r = client.get(f"/preview/session_stage?stage={stage}")
     assert r.status_code == 200
     assert "not written yet" not in r.text
+
+
+def test_knowledge_card_renders_detail_sections(client):
+    """Proposal 001: `detail` renders as labelled sections; str bodies inline, lists as bullets."""
+    from flask import render_template_string
+    card = {"id": "k1", "title": "T", "type_label": "Heuristic", "validated": False, "summary": "S",
+            "area": "A", "capability": None, "source_session": None, "people_exposed": [],
+            "detail": [{"label": "Rule", "body": "Reorder early"}, {"label": "Signals", "body": ["one", "two"]}]}
+    with client.application.test_request_context():
+        html = render_template_string('{% import "macros/ui.html" as ui %}{{ ui.knowledge_card(k) }}', k=card)
+    assert "Full record" in html and "Reorder early" in html and "<li>two</li>" in html
