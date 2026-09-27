@@ -262,6 +262,15 @@ def synthesize_route(session_id: str):
             )
             return render_vm("partial_error", exc.as_error_partial(retry_href=retry_href), 502)
 
+        # Synthesis has moved the session to VALIDATION. From the browser
+        # (HTMX), navigate there so the stepper and URL match the stage.
+        if request.headers.get("HX-Request") == "true":
+            validation = url_for(
+                "sessions.stage", session_id=session_id,
+                stage=SessionStage.VALIDATION.value,
+            )
+            return "", 200, {"HX-Redirect": validation}
+
         # Rebuild the stage VM to return the full validation view
         shell = _build_shell(conn, engagement_id, persona_id)
         try:
