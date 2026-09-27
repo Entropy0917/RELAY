@@ -4,8 +4,8 @@ Eight GET routes producing the frozen view models.  Thin layer: open a
 connection, resolve engagement+persona from the session cookie, build the
 shell, delegate to app.services.pages, return the model.
 
-NOTE: These routes return JSON (model_dump) until templates exist.  At SYNC-2
-the frontend replaces `return vm.model_dump()` with `render_template(...)`.
+Routes answer through app.preview.render_vm: HTML via the view model's
+template, or the raw view model as JSON with `?format=json` / Accept: JSON.
 """
 
 from __future__ import annotations
@@ -21,6 +21,7 @@ from flask import (
 )
 
 from app.db.connection import connect
+from app.preview import render_vm
 from app.db.schema import people as people_table
 from app.db.scoped import Scope, list_engagements, primary_engagement
 from app.services.pages import (
@@ -147,7 +148,7 @@ def overview():
         scope = Scope(conn, eid)
         shell = _build_shell(conn, eid, pid, "overview")
         data = build_overview(scope, as_of=_get_as_of())
-        return OverviewVM(shell=shell, **data).model_dump()
+        return render_vm("overview", OverviewVM(shell=shell, **data))
 
 
 @bp.route("/operating-model")
@@ -157,7 +158,7 @@ def operating_model():
         scope = Scope(conn, eid)
         shell = _build_shell(conn, eid, pid, "operating_model")
         data = build_operating_model(scope, as_of=_get_as_of())
-        return OperatingModelVM(shell=shell, **data).model_dump()
+        return render_vm("operating_model", OperatingModelVM(shell=shell, **data))
 
 
 @bp.route("/operating-model/<area_id>")
@@ -170,7 +171,7 @@ def area_detail(area_id: str):
             data = build_area_detail(scope, area_id, as_of=_get_as_of())
         except ValueError as exc:
             abort(404, str(exc))
-        return AreaDetailVM(shell=shell, **data).model_dump()
+        return render_vm("area_detail", AreaDetailVM(shell=shell, **data))
 
 
 @bp.route("/blueprint")
@@ -180,7 +181,7 @@ def blueprint():
         scope = Scope(conn, eid)
         shell = _build_shell(conn, eid, pid, "blueprint")
         data = build_blueprint(scope, as_of=_get_as_of())
-        return BlueprintVM(shell=shell, **data).model_dump()
+        return render_vm("blueprint", BlueprintVM(shell=shell, **data))
 
 
 @bp.route("/people", endpoint="people")
@@ -190,7 +191,7 @@ def people_page():
         scope = Scope(conn, eid)
         shell = _build_shell(conn, eid, pid, "people")
         data = build_people(scope)
-        return PeopleVM(shell=shell, **data).model_dump()
+        return render_vm("people", PeopleVM(shell=shell, **data))
 
 
 @bp.route("/people/<person_id>")
@@ -203,7 +204,7 @@ def passport(person_id: str):
             data = build_passport(scope, person_id, as_of=_get_as_of())
         except ValueError as exc:
             abort(404, str(exc))
-        return PassportVM(shell=shell, **data).model_dump()
+        return render_vm("passport", PassportVM(shell=shell, **data))
 
 
 @bp.route("/knowledge")
@@ -218,7 +219,7 @@ def knowledge():
             "person": request.args.get("person"),
         }
         data = build_knowledge(scope, filters=filters)
-        return KnowledgeVM(shell=shell, **data).model_dump()
+        return render_vm("knowledge", KnowledgeVM(shell=shell, **data))
 
 
 @bp.route("/readiness")
@@ -228,7 +229,7 @@ def readiness():
         scope = Scope(conn, eid)
         shell = _build_shell(conn, eid, pid, "readiness")
         data = build_readiness(scope, as_of=_get_as_of())
-        return ReadinessVM(shell=shell, **data).model_dump()
+        return render_vm("readiness", ReadinessVM(shell=shell, **data))
 
 
 @bp.route("/people/<person_id>/capability/<capability_id>")
@@ -240,4 +241,4 @@ def capability_row(person_id: str, capability_id: str):
             data = build_capability_row(scope, person_id, capability_id)
         except ValueError as exc:
             abort(404, str(exc))
-        return CapabilityRowPartialVM(**data).model_dump()
+        return render_vm("partial_capability_row", CapabilityRowPartialVM(**data))

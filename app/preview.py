@@ -13,7 +13,7 @@ app/__init__.py is bootstrap-frozen and the frontend adds nothing there:
     href(key, **params)   url_for(ROUTES[key].endpoint, **params) — templates never
                           hard-code a path (contracts/routes.py)
     TEMPLATES    viewmodel name → template path, used by preview and by routes
-                 at integration: render_template(TEMPLATES[name], **vm)
+                 by routes through render_vm(name, vm)
 """
 
 from __future__ import annotations
@@ -60,6 +60,20 @@ def _install_globals(state) -> None:
     env.globals.update(vocab=vocabulary, href=href, TEMPLATES=TEMPLATES)
     env.trim_blocks = True
     env.lstrip_blocks = True
+
+
+def wants_json() -> bool:
+    """`?format=json` or an explicit JSON Accept header keeps the raw view model (debugging, API tests)."""
+    if request.args.get("format") == "json":
+        return True
+    return request.accept_mimetypes.best_match(["text/html", "application/json"]) == "application/json"
+
+
+def render_vm(name: str, vm, status: int = 200, **extra):
+    """How routes answer: the view model through its template, or as JSON on request."""
+    if wants_json():
+        return vm.model_dump(mode="json"), status
+    return render_template(TEMPLATES[name], **context(vm), **extra), status
 
 
 def load_fixture(name: str):

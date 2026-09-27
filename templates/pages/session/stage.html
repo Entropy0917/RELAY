@@ -10,7 +10,7 @@
 {% block header %}{{ s.session_header(session, stages) }}{% endblock %}
 
 {% block content %}
-<div id="stage-error"></div>
+<div id="stage-error">{% if error is defined and error %}{{ ui.error_state(error) }}{% endif %}</div>
 
 {% if not can_act and stage not in ('prepare', 'synthesis', 'next_action') %}
 <div class="gate">
@@ -98,14 +98,15 @@
     <div class="synthesis-bar__count"><span class="num">{{ findings|length - pending|length }}</span><span class="t-faint"> / {{ findings|length }} validated</span></div>
   </div>
   {% for f in findings %}{{ s.finding_card(f, session.id, can_act=can_act and stage == 'validation', blocked_reason=blocked_reason if stage == 'validation' else 'Continue to validation to review each finding.') }}{% endfor %}
+  {% if stage == 'synthesis' %}
+  {#- Synthesis already moved the session to validation: continue is a link, not an advance. -#}
+  <div class="stage-actions">{{ ui.link_button('Review & validate →', href('session_stage', session_id=session.id, stage='validation'), 'primary') }}</div>
+  {% else %}
   <form class="stage-actions" method="post" action="{{ advance_url }}">
-    {% if stage == 'synthesis' %}
-    <button class="btn btn--primary" type="submit">Review &amp; validate →</button>
-    {% else %}
     <span class="t-faint t-sm">{{ (pending|length ~ ' finding' ~ ('s' if pending|length != 1) ~ ' still pending.') if pending else 'All findings reviewed.' }}</span>
     <button class="btn btn--primary" type="submit"{{ ' disabled' if pending or not can_act }}>Complete validation →</button>
-    {% endif %}
   </form>
+  {% endif %}
   {% else %}
   <div class="synthesis-run">
     <div class="stack stack--sm">

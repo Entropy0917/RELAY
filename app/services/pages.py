@@ -115,7 +115,10 @@ def _knowledge_card(row, people_map: dict) -> KnowledgeCard:
         expert=expert.name if expert else "",
         source_session=row.session_id if hasattr(row, "session_id") else None,
         validated=bool(row.validated),
-        people_exposed=list(row.people_exposed or []),
+        people_exposed=[
+            people_map[pid].name if pid in people_map else pid
+            for pid in (row.people_exposed or [])
+        ],
         summary=row.summary,
     )
 
@@ -448,12 +451,21 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
             ki_rows = [r for r in ki_rows if r.type == filters["type"]]
             active_filters["type"] = filters["type"]
         if "area" in filters and filters["area"]:
-            ki_rows = [r for r in ki_rows if r.area_id == filters["area"]]
-            active_filters["area"] = filters["area"]
-        if "person" in filters and filters["person"]:
+            # Accept the area id or its display name (the page links by name).
             ki_rows = [
                 r for r in ki_rows
-                if filters["person"] in (r.people_exposed or [])
+                if filters["area"] in (r.area_id, _area_name(r.area_id))
+            ]
+            active_filters["area"] = filters["area"]
+        if "person" in filters and filters["person"]:
+            # Accept the person id or their display name.
+            wanted = {
+                pid for pid, p in people_map.items()
+                if filters["person"] in (pid, p.name)
+            } or {filters["person"]}
+            ki_rows = [
+                r for r in ki_rows
+                if wanted & set(r.people_exposed or [])
             ]
             active_filters["person"] = filters["person"]
 
