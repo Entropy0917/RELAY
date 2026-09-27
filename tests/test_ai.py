@@ -58,6 +58,7 @@ def isolated_env(tmp_path, monkeypatch):
         "OPENAI_API_KEY",
         "XAI_API_KEY",
         "ANTHROPIC_API_KEY",
+        "OLLAMA_API_KEY",
     ):
         monkeypatch.delenv(var, raising=False)
 
@@ -104,6 +105,17 @@ def test_default_provider_is_ollama_cloud_unconstrained(monkeypatch):
     assert client.model.endswith("-cloud")
     assert client.base_url.endswith("/v1")
     assert client.constrained is False
+
+
+def test_ollama_api_key_calls_the_cloud_api_directly(monkeypatch):
+    """With a key there is no local daemon: ollama.com, bare model name, the key sent."""
+    monkeypatch.setenv("OLLAMA_API_KEY", "k-test")
+    client = get_client()
+    assert isinstance(client, OpenAICompatClient)
+    assert client.provider == "ollama"
+    assert client.base_url == "https://ollama.com/v1"
+    assert not client.model.endswith("-cloud")
+    assert client._api_key == "k-test"
 
 
 def test_local_model_selects_constrained_decoding(monkeypatch):

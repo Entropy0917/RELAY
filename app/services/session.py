@@ -32,7 +32,7 @@ from app.ai import (
     prepare_session,
     recommend_next_experience,
 )
-from app.ai.context import SessionContext
+from app.ai.context import QA, SessionContext
 from app.ai.schemas.debrief import DebriefQuestions
 from app.ai.schemas.next_activity import NextExperience
 from app.ai.schemas.session_brief import SessionBrief
@@ -175,6 +175,32 @@ def _build_brief_vm(brief_data: dict | None) -> SessionBriefVM | None:
     return SessionBriefVM(**brief_data)
 
 
+def _next_brief_vm(next_experience: dict | None, learner_name: str | None) -> SessionBriefVM | None:
+    """The NEXT_ACTION brief, from the stored recommendation (demo step 15).
+
+    `_on_leave_validation` stores a whole NextExperience; this reshapes it into
+    the same brief the PREPARE stage shows, so the next session opens with what
+    this one validated. No AI call. A stored shape that no longer validates
+    yields None -- the page shows its empty state rather than a half brief.
+    """
+    if not next_experience:
+        return None
+    try:
+        nx = NextExperience.model_validate(next_experience)
+    except ValueError:
+        return None
+    who = learner_name.split()[0] if learner_name else "the learner"
+    return SessionBriefVM(
+        primary_target=nx.capability,
+        current_level=CAPABILITY_LEVELS[nx.current_level],
+        todays_objective=nx.objective,
+        your_role=nx.expert_role,
+        ask_before_explaining=f"Ask {who} how they would handle: {nx.recommended_experience}",
+        watch_for=nx.learner_responsibilities[:4],
+        knowledge_gap_to_explore=nx.risk_if_deferred,
+    )
+
+
 # findings.status is past tense; FindingVM.validation_action is a ValidationAction.
 _STATUS_ACTION = {"approved": "approve", "edited": "edit", "rejected": "reject"}
 
@@ -289,6 +315,10 @@ def get_stage_vm(
         expert_questions=expert_qs,
         learner_questions=learner_qs,
         findings=finding_vms,
+        next_brief=_next_brief_vm(
+            session.next_experience,
+            ref.learners[0].name if ref.learners else None,
+        ),
         can_act=can_act,
         blocked_reason=blocked_reason,
     )
@@ -332,9 +362,11 @@ def advance_stage(
     if from_stage == SessionStage.PREPARE:
         _on_leave_prepare(scope, session, as_of=as_of or date.today())
     elif from_stage == SessionStage.CAPTURE:
-        _on_leave_capture(scope, session, form_data)
+        _on_leave_capture(scope, session, form_data, as_of=as_of or date.today())
     elif from_stage == SessionStage.EXPERT_DEBRIEF:
-        _on_leave_expert_debrief(scope, session, form_data, persona_id)
+        _on_leave_expert_debrief(
+            scope, session, form_data, persona_id, as_of=as_of or date.today()
+        )
     elif from_stage == SessionStage.LEARNER_DEBRIEF:
         _on_leave_learner_debrief(scope, session, form_data, persona_id)
     elif from_stage == SessionStage.SYNTHESIS:
@@ -383,26 +415,53 @@ def _on_leave_validation(scope: Scope, session, *, as_of: date) -> None:
     )
 
 
-def _on_leave_capture(scope: Scope, session, form_data: dict | None) -> None:
-    """Save transcript/notes submitted during CAPTURE."""
+def _has_debrief(scope: Scope, session_id: str, role: str) -> bool:
+    return any(
+        row.role == role and row.questions
+        for row in scope.rows(debriefs, debriefs.c.session_id == session_id)
+    )
+
+
+def _on_leave_capture(
+    scope: Scope, session, form_data: dict | None, *, as_of: date
+) -> None:
+    """Save transcript/notes submitted during CAPTURE, and generate the
+    expert's debrief questions (AI) from them -- the next stage asks them."""
     updates: dict[str, Any] = {}
     if form_data:
         if "transcript" in form_data:
             updates["transcript"] = form_data["transcript"]
         if "notes" in form_data:
             updates["notes"] = form_data["notes"]
+    # AI before the first write (see generate_debrief).
+    if not _has_debrief(scope, session.id, "expert"):
+        generate_debrief(scope, session.id, "expert", as_of=as_of, overlay=updates)
     if updates:
         scope.update(sessions, session.id, **updates)
 
 
 def _on_leave_expert_debrief(
-    scope: Scope, session, form_data: dict | None, persona_id: str | None
+    scope: Scope, session, form_data: dict | None, persona_id: str | None,
+    *, as_of: date,
 ) -> None:
-    """Save expert debrief answers, or generate the questions if first visit."""
+    """Save expert debrief answers, then generate the learner's questions (AI),
+    which can now build on what the expert said."""
     # Check persona
     if persona_id and persona_id != session.expert_id:
         raise StageError("only the expert can complete the expert debrief")
 
+    # AI before the first write (see generate_debrief); the learner's questions
+    # see the expert's answers through the overlay.
+    if not _has_debrief(scope, session.id, "learner"):
+        answers = {k: v for k, v in (form_data or {}).items() if k.startswith("answer_")}
+        expert_qa = [
+            QA(question=q.question, answer=answers.get(f"answer_{q.id}", q.answer))
+            for q in _debrief_questions(scope, session.id, "expert")
+        ]
+        generate_debrief(
+            scope, session.id, "learner", as_of=as_of,
+            overlay={"expert_debrief": expert_qa},
+        )
     _save_debrief_answers(scope, session.id, "expert", session.expert_id, form_data)
 
 
@@ -473,9 +532,17 @@ def generate_debrief(
     role: str,
     *,
     as_of: date | None = None,
+    overlay: dict[str, Any] | None = None,
 ) -> list[DebriefQuestion]:
-    """Generate AI debrief questions and persist them.  Returns the questions."""
+    """Generate AI debrief questions and persist them.  Returns the questions.
+
+    `overlay` supplies context the caller has not written yet. The AI call must
+    come before this request's first write: the AI cache is a second SQLite
+    connection, and WAL lets it read and write only while we hold no write lock.
+    """
     ctx = session_context(scope, session_id, as_of=as_of or date.today())
+    if overlay:
+        ctx = ctx.model_copy(update=overlay)
 
     if role == "expert":
         result: DebriefQuestions = generate_expert_debrief(ctx)
