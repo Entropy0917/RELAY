@@ -328,6 +328,24 @@ def _requirement_row(row) -> RequirementRow:
 # Overview
 # ---------------------------------------------------------------------------
 
+def _priority_actions(risk_items: list[RiskItem], *, limit: int) -> list[str]:
+    """One line per risk, naming what it is about.
+
+    `recommended_action` is written per risk kind, so three risks of one kind
+    read as the same sentence three times. The subject comes from the title
+    ("<subject> has no ..."), which every register title follows.
+    """
+    out: list[str] = []
+    for r in risk_items:
+        subject = r.title.split(" has ", 1)[0] if " has " in r.title else r.title
+        line = f"{subject}: {r.recommended_action}"
+        if line not in out:
+            out.append(line)
+        if len(out) == limit:
+            break
+    return out
+
+
 def build_overview(scope: Scope, *, as_of: date) -> dict:
     snapshot = readiness_snapshot(scope, as_of=as_of)
     metrics = headline_metrics(snapshot)
@@ -367,7 +385,7 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
         departing_expert=dep_ref,
         days_until_departure=days_rem,
         risks=risk_items[:5],
-        priority_actions=[r.recommended_action for r in risk_items[:3]],
+        priority_actions=_priority_actions(risk_items, limit=3),
         recent_knowledge=recent_knowledge,
         trainer_progress=trainer_progress,
     )
@@ -643,7 +661,7 @@ def build_readiness(
         metrics=[_metric_tile(m) for m in metrics.values()],
         areas=areas,
         risks=risk_items,
-        before_departure=[r.recommended_action for r in risk_items[:3]],
+        before_departure=_priority_actions(risk_items, limit=3),
         propagation=propagation,
         propagation_capability=propagation_capability,
     )

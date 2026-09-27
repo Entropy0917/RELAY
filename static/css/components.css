@@ -527,3 +527,6 @@ a.person-card:hover .person-card__cta { color: var(--accent); }
 .knowledge-card__detail summary { cursor: pointer; }
 .knowledge-card__detail[open] summary { margin-bottom: var(--s-3); }
 .knowledge-card__detail ul { margin: 0; padding-left: var(--s-4); }
+
+/* A completed stage viewed later: its form is a record. */
+[inert] .btn { opacity: 0.45; }

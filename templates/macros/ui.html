@@ -20,7 +20,10 @@
 
 {#- Capability level 0–6 as a compact chip: segmented meter + label. -#}
 {% macro capability_chip(level, show_label=True, changed=False) -%}
-{%- set l = level|int -%}
+{#- level: an int, a label ("Assisted"), or "Level 3 -- …" — stored data uses all three. -#}
+{%- if level is string and level in vocab.CAPABILITY_LEVELS -%}{%- set l = vocab.CAPABILITY_LEVELS.index(level) -%}
+{%- elif level is string and level.startswith('Level ') -%}{%- set l = level[6:7]|int -%}
+{%- else -%}{%- set l = level|int -%}{%- endif -%}
 {%- set label = vocab.CAPABILITY_LEVELS[l] -%}
 <span class="cap-chip level--{{ l }}{{ ' is-changed' if changed }}" title="Level {{ l }} · {{ label }}">
   <span class="cap-chip__meter" aria-hidden="true">{% for i in range(1, 7) %}<i class="{{ 'on' if i <= l }}"></i>{% endfor %}</span>

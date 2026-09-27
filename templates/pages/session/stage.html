@@ -3,6 +3,8 @@
 {% import "macros/ui.html" as ui %}
 {% import "macros/session.html" as s %}
 {% set advance_url = href('session_advance', session_id=session.id, stage=stage) %}
+{#- Viewing a stage the session has already left: its forms are a record, not an action. -#}
+{% set past = session.stage != stage %}
 {% set learner = session.learners[0] if session.learners else None %}
 {% block title %}{{ session.title }}{% endblock %}
 {% block crumbs %}<a class="t-faint" href="{{ href('session_list') }}">Sessions</a> / {{ session.title }}{% endblock %}
@@ -10,6 +12,7 @@
 {% block header %}{{ s.session_header(session, stages) }}{% endblock %}
 
 {% block content %}
+{% if past %}<div class="callout t-sm">This stage is complete. You are viewing its record. <a href="{{ href('session_stage', session_id=session.id, stage=session.stage) }}">Go to the current stage →</a></div>{% endif %}
 <div id="stage-error">{% if error is defined and error %}{{ ui.error_state(error) }}{% endif %}</div>
 
 {% if not can_act and stage not in ('prepare', 'synthesis', 'next_action') %}
@@ -35,14 +38,14 @@
 {% elif stage == 'prepare' %}
   {% if brief %}{{ s.brief(brief, heading='Today with ' ~ (learner.name.split(' ')[0] if learner else 'your learner')) }}{% else %}
   {{ ui.empty('The session brief is generated from the Transfer Plan and prior evidence.', 'It takes a few seconds and needs the AI provider.') }}{% endif %}
-  <form class="stage-actions" method="post" action="{{ advance_url }}">
+  <form class="stage-actions" method="post" action="{{ advance_url }}"{{ ' inert' if past }}>
     <span class="t-faint t-sm">{{ 'Read it in 30 seconds, then go do the work.' if brief else '' }}</span>
     <button class="btn btn--primary" type="submit"{{ ' disabled' if not can_act }}>{{ 'Start capture →' if brief else 'Generate brief & start →' }}</button>
   </form>
 
 {# ─────────────── CAPTURE ─────────────── #}
 {% elif stage == 'capture' %}
-<form class="stack" method="post" action="{{ advance_url }}">
+<form class="stack" method="post" action="{{ advance_url }}"{{ ' inert' if past }}>
   {% if brief %}<details class="brief-recall"><summary class="t-sm t-muted">Session brief · {{ brief.primary_target }}</summary>{{ s.brief(brief, id='brief-recall') }}</details>{% endif %}
   {% call ui.panel('Capture the work', subtitle='Paste the transcript or write session notes. RELAY drafts the debrief questions from it.') %}
   <label class="field">
@@ -64,7 +67,7 @@
 {% set is_expert = stage == 'expert_debrief' %}
 {% set questions = expert_questions if is_expert else learner_questions %}
 {% set respondent = session.expert if is_expert else learner %}
-<form class="stack" method="post" action="{{ advance_url }}">
+<form class="stack" method="post" action="{{ advance_url }}"{{ ' inert' if past }}>
   {% call ui.panel(('Expert' if is_expert else 'Learner') ~ ' debrief', subtitle=('1–3 questions drawn from this session. About two minutes.' if is_expert else 'Tests understanding, not satisfaction. Answer in your own words.')) %}
   <div class="cluster">{{ ui.person(respondent, show_title=True, link=False) }}{{ ui.provenance(ai_label='AI-GENERATED QUESTIONS') }}</div>
   {% if questions %}
@@ -102,7 +105,7 @@
   {#- Synthesis already moved the session to validation: continue is a link, not an advance. -#}
   <div class="stage-actions">{{ ui.link_button('Review & validate →', href('session_stage', session_id=session.id, stage='validation'), 'primary') }}</div>
   {% else %}
-  <form class="stage-actions" method="post" action="{{ advance_url }}">
+  <form class="stage-actions" method="post" action="{{ advance_url }}"{{ ' inert' if past }}>
     <span class="t-faint t-sm">{{ (pending|length ~ ' finding' ~ ('s' if pending|length != 1) ~ ' still pending.') if pending else 'All findings reviewed.' }}</span>
     <button class="btn btn--primary" type="submit"{{ ' disabled' if pending or not can_act }}>Complete validation →</button>
   </form>

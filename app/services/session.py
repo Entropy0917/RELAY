@@ -46,6 +46,7 @@ from app.db.schema import (
     person_capabilities,
     recommendations,
     sessions,
+    validations,
 )
 from app.db.scoped import Scope
 from app.db.writes import apply_validation
@@ -174,7 +175,20 @@ def _build_brief_vm(brief_data: dict | None) -> SessionBriefVM | None:
     return SessionBriefVM(**brief_data)
 
 
-def _build_finding_vm(row) -> FindingVM:
+# findings.status is past tense; FindingVM.validation_action is a ValidationAction.
+_STATUS_ACTION = {"approved": "approve", "edited": "edit", "rejected": "reject"}
+
+
+def _build_finding_vm(row, scope: Scope | None = None) -> FindingVM:
+    """`scope` lets a re-rendered page show who validated each finding."""
+    validated_by = None
+    if scope is not None and row.status != "pending":
+        rows = scope.rows(validations, validations.c.finding_id == row.id)
+        if rows:
+            latest = max(rows, key=lambda v: v.created_at)
+            person = scope.by_id(people, latest.validated_by_id)
+            validated_by = person.name if person else latest.validated_by_id
+    action = None if row.status == "pending" else _STATUS_ACTION.get(row.status, row.status)
     return FindingVM(
         id=row.id,
         kind=FindingKind(row.kind),
@@ -185,8 +199,8 @@ def _build_finding_vm(row) -> FindingVM:
         rationale=row.rationale,
         impact=row.impact,
         risk_if_untransferred=row.risk_if_untransferred,
-        validated_by=None,  # filled by the validation UI
-        validation_action=row.status if row.status != "pending" else None,
+        validated_by=validated_by,
+        validation_action=action,
     )
 
 
@@ -235,7 +249,7 @@ def get_stage_vm(
     finding_rows = scope.rows(
         findings, findings.c.session_id == session_id
     )
-    finding_vms = [_build_finding_vm(r) for r in finding_rows]
+    finding_vms = [_build_finding_vm(r, scope) for r in finding_rows]
 
     # Load debrief questions
     expert_qs = _debrief_questions(scope, session_id, "expert")
@@ -533,7 +547,7 @@ def synthesize(
     # Don't re-synthesize if findings already exist
     existing = scope.rows(findings, findings.c.session_id == session_id)
     if existing:
-        return [_build_finding_vm(r) for r in existing]
+        return [_build_finding_vm(r, scope) for r in existing]
 
     ctx = session_context(scope, session_id, as_of=as_of or date.today())
     synthesis: SessionSynthesis = analyze_session(ctx)

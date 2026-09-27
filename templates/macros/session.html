@@ -121,11 +121,13 @@
   {%- if b.evidence %}<div><div class="t-caps">Evidence</div>{{ _list(b.evidence) }}</div>{% endif %}
 
 {%- elif f.kind == 'tacit_knowledge' %}
-  {%- if b.formal_rule %}
+  {%- set formal = b.formal_rule or b.formal_knowledge %}
+  {%- set signals = b.observed_signals or b.signals %}
+  {%- if formal %}
   <div class="gap-banner">FORMAL / INFORMAL KNOWLEDGE GAP DETECTED</div>
   <div class="compare">
-    <div class="compare__col"><div class="t-caps">Formal knowledge</div><p class="compare__rule">{{ b.formal_rule }}</p></div>
-    <div class="compare__col compare__col--practice"><div class="t-caps">Expert practice</div>{{ _list(b.expert_practice or b.observed_signals) }}</div>
+    <div class="compare__col"><div class="t-caps">Formal knowledge</div><p class="compare__rule">{{ formal }}</p></div>
+    <div class="compare__col compare__col--practice"><div class="t-caps">Expert practice</div>{{ _list(b.expert_practice or signals) }}</div>
   </div>
   {%- endif %}
   <div class="record">
@@ -133,9 +135,10 @@
     <div class="record__title">{{ f.title }}</div>
     <dl class="facts facts--2">
       {%- if b.situation %}<div><dt class="t-caps">Situation</dt><dd>{{ b.situation }}</dd></div>{% endif %}
-      {%- if b.observed_signals and not b.formal_rule %}<div><dt class="t-caps">Observed signals</dt><dd>{{ _list(b.observed_signals) }}</dd></div>{% endif %}
+      {%- if signals and (not formal or b.expert_practice) %}<div><dt class="t-caps">Observed signals</dt><dd>{{ _list(signals) }}</dd></div>{% endif %}
       {%- if b.expert_reasoning %}<div><dt class="t-caps">Expert reasoning</dt><dd>{{ b.expert_reasoning }}</dd></div>{% endif %}
       {%- if b.recommended_response %}<div><dt class="t-caps">Recommended response</dt><dd>{{ b.recommended_response }}</dd></div>{% endif %}
+      {%- if b.why_it_matters %}<div><dt class="t-caps">Why it matters</dt><dd>{{ b.why_it_matters }}</dd></div>{% endif %}
     </dl>
   </div>
 
@@ -163,7 +166,7 @@
   {%- set label = k|replace('_', ' ')|upper %}
   {%- if k in ('current_level', 'suggested_level') %}
   <label class="field"><span class="t-caps">{{ label }}</span>
-    <select name="body.{{ k }}" data-type="int"{{ ' disabled' if k == 'current_level' }}>{% for l in vocab.CAPABILITY_LEVELS %}<option value="{{ loop.index0 }}"{{ ' selected' if loop.index0 == v }}>{{ loop.index0 }} · {{ l }}</option>{% endfor %}</select></label>
+    <select name="body.{{ k }}" data-type="int"{{ ' disabled' if k == 'current_level' }}>{% for l in vocab.CAPABILITY_LEVELS %}<option value="{{ loop.index0 }}"{{ ' selected' if loop.index0 == v or l == v }}>{{ loop.index0 }} · {{ l }}</option>{% endfor %}</select></label>
   {%- elif v is string %}
   <label class="field"><span class="t-caps">{{ label }}</span><textarea name="body.{{ k }}" rows="{{ 2 if v|length < 120 else 3 }}">{{ v }}</textarea></label>
   {%- elif v is iterable and v is not mapping %}
