@@ -614,6 +614,7 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
             ]
             active_filters["person"] = filters["person"]
 
+    ki_rows = sorted(ki_rows, key=lambda r: r.captured_on, reverse=True)  # newest first
     items = [_knowledge_card(r, people_map, names) for r in ki_rows]
 
     # Counts by type (over unfiltered data)

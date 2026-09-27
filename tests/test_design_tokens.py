@@ -12,7 +12,7 @@ def test_no_raw_colors_outside_tokens():
     files = [p for p in (ROOT / "static" / "css").glob("*.css") if p.name != "tokens.css"]
     files += [p for p in (ROOT / "templates").rglob("*.html") if "_preview" not in p.parts]
     for path in files:
-        for n, line in enumerate(path.read_text().splitlines(), 1):
+        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             # ignore HTML entities like &#9651; and URL fragments like url(#id-arrow)
             scrub = re.sub(r"&#\d+;|url\(#[^)]*\)|href=\"#[^\"]*\"", "", line)
             if RAW_COLOR.search(scrub):

@@ -198,7 +198,9 @@
 
   <div class="finding__body">{{ _body(f) }}</div>
 
+  {%- if f.evidence_sources %}
   <div class="finding__sources cluster"><span class="t-caps">Evidence sources</span>{% for src in f.evidence_sources %}<span class="tag">{{ src }}</span>{% endfor %}</div>
+  {%- endif %}
   {{ ui.rationale(f.rationale, om_component=f.impact, if_not_transferred=f.risk_if_untransferred) }}
 
   {%- if not resolved %}

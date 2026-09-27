@@ -409,3 +409,33 @@ class TestDebriefGeneration:
                 scope.delete(debriefs, row.id)
             scope.update(sessions, prepare_session_id, stage=original.stage,
                          transcript=original.transcript)
+
+
+class TestKnowledgeCapture:
+    """Demo step 12: an approved tacit-knowledge finding lands in the Knowledge Library."""
+
+    def test_approved_tacit_finding_becomes_validated_knowledge(self, conn, primary_id, prepare_session_id):
+        from app.db.schema import knowledge_items
+
+        scope = Scope(conn, primary_id)
+        session = scope.by_id(sessions, prepare_session_id)
+        scope.insert(
+            findings, id="f-test-tacit", session_id=prepare_session_id,
+            kind=FindingKind.TACIT_KNOWLEDGE.value, title="A rule the SOP does not state",
+            body={"situation": "S", "expert_reasoning": "R", "recommended_response": "Do X first"},
+            confidence="high", evidence_sources=[], rationale="r", impact="i",
+            risk_if_untransferred="k", status="pending",
+        )
+        try:
+            validate_finding(scope, prepare_session_id, "f-test-tacit",
+                             ValidationAction.APPROVE, session.expert_id, as_of=ANCHOR)
+            rows = [r for r in scope.rows(knowledge_items) if r.session_id == prepare_session_id
+                    and r.title == "A rule the SOP does not state"]
+            assert len(rows) == 1
+            ki = rows[0]
+            assert ki.validated and ki.expert_id == session.expert_id
+            assert ki.summary == "Do X first" and ki.body["situation"] == "S"
+        finally:
+            for r in scope.rows(knowledge_items):
+                if r.session_id == prepare_session_id and r.title == "A rule the SOP does not state":
+                    scope.delete(knowledge_items, r.id)

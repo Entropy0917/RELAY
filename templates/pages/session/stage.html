@@ -98,7 +98,7 @@
       <span class="t-caps">AI synthesis · {{ findings|length }} findings</span>
       <p class="t-sm t-muted">RELAY suggests. Nothing changes a capability level or the Knowledge Library until {{ session.expert.name }} approves it.</p>
     </div>
-    <div class="synthesis-bar__count"><span class="num">{{ findings|length - pending|length }}</span><span class="t-faint"> / {{ findings|length }} validated</span></div>
+    <div class="synthesis-bar__count"><span class="num" data-validated-count>{{ findings|length - pending|length }}</span><span class="t-faint"> / {{ findings|length }} validated</span></div>
   </div>
   {% for f in findings %}{{ s.finding_card(f, session.id, can_act=can_act and stage == 'validation', blocked_reason=blocked_reason if stage == 'validation' else 'Continue to validation to review each finding.') }}{% endfor %}
   {% if stage == 'synthesis' %}
@@ -106,8 +106,8 @@
   <div class="stage-actions">{{ ui.link_button('Review & validate →', href('session_stage', session_id=session.id, stage='validation'), 'primary') }}</div>
   {% else %}
   <form class="stage-actions" method="post" action="{{ advance_url }}"{{ ' inert' if past }}>
-    <span class="t-faint t-sm">{{ (pending|length ~ ' finding' ~ ('s' if pending|length != 1) ~ ' still pending.') if pending else 'All findings reviewed.' }}</span>
-    <button class="btn btn--primary" type="submit"{{ ' disabled' if pending or not can_act }}>Complete validation →</button>
+    <span class="t-faint t-sm" data-pending-text>{{ (pending|length ~ ' finding' ~ ('s' if pending|length != 1) ~ ' still pending.') if pending else 'All findings reviewed.' }}</span>
+    <button class="btn btn--primary" type="submit" data-complete-validation data-can-act="{{ 'true' if can_act else 'false' }}"{{ ' disabled' if pending or not can_act }}>Complete validation →</button>
   </form>
   {% endif %}
   {% else %}
