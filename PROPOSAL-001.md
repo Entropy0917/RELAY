@@ -15,26 +15,38 @@ fields keep working; fixtures that omit them keep validating.
 
 ## Summary
 
-| # | Change | VM | Backend cost | Blast radius |
-|---|--------|-----|--------------|--------------|
-| 1 | `next_experience` | `SessionStageVM` | AI call already built | one stage template |
+| # | Change | VM | Status | Blast radius |
+|---|--------|-----|--------|--------------|
+| 1 | `next_experience` | `SessionStageVM` | **backend already done** — passthrough only | one stage template |
 | 2 | `evidence` | `PassportVM` | rows already read | one page |
 | 3 | `changed` | `CapabilityRow` | known at validation | wherever rows render |
 | 4 | `days_until_departure` | `ShellVM` | helper already exists | **every page, every fixture** |
-| 5 | `formula` / `inputs` | `RiskItem` | already computed | risk lists |
-| 6 | Expert Insight fields | `KnowledgeCard` | unknown | needs detail from frontend |
+| 5 | `formula` / `inputs` | `RiskItem` | ~~**withdrawn** — solved without a contract change~~ | — |
+| 6 | `detail` | `KnowledgeCard` | **now priced** — content already in the DB | one page |
 
-Items 1–5 are specified below and ready to implement on approval. Item 6
-needs the frontend to say which fields it means.
+**Five decisions left: 1, 2, 3, 4, 6.** Item 5 is withdrawn. Item 1's backend
+is built and committed, so approving it is a one-line passthrough.
 
 ---
 
 ## 1. `SessionStageVM.next_experience` — the one that matters
 
-**Problem.** The last stage of the session loop currently generates nothing.
-`recommend_next_experience` is imported at `app/services/session.py:33` and
-never called; `SessionStageVM(...)` at line 266 never passes `next_brief`, so
-it is `None` on every render. Demo step 15 shows an empty panel.
+**Backend is done** (`3fc1f0b`). `recommend_next_experience` now runs on
+leaving VALIDATION — after validation rather than at synthesis, so it reads
+the levels the validated findings just moved — and the whole recommendation is
+persisted to `sessions.next_experience`. Approving this item costs a
+passthrough, not an AI call or a rewrite.
+
+**What was wrong.** The last stage of the loop generated nothing:
+`recommend_next_experience` was imported at `app/services/session.py:33` and
+never called, and `SessionStageVM(...)` never passed `next_brief`. Demo step 15
+showed an empty panel.
+
+**Already visible without any contract change:** `CapabilityRow.next_experience`
+has been in the frozen contract all along and was `None` on all 40 instances.
+It now shows the recommended work on the learner's row. So the recommendation
+already reaches the screen — this item is about the NEXT_ACTION panel, where
+`rail`, `urgency` and `risk_if_deferred` have nowhere to go.
 
 **Why not just fill `next_brief`.** The contract offers
 `next_brief: SessionBriefVM`. The built AI function returns `NextExperience`,
@@ -158,11 +170,12 @@ item to defer — the other four are independent of it.
 
 ## 5. `RiskItem.formula` / `inputs`
 
-Already shipped in a weaker form (`8e2cbb0`): risk explanations now fold the
-deciding numbers into `problem`, so no contract change was needed and nothing
-is blocked on this item.
+**Withdrawn.** Shipped without a contract change (`8e2cbb0`): risk
+explanations fold the deciding numbers into `problem`, and `local_trainer` —
+also hardcoded `None` — is now driven by the engine's `teachers` input.
 
-The cleaner version matches how `MetricTile` already works:
+Kept here only as a note. If risks ever want the same "how is this calculated"
+popover as metrics, the fields would be:
 
 ```python
 class RiskItem(BaseModel):
@@ -171,30 +184,46 @@ class RiskItem(BaseModel):
     inputs: dict[str, str] = Field(default_factory=dict)
 ```
 
-`RiskFinding` already carries both. This would let risks use the same
-"how is this calculated" popover as metrics instead of a prose sentence.
-**Lowest priority — a consistency win, not a gap.**
+`RiskFinding` already carries both. **Not proposed — no decision needed.**
 
 ---
 
-## 6. Expert Insight fields — needs detail
+## 6. `KnowledgeCard.detail` — priced, and bigger than it looked
 
-`KnowledgeCard` already carries `summary`, `type`, `type_label`, `area`,
-`capability`, `expert`, `source_session`, `validated`, `people_exposed`.
+**The content already exists and is invisible.** `knowledge_items.body` is a
+populated JSON column across the whole seed, holding `scope`, `sections`,
+`known_limits`, `status`, `authored_by`. `KnowledgeCard` exposes none of it —
+only `summary` reaches the screen. Every knowledge card in the demo is showing
+one line out of a paragraph.
 
-Which fields are missing? If they exist on `extract_tacit_knowledge`'s output
-schema, this is cheap. If they need new AI output, it is a larger change and
-should be weighed against demo time remaining.
+`extract_tacit_knowledge` produces matching structure for new items:
+`situation`, `content`, `why_it_matters`, `source`.
+
+```python
+class KnowledgeCard(BaseModel):
+    ...
+    detail: dict[str, Any] = Field(default_factory=dict)   # NEW
+```
+
+A free-form dict because `body` genuinely varies per item — a written
+procedure has `sections`, a judgement call has `known_limits`. A fixed schema
+would force empty keys on most cards. The frontend renders whatever keys are
+present.
+
+`capability` on this card was also hardcoded `None` while 23 of 25 rows had a
+`capability_id`; fixed in `7f04ad0`, no contract change needed.
 
 ---
 
 ## Decision
 
-Per item, one of: **approve**, **defer**, **reject**.
+Five items: **1, 2, 3, 4, 6** (5 withdrawn). Per item, one of: **approve**,
+**defer**, **reject**.
 
-Suggested order if time is short — 1, then 2, then 4. Item 1 is a hole in the
-demo path; 2 and 4 are what make the product's claims legible; 3 and 5 are
-polish; 6 is unpriced.
+Suggested order if time is short — **1** (already built, passthrough only),
+then **6** (most hidden content per line of work), then **2**, then **4**.
+Item 3 is polish. **Item 4 is the one to defer if shell markup is in flight** —
+it is the only change that touches every page and every fixture.
 
 On approval I implement the backend side and the `contracts/` commit carries
 both names.
