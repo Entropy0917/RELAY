@@ -327,3 +327,85 @@ class TestStageView:
         current_steps = [s for s in vm.stages if s["state"] == "current"]
         assert len(current_steps) == 1
         assert current_steps[0]["key"] == "prepare"
+
+
+class TestNextBrief:
+    """Demo step 15: NEXT_ACTION shows a brief built from the stored recommendation."""
+
+    RECOMMENDATION = {
+        "capability": "Capability Under Test",
+        "current_level": 3,
+        "target_level": 4,
+        "rail": "lead",
+        "objective": "Lead the next case end to end.",
+        "recommended_experience": "The next live case.",
+        "learner_responsibilities": ["Assess", "Recommend", "Explain the risk"],
+        "expert_role": "Stay silent until asked.",
+        "rationale": "Validated evidence from this session.",
+        "risk_if_deferred": "Stays expert-dependent.",
+        "urgency": "high",
+    }
+
+    def _finished_session(self, scope):
+        rows = [r for r in scope.rows(sessions) if r.stage == SessionStage.NEXT_ACTION.value]
+        assert rows, "seed must hold a completed session"
+        return rows[0]
+
+    def test_next_brief_from_stored_recommendation(self, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        session = self._finished_session(scope)
+        scope.update(sessions, session.id, next_experience=self.RECOMMENDATION)
+        vm = get_stage_vm(scope, session.id, SessionStage.NEXT_ACTION, _make_shell(), as_of=ANCHOR)
+        assert vm.next_brief is not None
+        assert vm.next_brief.primary_target == "Capability Under Test"
+        assert vm.next_brief.current_level == "Performed with Supervision"
+        assert vm.next_brief.watch_for == ["Assess", "Recommend", "Explain the risk"]
+
+    def test_malformed_recommendation_yields_no_brief(self, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        session = self._finished_session(scope)
+        scope.update(sessions, session.id, next_experience={"capability": "only"})
+        vm = get_stage_vm(scope, session.id, SessionStage.NEXT_ACTION, _make_shell(), as_of=ANCHOR)
+        assert vm.next_brief is None
+
+
+class TestDebriefGeneration:
+    """Demo steps 3-4: leaving CAPTURE asks the expert, leaving EXPERT_DEBRIEF asks the learner."""
+
+    def test_questions_generated_from_unsaved_input(self, conn, primary_id, prepare_session_id):
+        from app.ai.schemas.debrief import DebriefQuestion as AIQ, DebriefQuestions
+
+        seen = {}
+
+        def fake(role, label):
+            def call(ctx):
+                seen[role] = ctx
+                return DebriefQuestions(questions=[AIQ(question=f"{label}?", grounded_in="x", looking_for="y")])
+            return call
+
+        scope = Scope(conn, primary_id)
+        original = scope.by_id(sessions, prepare_session_id)
+        scope.update(sessions, prepare_session_id, stage="capture")
+        try:
+            with patch("app.services.session.generate_expert_debrief", side_effect=fake("expert", "E")), \
+                 patch("app.services.session.generate_learner_debrief", side_effect=fake("learner", "L")):
+                advance_stage(scope, prepare_session_id, SessionStage.CAPTURE,
+                              form_data={"transcript": "NEW TRANSCRIPT"}, as_of=ANCHOR)
+                assert seen["expert"].transcript == "NEW TRANSCRIPT"
+                vm = get_stage_vm(scope, prepare_session_id, SessionStage.EXPERT_DEBRIEF,
+                                  _make_shell(), as_of=ANCHOR)
+                assert [q.question for q in vm.expert_questions] == ["E?"]
+
+                qid = vm.expert_questions[0].id
+                advance_stage(scope, prepare_session_id, SessionStage.EXPERT_DEBRIEF,
+                              form_data={f"answer_{qid}": "EXPERT ANSWER"},
+                              persona_id=original.expert_id, as_of=ANCHOR)
+                assert seen["learner"].expert_debrief[0].answer == "EXPERT ANSWER"
+                vm = get_stage_vm(scope, prepare_session_id, SessionStage.LEARNER_DEBRIEF,
+                                  _make_shell(), as_of=ANCHOR)
+                assert [q.question for q in vm.learner_questions] == ["L?"]
+        finally:
+            for row in scope.rows(debriefs, debriefs.c.session_id == prepare_session_id):
+                scope.delete(debriefs, row.id)
+            scope.update(sessions, prepare_session_id, stage=original.stage,
+                         transcript=original.transcript)
