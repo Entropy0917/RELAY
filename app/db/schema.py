@@ -202,6 +202,7 @@ sessions = Table(
     Column("area_id", String, ForeignKey("operating_model_areas.id")),
     Column("capability_id", String, ForeignKey("capabilities.id")),
     Column("brief", JSON),  # the generated preparation brief
+    Column("next_experience", JSON),  # the generated NEXT_ACTION recommendation
     Column("transcript", Text),
     Column("notes", Text),
 )

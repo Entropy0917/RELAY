@@ -228,7 +228,11 @@ def readiness():
         eid, pid = _resolve(conn)
         scope = Scope(conn, eid)
         shell = _build_shell(conn, eid, pid, "readiness")
-        data = build_readiness(scope, as_of=_get_as_of())
+        data = build_readiness(
+            scope,
+            as_of=_get_as_of(),
+            capability_id=request.args.get("capability"),
+        )
         return render_vm("readiness", ReadinessVM(shell=shell, **data))
 
 

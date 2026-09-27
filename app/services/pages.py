@@ -23,6 +23,7 @@ from app.db.schema import (
     operating_model_areas,
     people,
     person_capabilities,
+    sessions,
     transfer_requirements,
 )
 from app.db.scoped import Scope
@@ -90,8 +91,14 @@ def _metric_tile(m: Metric) -> MetricTile:
     return MetricTile(**m.as_tile())
 
 
-def _cap_row(pc, cap_map: dict, evidence_counts: dict) -> CapabilityRow:
+def _cap_row(
+    pc,
+    cap_map: dict,
+    evidence_counts: dict,
+    recommendations: dict[tuple[str, str], str] | None = None,
+) -> CapabilityRow:
     cap = cap_map.get(pc.capability_id)
+    recommendations = recommendations or {}
     return CapabilityRow(
         capability_id=pc.capability_id,
         capability=cap.name if cap else "",
@@ -99,19 +106,59 @@ def _cap_row(pc, cap_map: dict, evidence_counts: dict) -> CapabilityRow:
         level_label=CAPABILITY_LEVELS[pc.level],
         exposures=pc.exposure_count,
         last_demonstrated=str(pc.last_demonstrated) if pc.last_demonstrated else None,
+        next_experience=recommendations.get((pc.person_id, pc.capability_id)),
         trainer_ready=(pc.level >= 6),
     )
 
 
-def _knowledge_card(row, people_map: dict) -> KnowledgeCard:
+def _next_experiences(scope: Scope) -> dict[tuple[str, str], str]:
+    """(person, capability) -> the work RELAY recommends they lead next.
+
+    Sessions store the whole NEXT_ACTION recommendation; this pulls out the one
+    line a capability row has room for. The recommendation names its capability
+    in prose, because the model that wrote it was reasoning about capabilities
+    rather than rows, so it is matched back to an id by name. An unmatched name
+    is skipped rather than guessed -- a row saying nothing is better than a row
+    attributing work to the wrong capability.
+    """
+    by_name = {row.name.casefold(): row.id for row in scope.rows(capabilities)}
+    out: dict[tuple[str, str], str] = {}
+    for session in scope.rows(sessions):
+        recommendation = session.next_experience
+        if not recommendation:
+            continue
+        capability_id = by_name.get(str(recommendation.get("capability", "")).casefold())
+        if capability_id is None:
+            continue
+        work = recommendation.get("recommended_experience")
+        if not work:
+            continue
+        for learner_id in session.learner_ids or ():
+            out[(learner_id, capability_id)] = work
+    return out
+
+
+def _knowledge_card(row, people_map: dict, names: dict[str, str]) -> KnowledgeCard:
+    """One knowledge item as a card.
+
+    `names` resolves every id this card shows. It is passed in rather than
+    looked up from module state: an area name belongs to one engagement, and a
+    resolver that outlives the request can answer with another engagement's
+    names (see `_display_names`).
+
+    `source_session` stays an id on purpose -- the contract fixture holds ids
+    there because the frontend links on it, unlike `area` and `capability`,
+    which are read.
+    """
     expert = people_map.get(row.expert_id)
+    capability_id = getattr(row, "capability_id", None)
     return KnowledgeCard(
         id=row.id,
         title=row.title,
         type=KnowledgeType(row.type),
         type_label=KNOWLEDGE_LABEL.get(KnowledgeType(row.type), row.type),
-        area=_area_name(row.area_id) if hasattr(row, "area_id") else "",
-        capability=None,
+        area=names.get(getattr(row, "area_id", None) or "", ""),
+        capability=names.get(capability_id) if capability_id else None,
         expert=expert.name if expert else "",
         source_session=row.session_id if hasattr(row, "session_id") else None,
         validated=bool(row.validated),
@@ -121,19 +168,6 @@ def _knowledge_card(row, people_map: dict) -> KnowledgeCard:
         ],
         summary=row.summary,
     )
-
-
-# Cache-friendly area name resolver
-_area_cache: dict[str, str] = {}
-
-
-def _area_name(area_id: str | None) -> str:
-    return _area_cache.get(area_id or "", "")
-
-
-def _load_area_cache(scope: Scope) -> None:
-    global _area_cache
-    _area_cache = {row.id: row.name for row in scope.rows(operating_model_areas)}
 
 
 _RECOMMENDED_ACTIONS: dict[RiskKind, str] = {
@@ -157,7 +191,85 @@ _RISK_TITLES: dict[RiskKind, str] = {
 }
 
 
-def _risk_item(rf: RiskFinding) -> RiskItem:
+# Why this row is on the register, in the engagement's own terms. B4 already
+# computes the deciding numbers and hands them over on `RiskFinding.inputs`;
+# `_risk_item` used to drop them, which is how three different capabilities
+# ended up showing the same sentence. Placeholders are `inputs` keys, so a
+# template can only cite a number the engine actually produced.
+_RISK_EXPLANATIONS: dict[RiskKind, str] = {
+    RiskKind.NO_LOCAL_COVERAGE: (
+        "Best local level is {best_local_level}; independent practice starts at "
+        "level {threshold}."
+    ),
+    RiskKind.NO_LOCAL_OWNER: "Recorded owner: {owner_id}; validated: {owner_validated}.",
+    RiskKind.UNDOCUMENTED_TACIT: (
+        "A {kind} requirement, {state} and not yet validated, with no written "
+        "capability behind it."
+    ),
+    RiskKind.OBSERVED_NEVER_PERFORMED: (
+        "Best local level is {best_local_level}; nothing above observation is on "
+        "record."
+    ),
+    RiskKind.SINGLE_KNOWLEDGE_HOLDER: (
+        "Held by {holders}. Qualified to teach it: {teachers}."
+    ),
+    RiskKind.EXPERT_DEPENDENT_RELATIONSHIP: "Transfer state is {state}.",
+    RiskKind.NO_LOCAL_TRAINER: (
+        "Nobody local has reached trainer level on {area_capabilities}."
+    ),
+}
+
+# `inputs` values are storage identifiers where they name a row. Rendering one
+# straight through would put a primary key on screen, so ids are resolved via
+# the engagement's own names -- which keeps the code free of engagement content
+# (planv0.2.md section 0.5) while the screen stays readable.
+_NONE_MARKERS = frozenset({"(none)", "", "none"})
+
+
+def _display_names(scope: Scope) -> dict[str, str]:
+    """id -> human name, across every table a risk can point at."""
+    names: dict[str, str] = {}
+    for table in (people, capabilities, operating_model_areas):
+        for row in scope.rows(table):
+            names[row.id] = row.name
+    return names
+
+
+def _humanize(value: str, names: dict[str, str]) -> str:
+    """Resolve ids to names inside a comma-separated input value."""
+    if value.strip().lower() in _NONE_MARKERS:
+        return "nobody"
+    parts = [v.strip() for v in value.split(",") if v.strip()]
+    return ", ".join(names.get(part, part) for part in parts)
+
+
+def _risk_problem(rf: RiskFinding, names: dict[str, str]) -> str:
+    """`detail` plus the numbers that put this row on the register.
+
+    A missing key means the engine changed its inputs without this dict
+    following; the detail alone is still true, so the row degrades to what it
+    said before rather than raising in the middle of a demo.
+    """
+    template = _RISK_EXPLANATIONS.get(rf.kind)
+    if not template:
+        return rf.detail
+    resolved = {k: _humanize(v, names) for k, v in rf.inputs.items()}
+    try:
+        return f"{rf.detail} {template.format(**resolved)}"
+    except KeyError:
+        return rf.detail
+
+
+def _risk_local_trainer(rf: RiskFinding, names: dict[str, str]) -> str | None:
+    """Who could already teach this, when the engine knows of anyone."""
+    teachers = rf.inputs.get("teachers", "")
+    if not teachers or teachers.strip().lower() in _NONE_MARKERS:
+        return None
+    return _humanize(teachers, names)
+
+
+def _risk_item(rf: RiskFinding, names: dict[str, str] | None = None) -> RiskItem:
+    names = names or {}
     tmpl = _RISK_TITLES.get(rf.kind, "{name} risk flagged")
     title = tmpl.format(name=rf.subject_name)
     action = _RECOMMENDED_ACTIONS.get(
@@ -166,8 +278,8 @@ def _risk_item(rf: RiskFinding) -> RiskItem:
     return RiskItem(
         severity=rf.value,
         title=title,
-        problem=rf.detail,
-        local_trainer=None,
+        problem=_risk_problem(rf, names),
+        local_trainer=_risk_local_trainer(rf, names),
         recommended_action=action,
     )
 
@@ -223,7 +335,6 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
     dep = departing_expert(snapshot)
     risk_register = knowledge_at_risk(snapshot)
 
-    _load_area_cache(scope)
     people_map = {row.id: row for row in scope.rows(people)}
     dep_ref = _person_ref(people_map[dep.id]) if dep and dep.id in people_map else None
     days_rem = (dep.departure_date - as_of).days if dep and dep.departure_date else None
@@ -231,19 +342,25 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
     # Recent knowledge
     ki_rows = scope.rows(knowledge_items)
     ki_rows_sorted = sorted(ki_rows, key=lambda r: r.captured_on, reverse=True)
-    recent_knowledge = [_knowledge_card(r, people_map) for r in ki_rows_sorted[:5]]
+    recent_knowledge = [
+        _knowledge_card(r, people_map, _display_names(scope))
+        for r in ki_rows_sorted[:5]
+    ]
 
     # Trainer progress: counterparts at level >= 5
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
     trainer_progress = []
     for pc in scope.rows(person_capabilities):
         if pc.level >= 5:
             p = people_map.get(pc.person_id)
             if p and Role(p.role) != Role.EXPERT:
-                trainer_progress.append(_cap_row(pc, cap_map, evidence_counts))
+                trainer_progress.append(
+                    _cap_row(pc, cap_map, evidence_counts, recommendations)
+                )
 
-    risk_items = [_risk_item(r) for r in risk_register.findings]
+    risk_items = [_risk_item(r, _display_names(scope)) for r in risk_register.findings]
 
     return dict(
         metrics=[_metric_tile(m) for m in metrics],
@@ -307,6 +424,7 @@ def build_area_detail(scope: Scope, area_id: str, *, as_of: date) -> dict:
     cap_rows = scope.rows(capabilities, capabilities.c.area_id == area_id)
     cap_map = {r.id: r for r in cap_rows}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
 
     cap_list = []
     for cap in cap_rows:
@@ -316,7 +434,9 @@ def build_area_detail(scope: Scope, area_id: str, *, as_of: date) -> dict:
             person_capabilities.c.capability_id == cap.id,
         )
         for pc in pcs:
-            cap_list.append(_cap_row(pc, {cap.id: cap}, evidence_counts))
+            cap_list.append(
+                _cap_row(pc, {cap.id: cap}, evidence_counts, recommendations)
+            )
 
     return dict(
         area=card,
@@ -335,6 +455,7 @@ def build_blueprint(scope: Scope, *, as_of: date) -> dict:
     area_rmap = {ar.area_id: ar for ar in all_area_readiness(snapshot)}
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
 
     areas = []
     for area_row in scope.rows(operating_model_areas):
@@ -363,7 +484,9 @@ def build_blueprint(scope: Scope, *, as_of: date) -> dict:
             for pc in pcs:
                 p = scope.by_id(people, pc.person_id)
                 if p and Role(p.role) != Role.EXPERT:
-                    local_caps.append(_cap_row(pc, {cap.id: cap}, evidence_counts))
+                    local_caps.append(
+                        _cap_row(pc, {cap.id: cap}, evidence_counts, recommendations)
+                    )
 
         areas.append(BlueprintAreaVM(
             area=card,
@@ -409,12 +532,16 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
 
     cap_map = {r.id: r for r in scope.rows(capabilities)}
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
     people_map = {r.id: r for r in scope.rows(people)}
+    names = _display_names(scope)
 
     pcs = scope.rows(
         person_capabilities, person_capabilities.c.person_id == person_id
     )
-    cap_rows = [_cap_row(pc, cap_map, evidence_counts) for pc in pcs]
+    cap_rows = [
+        _cap_row(pc, cap_map, evidence_counts, recommendations) for pc in pcs
+    ]
 
     # Total evidence
     total_evidence = sum(evidence_counts.get(pc.id, 0) for pc in pcs)
@@ -422,7 +549,7 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
     # Knowledge this person has been exposed to
     ki_rows = scope.rows(knowledge_items)
     exposed = [
-        _knowledge_card(ki, people_map) for ki in ki_rows
+        _knowledge_card(ki, people_map, names) for ki in ki_rows
         if person_id in (ki.people_exposed or [])
     ]
 
@@ -440,7 +567,7 @@ def build_passport(scope: Scope, person_id: str, *, as_of: date) -> dict:
 
 def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
     people_map = {r.id: r for r in scope.rows(people)}
-    _load_area_cache(scope)
+    names = _display_names(scope)
 
     ki_rows = scope.rows(knowledge_items)
 
@@ -454,7 +581,7 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
             # Accept the area id or its display name (the page links by name).
             ki_rows = [
                 r for r in ki_rows
-                if filters["area"] in (r.area_id, _area_name(r.area_id))
+                if filters["area"] in (r.area_id, names.get(r.area_id or "", ""))
             ]
             active_filters["area"] = filters["area"]
         if "person" in filters and filters["person"]:
@@ -469,7 +596,7 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
             ]
             active_filters["person"] = filters["person"]
 
-    items = [_knowledge_card(r, people_map) for r in ki_rows]
+    items = [_knowledge_card(r, people_map, names) for r in ki_rows]
 
     # Counts by type (over unfiltered data)
     all_ki = scope.rows(knowledge_items)
@@ -488,31 +615,29 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
 # Readiness
 # ---------------------------------------------------------------------------
 
-def build_readiness(scope: Scope, *, as_of: date) -> dict:
+def build_readiness(
+    scope: Scope, *, as_of: date, capability_id: str | None = None
+) -> dict:
+    """The readiness page. `capability_id` narrows the propagation tree.
+
+    `ReadinessVM.propagation_capability` has been in the contract since it was
+    frozen; without an argument to drive it the page could only ever show the
+    whole engagement. Filtering asks the question the tree exists to answer --
+    who can carry *this* capability once the expert is gone.
+    """
     snapshot = readiness_snapshot(scope, as_of=as_of)
     metrics = all_metrics(snapshot)
     area_rmap = {ar.area_id: ar for ar in all_area_readiness(snapshot)}
 
+    names = _display_names(scope)
     risk_register = knowledge_at_risk(snapshot)
-    risk_items = [_risk_item(r) for r in risk_register.findings]
+    risk_items = [_risk_item(r, names) for r in risk_register.findings]
 
     areas = []
     for row in scope.rows(operating_model_areas):
         areas.append(_area_card(row, scope, snapshot, area_rmap))
 
-    # Propagation — build a simple tree
-    people_map = {r.id: r for r in scope.rows(people)}
-    propagation: list[PropagationNode] = []
-    for p_row in scope.rows(people):
-        if Role(p_row.role) == Role.EXPERT:
-            propagation.append(PropagationNode(
-                person=_person_ref(p_row),
-                taught_by=None,
-                children=[
-                    pid for pid in people_map
-                    if Role(people_map[pid].role) != Role.EXPERT
-                ],
-            ))
+    propagation, propagation_capability = _propagation(scope, capability_id)
 
     return dict(
         metrics=[_metric_tile(m) for m in metrics.values()],
@@ -520,7 +645,55 @@ def build_readiness(scope: Scope, *, as_of: date) -> dict:
         risks=risk_items,
         before_departure=[r.recommended_action for r in risk_items[:3]],
         propagation=propagation,
-        propagation_capability=None,
+        propagation_capability=propagation_capability,
+    )
+
+
+def _propagation(
+    scope: Scope, capability_id: str | None
+) -> tuple[list[PropagationNode], str | None]:
+    """Who learned from whom, optionally narrowed to one capability.
+
+    An unknown capability id yields an empty tree rather than silently showing
+    everyone: a filter that appears to have been ignored is worse on a demo
+    screen than one that visibly matches nothing.
+    """
+    people_rows = scope.rows(people)
+    label: str | None = None
+    included: set[str] | None = None
+
+    if capability_id:
+        cap = scope.by_id(capabilities, capability_id)
+        label = cap.name if cap is not None else capability_id
+        included = {
+            pc.person_id
+            for pc in scope.rows(
+                person_capabilities,
+                person_capabilities.c.capability_id == capability_id,
+            )
+        }
+        if cap is None:
+            included = set()
+
+    def carries(person_id: str) -> bool:
+        return included is None or person_id in included
+
+    learners = [
+        r.id for r in people_rows
+        if Role(r.role) != Role.EXPERT and carries(r.id)
+    ]
+
+    return (
+        [
+            PropagationNode(
+                person=_person_ref(r),
+                taught_by=None,
+                children=learners,
+            )
+            for r in people_rows
+            if Role(r.role) == Role.EXPERT and carries(r.id)
+        ],
+        label,
     )
 
 
@@ -538,6 +711,7 @@ def build_capability_row(scope: Scope, person_id: str, capability_id: str) -> di
         raise ValueError(f"no capability '{capability_id}'")
 
     evidence_counts = _count_evidence(scope)
+    recommendations = _next_experiences(scope)
     pc = None
     for row in scope.rows(
         person_capabilities,
@@ -551,7 +725,9 @@ def build_capability_row(scope: Scope, person_id: str, capability_id: str) -> di
         raise ValueError(f"no person_capability for {person_id}/{capability_id}")
 
     return dict(
-        row=_cap_row(pc, {capability_id: cap_row}, evidence_counts),
+        row=_cap_row(
+            pc, {capability_id: cap_row}, evidence_counts, _next_experiences(scope)
+        ),
         person=_person_ref(person_row),
     )
 

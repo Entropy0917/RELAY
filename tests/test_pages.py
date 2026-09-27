@@ -10,6 +10,7 @@ import os
 from datetime import date
 
 import pytest
+import sqlalchemy as sa
 
 from app.db.connection import connect, get_engine
 from app.db.schema import (
@@ -190,6 +191,217 @@ class TestReadiness:
         data = build_readiness(scope, as_of=ANCHOR)
         vm = ReadinessVM(shell=_make_shell(), **data)
         assert len(vm.metrics) > 0
+
+
+class TestRiskExplanations:
+    """Every risk must say which numbers put it on the register.
+
+    The engine already computes them; the page used to drop them, so these
+    guard the seam rather than the arithmetic.
+    """
+
+    def _risks(self, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        data = build_readiness(scope, as_of=ANCHOR)
+        return ReadinessVM(shell=_make_shell(), **data).risks
+
+    def test_every_risk_explains_itself(self, conn, primary_id):
+        risks = self._risks(conn, primary_id)
+        assert risks, "seed should produce risks"
+        for risk in risks:
+            assert len(risk.problem) > len(risk.title) // 2
+            assert risk.problem.strip().endswith(".")
+
+    def test_explanation_cites_the_deciding_numbers(self, conn, primary_id):
+        """A no-coverage risk names the level that failed the threshold."""
+        risks = self._risks(conn, primary_id)
+        coverage = [r for r in risks if "independent local coverage" in r.title]
+        assert coverage, "seed should contain a no-coverage risk"
+        problem = coverage[0].problem
+        assert "level" in problem.lower()
+        assert any(ch.isdigit() for ch in problem)
+
+    def test_no_identifier_reaches_the_screen(self, conn, primary_id):
+        """Inputs carry row ids; the page must show names instead."""
+        import re
+
+        pattern = re.compile(r"(?:p-|cap-|area-|req-)[a-z]")
+        for risk in self._risks(conn, primary_id):
+            assert not pattern.search(risk.problem), risk.problem
+            assert not pattern.search(risk.local_trainer or ""), risk.local_trainer
+
+    def test_local_trainer_filled_when_someone_can_teach(self, conn, primary_id):
+        """`teachers` is '(none)' across the seed, so the field stays None --
+        but it must be driven by the data, never hardcoded."""
+        risks = self._risks(conn, primary_id)
+        single = [r for r in risks if "single knowledge holder" in r.title]
+        assert single, "seed should contain a single-holder risk"
+        assert "nobody" in single[0].problem.lower()
+
+
+class TestNextExperienceOnCapabilityRows:
+    """CapabilityRow.next_experience is in the frozen contract and was always
+    None. It is filled from the recommendation NEXT_ACTION persists."""
+
+    def _plant(self, conn, primary_id, capability_name):
+        from app.db.schema import sessions as s_table
+
+        scope = Scope(conn, primary_id)
+        session = scope.rows(s_table)[0]
+        conn.execute(
+            sa.update(s_table)
+            .where(s_table.c.id == session.id)
+            .values(next_experience={
+                "capability": capability_name,
+                "recommended_experience": "Lead the next review end to end.",
+                "objective": "o", "current_level": 3, "target_level": 4,
+                "rail": "lead", "learner_responsibilities": ["a"],
+                "expert_role": "observe", "rationale": "r",
+                "risk_if_deferred": "d", "urgency": "high",
+            })
+        )
+        return scope, list(session.learner_ids or ())
+
+    def _clear(self, conn, primary_id):
+        from app.db.schema import sessions as s_table
+
+        conn.execute(sa.update(s_table).values(next_experience=None))
+
+    def test_recommendation_reaches_the_learners_row(self, conn, primary_id):
+        from app.db.schema import capabilities
+
+        scope = Scope(conn, primary_id)
+        cap = scope.rows(capabilities)[0]
+        try:
+            scope, learners = self._plant(conn, primary_id, cap.name)
+            assert learners, "seed session should have learners"
+            data = build_passport(scope, learners[0], as_of=ANCHOR)
+            vm = PassportVM(shell=_make_shell(), **data)
+            matched = [r for r in vm.capabilities if r.capability_id == cap.id]
+            if matched:
+                assert matched[0].next_experience == "Lead the next review end to end."
+            for row in vm.capabilities:
+                if row.capability_id != cap.id:
+                    assert row.next_experience is None
+        finally:
+            self._clear(conn, primary_id)
+
+    def test_unmatched_capability_name_is_skipped_not_guessed(self, conn, primary_id):
+        """A name the engagement does not use must attach to no row at all."""
+        try:
+            scope, learners = self._plant(conn, primary_id, "A Capability That Does Not Exist")
+            data = build_passport(scope, learners[0], as_of=ANCHOR)
+            vm = PassportVM(shell=_make_shell(), **data)
+            assert all(r.next_experience is None for r in vm.capabilities)
+        finally:
+            self._clear(conn, primary_id)
+
+    def test_absent_recommendation_leaves_rows_alone(self, conn, primary_id):
+        self._clear(conn, primary_id)
+        scope = Scope(conn, primary_id)
+        person = scope.rows(people)[0]
+        data = build_passport(scope, person.id, as_of=ANCHOR)
+        vm = PassportVM(shell=_make_shell(), **data)
+        assert all(r.next_experience is None for r in vm.capabilities)
+
+
+class TestKnowledgeCardNames:
+    """Cards must resolve their own ids, without relying on call order.
+
+    These names used to come from a module-level cache that only some pages
+    populated, so a passport opened first in a fresh process rendered every
+    area as an empty string -- and a passport opened after another
+    engagement's page could render that engagement's names.
+    """
+
+    def test_passport_names_areas_without_priming(self, conn, primary_id):
+        from app.db.schema import knowledge_items
+
+        scope = Scope(conn, primary_id)
+        exposed_ids = {
+            pid
+            for row in scope.rows(knowledge_items)
+            for pid in (row.people_exposed or [])
+        }
+        assert exposed_ids, "seed should expose knowledge to someone"
+        person_id = sorted(exposed_ids)[0]
+
+        data = build_passport(scope, person_id, as_of=ANCHOR)
+        vm = PassportVM(shell=_make_shell(), **data)
+        assert vm.knowledge_exposed
+        for card in vm.knowledge_exposed:
+            assert card.area, f"{card.id} rendered a blank area"
+
+    def test_capability_is_a_name_not_an_id(self, conn, primary_id):
+        from app.db.schema import knowledge_items
+
+        scope = Scope(conn, primary_id)
+        data = build_knowledge(scope)
+        vm = KnowledgeVM(shell=_make_shell(), **data)
+
+        seeded = sum(1 for r in scope.rows(knowledge_items) if r.capability_id)
+        filled = sum(1 for card in vm.items if card.capability)
+        assert filled == seeded, "every seeded capability_id should resolve"
+
+        for card in vm.items:
+            if card.capability:
+                assert not card.capability.startswith("cap-"), card.capability
+
+    def test_names_do_not_cross_engagements(self, conn):
+        """Each engagement resolves only its own area names."""
+        from app.db.schema import engagements, operating_model_areas as oma
+
+        ids = [r.id for r in conn.execute(sa.select(engagements.c.id))]
+        assert len(ids) > 1, "reusability needs a second engagement"
+
+        for eid in ids:
+            scope = Scope(conn, eid)
+            own = {r.name for r in scope.rows(oma)}
+            vm = KnowledgeVM(shell=_make_shell(), **build_knowledge(scope))
+            for card in vm.items:
+                if card.area:
+                    assert card.area in own, f"{card.area} is not in {eid}"
+
+
+class TestPropagationFilter:
+    """`propagation_capability` has been in the contract since it was frozen."""
+
+    def _vm(self, conn, primary_id, capability_id=None):
+        scope = Scope(conn, primary_id)
+        data = build_readiness(scope, as_of=ANCHOR, capability_id=capability_id)
+        return ReadinessVM(shell=_make_shell(), **data)
+
+    def test_unfiltered_shows_everyone(self, conn, primary_id):
+        vm = self._vm(conn, primary_id)
+        assert vm.propagation_capability is None
+        assert vm.propagation
+
+    def test_filter_labels_with_the_capability_name(self, conn, primary_id):
+        from app.db.schema import capabilities
+
+        scope = Scope(conn, primary_id)
+        cap = scope.rows(capabilities)[0]
+        vm = self._vm(conn, primary_id, cap.id)
+        assert vm.propagation_capability == cap.name
+        assert cap.id not in (vm.propagation_capability or "")
+
+    def test_filter_narrows_the_tree(self, conn, primary_id):
+        """Filtering can only ever remove people, never invent them."""
+        from app.db.schema import capabilities
+
+        scope = Scope(conn, primary_id)
+        everyone = self._vm(conn, primary_id).propagation
+        baseline = len(everyone[0].children) if everyone else 0
+
+        for cap in scope.rows(capabilities):
+            vm = self._vm(conn, primary_id, cap.id)
+            for node in vm.propagation:
+                assert len(node.children) <= baseline
+
+    def test_unknown_capability_shows_nothing(self, conn, primary_id):
+        """A filter that matched nothing must look like it matched nothing."""
+        vm = self._vm(conn, primary_id, "cap-does-not-exist")
+        assert vm.propagation == []
 
 
 class TestCapabilityRow:
