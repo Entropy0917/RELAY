@@ -154,7 +154,85 @@ _RISK_TITLES: dict[RiskKind, str] = {
 }
 
 
-def _risk_item(rf: RiskFinding) -> RiskItem:
+# Why this row is on the register, in the engagement's own terms. B4 already
+# computes the deciding numbers and hands them over on `RiskFinding.inputs`;
+# `_risk_item` used to drop them, which is how three different capabilities
+# ended up showing the same sentence. Placeholders are `inputs` keys, so a
+# template can only cite a number the engine actually produced.
+_RISK_EXPLANATIONS: dict[RiskKind, str] = {
+    RiskKind.NO_LOCAL_COVERAGE: (
+        "Best local level is {best_local_level}; independent practice starts at "
+        "level {threshold}."
+    ),
+    RiskKind.NO_LOCAL_OWNER: "Recorded owner: {owner_id}; validated: {owner_validated}.",
+    RiskKind.UNDOCUMENTED_TACIT: (
+        "A {kind} requirement, {state} and not yet validated, with no written "
+        "capability behind it."
+    ),
+    RiskKind.OBSERVED_NEVER_PERFORMED: (
+        "Best local level is {best_local_level}; nothing above observation is on "
+        "record."
+    ),
+    RiskKind.SINGLE_KNOWLEDGE_HOLDER: (
+        "Held by {holders}. Qualified to teach it: {teachers}."
+    ),
+    RiskKind.EXPERT_DEPENDENT_RELATIONSHIP: "Transfer state is {state}.",
+    RiskKind.NO_LOCAL_TRAINER: (
+        "Nobody local has reached trainer level on {area_capabilities}."
+    ),
+}
+
+# `inputs` values are storage identifiers where they name a row. Rendering one
+# straight through would put a primary key on screen, so ids are resolved via
+# the engagement's own names -- which keeps the code free of engagement content
+# (planv0.2.md section 0.5) while the screen stays readable.
+_NONE_MARKERS = frozenset({"(none)", "", "none"})
+
+
+def _display_names(scope: Scope) -> dict[str, str]:
+    """id -> human name, across every table a risk can point at."""
+    names: dict[str, str] = {}
+    for table in (people, capabilities, operating_model_areas):
+        for row in scope.rows(table):
+            names[row.id] = row.name
+    return names
+
+
+def _humanize(value: str, names: dict[str, str]) -> str:
+    """Resolve ids to names inside a comma-separated input value."""
+    if value.strip().lower() in _NONE_MARKERS:
+        return "nobody"
+    parts = [v.strip() for v in value.split(",") if v.strip()]
+    return ", ".join(names.get(part, part) for part in parts)
+
+
+def _risk_problem(rf: RiskFinding, names: dict[str, str]) -> str:
+    """`detail` plus the numbers that put this row on the register.
+
+    A missing key means the engine changed its inputs without this dict
+    following; the detail alone is still true, so the row degrades to what it
+    said before rather than raising in the middle of a demo.
+    """
+    template = _RISK_EXPLANATIONS.get(rf.kind)
+    if not template:
+        return rf.detail
+    resolved = {k: _humanize(v, names) for k, v in rf.inputs.items()}
+    try:
+        return f"{rf.detail} {template.format(**resolved)}"
+    except KeyError:
+        return rf.detail
+
+
+def _risk_local_trainer(rf: RiskFinding, names: dict[str, str]) -> str | None:
+    """Who could already teach this, when the engine knows of anyone."""
+    teachers = rf.inputs.get("teachers", "")
+    if not teachers or teachers.strip().lower() in _NONE_MARKERS:
+        return None
+    return _humanize(teachers, names)
+
+
+def _risk_item(rf: RiskFinding, names: dict[str, str] | None = None) -> RiskItem:
+    names = names or {}
     tmpl = _RISK_TITLES.get(rf.kind, "{name} risk flagged")
     title = tmpl.format(name=rf.subject_name)
     action = _RECOMMENDED_ACTIONS.get(
@@ -163,8 +241,8 @@ def _risk_item(rf: RiskFinding) -> RiskItem:
     return RiskItem(
         severity=rf.value,
         title=title,
-        problem=rf.detail,
-        local_trainer=None,
+        problem=_risk_problem(rf, names),
+        local_trainer=_risk_local_trainer(rf, names),
         recommended_action=action,
     )
 
@@ -240,7 +318,7 @@ def build_overview(scope: Scope, *, as_of: date) -> dict:
             if p and Role(p.role) != Role.EXPERT:
                 trainer_progress.append(_cap_row(pc, cap_map, evidence_counts))
 
-    risk_items = [_risk_item(r) for r in risk_register.findings]
+    risk_items = [_risk_item(r, _display_names(scope)) for r in risk_register.findings]
 
     return dict(
         metrics=[_metric_tile(m) for m in metrics],
@@ -476,31 +554,29 @@ def build_knowledge(scope: Scope, *, filters: dict | None = None) -> dict:
 # Readiness
 # ---------------------------------------------------------------------------
 
-def build_readiness(scope: Scope, *, as_of: date) -> dict:
+def build_readiness(
+    scope: Scope, *, as_of: date, capability_id: str | None = None
+) -> dict:
+    """The readiness page. `capability_id` narrows the propagation tree.
+
+    `ReadinessVM.propagation_capability` has been in the contract since it was
+    frozen; without an argument to drive it the page could only ever show the
+    whole engagement. Filtering asks the question the tree exists to answer --
+    who can carry *this* capability once the expert is gone.
+    """
     snapshot = readiness_snapshot(scope, as_of=as_of)
     metrics = all_metrics(snapshot)
     area_rmap = {ar.area_id: ar for ar in all_area_readiness(snapshot)}
 
+    names = _display_names(scope)
     risk_register = knowledge_at_risk(snapshot)
-    risk_items = [_risk_item(r) for r in risk_register.findings]
+    risk_items = [_risk_item(r, names) for r in risk_register.findings]
 
     areas = []
     for row in scope.rows(operating_model_areas):
         areas.append(_area_card(row, scope, snapshot, area_rmap))
 
-    # Propagation — build a simple tree
-    people_map = {r.id: r for r in scope.rows(people)}
-    propagation: list[PropagationNode] = []
-    for p_row in scope.rows(people):
-        if Role(p_row.role) == Role.EXPERT:
-            propagation.append(PropagationNode(
-                person=_person_ref(p_row),
-                taught_by=None,
-                children=[
-                    pid for pid in people_map
-                    if Role(people_map[pid].role) != Role.EXPERT
-                ],
-            ))
+    propagation, propagation_capability = _propagation(scope, capability_id)
 
     return dict(
         metrics=[_metric_tile(m) for m in metrics.values()],
@@ -508,7 +584,55 @@ def build_readiness(scope: Scope, *, as_of: date) -> dict:
         risks=risk_items,
         before_departure=[r.recommended_action for r in risk_items[:3]],
         propagation=propagation,
-        propagation_capability=None,
+        propagation_capability=propagation_capability,
+    )
+
+
+def _propagation(
+    scope: Scope, capability_id: str | None
+) -> tuple[list[PropagationNode], str | None]:
+    """Who learned from whom, optionally narrowed to one capability.
+
+    An unknown capability id yields an empty tree rather than silently showing
+    everyone: a filter that appears to have been ignored is worse on a demo
+    screen than one that visibly matches nothing.
+    """
+    people_rows = scope.rows(people)
+    label: str | None = None
+    included: set[str] | None = None
+
+    if capability_id:
+        cap = scope.by_id(capabilities, capability_id)
+        label = cap.name if cap is not None else capability_id
+        included = {
+            pc.person_id
+            for pc in scope.rows(
+                person_capabilities,
+                person_capabilities.c.capability_id == capability_id,
+            )
+        }
+        if cap is None:
+            included = set()
+
+    def carries(person_id: str) -> bool:
+        return included is None or person_id in included
+
+    learners = [
+        r.id for r in people_rows
+        if Role(r.role) != Role.EXPERT and carries(r.id)
+    ]
+
+    return (
+        [
+            PropagationNode(
+                person=_person_ref(r),
+                taught_by=None,
+                children=learners,
+            )
+            for r in people_rows
+            if Role(r.role) == Role.EXPERT and carries(r.id)
+        ],
+        label,
     )
 
 

@@ -192,6 +192,93 @@ class TestReadiness:
         assert len(vm.metrics) > 0
 
 
+class TestRiskExplanations:
+    """Every risk must say which numbers put it on the register.
+
+    The engine already computes them; the page used to drop them, so these
+    guard the seam rather than the arithmetic.
+    """
+
+    def _risks(self, conn, primary_id):
+        scope = Scope(conn, primary_id)
+        data = build_readiness(scope, as_of=ANCHOR)
+        return ReadinessVM(shell=_make_shell(), **data).risks
+
+    def test_every_risk_explains_itself(self, conn, primary_id):
+        risks = self._risks(conn, primary_id)
+        assert risks, "seed should produce risks"
+        for risk in risks:
+            assert len(risk.problem) > len(risk.title) // 2
+            assert risk.problem.strip().endswith(".")
+
+    def test_explanation_cites_the_deciding_numbers(self, conn, primary_id):
+        """A no-coverage risk names the level that failed the threshold."""
+        risks = self._risks(conn, primary_id)
+        coverage = [r for r in risks if "independent local coverage" in r.title]
+        assert coverage, "seed should contain a no-coverage risk"
+        problem = coverage[0].problem
+        assert "level" in problem.lower()
+        assert any(ch.isdigit() for ch in problem)
+
+    def test_no_identifier_reaches_the_screen(self, conn, primary_id):
+        """Inputs carry row ids; the page must show names instead."""
+        import re
+
+        pattern = re.compile(r"(?:p-|cap-|area-|req-)[a-z]")
+        for risk in self._risks(conn, primary_id):
+            assert not pattern.search(risk.problem), risk.problem
+            assert not pattern.search(risk.local_trainer or ""), risk.local_trainer
+
+    def test_local_trainer_filled_when_someone_can_teach(self, conn, primary_id):
+        """`teachers` is '(none)' across the seed, so the field stays None --
+        but it must be driven by the data, never hardcoded."""
+        risks = self._risks(conn, primary_id)
+        single = [r for r in risks if "single knowledge holder" in r.title]
+        assert single, "seed should contain a single-holder risk"
+        assert "nobody" in single[0].problem.lower()
+
+
+class TestPropagationFilter:
+    """`propagation_capability` has been in the contract since it was frozen."""
+
+    def _vm(self, conn, primary_id, capability_id=None):
+        scope = Scope(conn, primary_id)
+        data = build_readiness(scope, as_of=ANCHOR, capability_id=capability_id)
+        return ReadinessVM(shell=_make_shell(), **data)
+
+    def test_unfiltered_shows_everyone(self, conn, primary_id):
+        vm = self._vm(conn, primary_id)
+        assert vm.propagation_capability is None
+        assert vm.propagation
+
+    def test_filter_labels_with_the_capability_name(self, conn, primary_id):
+        from app.db.schema import capabilities
+
+        scope = Scope(conn, primary_id)
+        cap = scope.rows(capabilities)[0]
+        vm = self._vm(conn, primary_id, cap.id)
+        assert vm.propagation_capability == cap.name
+        assert cap.id not in (vm.propagation_capability or "")
+
+    def test_filter_narrows_the_tree(self, conn, primary_id):
+        """Filtering can only ever remove people, never invent them."""
+        from app.db.schema import capabilities
+
+        scope = Scope(conn, primary_id)
+        everyone = self._vm(conn, primary_id).propagation
+        baseline = len(everyone[0].children) if everyone else 0
+
+        for cap in scope.rows(capabilities):
+            vm = self._vm(conn, primary_id, cap.id)
+            for node in vm.propagation:
+                assert len(node.children) <= baseline
+
+    def test_unknown_capability_shows_nothing(self, conn, primary_id):
+        """A filter that matched nothing must look like it matched nothing."""
+        vm = self._vm(conn, primary_id, "cap-does-not-exist")
+        assert vm.propagation == []
+
+
 class TestCapabilityRow:
 
     def test_produces_valid_partial(self, conn, primary_id):
