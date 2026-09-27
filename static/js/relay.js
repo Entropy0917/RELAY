@@ -63,10 +63,25 @@
   });
 
   // A finding was validated: let passport rows on the page refresh themselves.
-  document.addEventListener("htmx:afterSwap", (e) => {
+  // afterSettle, not afterSwap: the replacement card must be in the page first.
+  document.addEventListener("htmx:afterSettle", (e) => {
     if (e.detail.target?.classList?.contains("finding") || e.detail.elt?.closest?.(".finding")) {
       document.body.dispatchEvent(new Event("relay:validated"));
     }
+  });
+
+  // Each finding swaps in place, so the page-level tally and the Complete
+  // validation button are recounted here from the cards themselves.
+  document.body.addEventListener("relay:validated", () => {
+    const cards = document.querySelectorAll("#findings .finding");
+    const done = document.querySelectorAll("#findings .finding--approved, #findings .finding--rejected").length;
+    const pending = cards.length - done;
+    const count = document.querySelector("[data-validated-count]");
+    if (count) count.textContent = done;
+    const text = document.querySelector("[data-pending-text]");
+    if (text) text.textContent = pending ? `${pending} finding${pending === 1 ? "" : "s"} still pending.` : "All findings reviewed.";
+    const btn = document.querySelector("[data-complete-validation]");
+    if (btn) btn.disabled = pending > 0 || btn.dataset.canAct !== "true";
   });
 
   // Cancel inside a <details> editor closes it.

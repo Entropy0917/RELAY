@@ -42,6 +42,8 @@ from app.db.schema import (
     capabilities,
     debriefs,
     findings,
+    knowledge_items,
+    operating_model_areas,
     people,
     person_capabilities,
     recommendations,
@@ -65,6 +67,7 @@ from contracts.vocabulary import (
     STAGE_LABEL,
     STAGE_ORDER,
     FindingKind,
+    KnowledgeType,
     Role,
     SessionStage,
     ValidationAction,
@@ -777,6 +780,15 @@ def validate_finding(
         note=note,
     )
 
+    # An accepted tacit-knowledge finding becomes a validated library entry.
+    if (
+        action in (ValidationAction.APPROVE, ValidationAction.EDIT)
+        and FindingKind(finding.kind) == FindingKind.TACIT_KNOWLEDGE
+    ):
+        _capture_knowledge(
+            scope, session, finding, body, as_of=as_of or date.today()
+        )
+
     # Re-read the finding after the update
     updated = scope.by_id(findings, finding_id)
     vm = _build_finding_vm(updated)
@@ -785,6 +797,36 @@ def validate_finding(
     vm.validated_by = validator.name if validator else persona_id
     vm.validation_action = action.value
     return vm
+
+
+def _capture_knowledge(scope: Scope, session, finding, body: dict, *, as_of: date) -> None:
+    """Write an approved tacit-knowledge finding into the Knowledge Library.
+
+    The finding body is the AI's Expert Insight record (situation, signals,
+    reasoning, response, why it matters), possibly edited by the expert. Area
+    and capability are matched by name, falling back to the session's own.
+    """
+    def by_name(table, name):
+        wanted = str(name or "").casefold()
+        return next((r.id for r in scope.rows(table) if r.name.casefold() == wanted), None)
+
+    scope.insert(
+        knowledge_items,
+        id=_new_id("ki"),
+        title=str(body.get("title") or finding.title),
+        type=KnowledgeType.EXPERT_INSIGHT.value,
+        summary=str(
+            body.get("recommended_response") or body.get("expert_reasoning") or finding.title
+        ),
+        body={k: v for k, v in body.items() if k not in ("title", "kind")},
+        area_id=by_name(operating_model_areas, body.get("operating_model_area")) or session.area_id,
+        capability_id=by_name(capabilities, body.get("capability")) or session.capability_id,
+        session_id=session.id,
+        expert_id=session.expert_id,
+        validated=True,
+        people_exposed=list(session.learner_ids or ()),
+        captured_on=as_of,
+    )
 
 
 def _resolve_person_capability(
