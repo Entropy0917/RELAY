@@ -40,7 +40,7 @@
           {{ ui.status_badge(r.severity, 'sm') }}
         </div>
         <p class="card__meta">{{ r.problem }}</p>
-        {{ ui.facts([('Local trainer', r.local_trainer or 'None'), ('Recommended action', r.recommended_action)], cols=2) }}
+        {{ ui.facts([('Local trainer', r.local_trainer or 'None yet'), ('Recommended action', r.recommended_action)], cols=2) }}
         <div class="card__foot">{{ ui.provenance() }}</div>
       </article>
       {% endfor %}

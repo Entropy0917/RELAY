@@ -20,7 +20,7 @@
   <header class="card__head">
     <div class="stack stack--sm">
       <h2 class="blueprint__title" id="{{ a.id }}-h"><a href="{{ href('area_detail', area_id=a.id) }}">{{ a.name }}</a></h2>
-      <div class="cluster t-sm t-muted"><span>Local owner</span>{{ ui.person(a.local_owner) }}<span class="t-faint">·</span><span>Local capability: {{ a.local_capability }}</span><span class="t-faint">·</span><span>Trainer coverage: {{ 'Yes' if a.trainer_coverage else 'None' }}</span></div>
+      <div class="cluster t-sm t-muted"><span>Local owner</span>{{ ui.person(a.local_owner) }}<span class="t-faint">·</span><span>Local capability: {{ a.local_capability }}</span><span class="t-faint">·</span><span>Trainer coverage: {{ 'Yes' if a.trainer_coverage else 'None yet' }}</span></div>
     </div>
     <div class="cluster"><span class="t-caps">Transfer risk</span>{{ ui.status_badge(b.transfer_risk) }}</div>
   </header>

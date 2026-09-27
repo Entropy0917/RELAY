@@ -30,7 +30,7 @@
     {{ ui.facts([
       ('Local owner', ui.person(area.local_owner, show_title=True)),
       ('Local capability', area.local_capability),
-      ('Trainer coverage', 'Yes' if area.trainer_coverage else 'None'),
+      ('Trainer coverage', 'Yes' if area.trainer_coverage else 'None yet'),
     ], cols=3) }}
     {{ charts.dual_bar(area.formal_pct, area.informal_pct, max=100) }}
   </div>
